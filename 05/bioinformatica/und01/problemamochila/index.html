@@ -1,11 +1,58 @@
-<html lang="es">
-	<head>
-		<title>xD</title>
-		<meta charset="utf-8">
-	</head>
-	<body>
+<!DOCTYPE html>
+<html lang="es" ng-app="mochila">
+<head>
+	<meta charset="utf-8">
+	<!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+	
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+</head>
+
+<body ng-controller="mainCtrl">
+	<div class="section no-pad-bot" id="index-banner">
+    	<div class="container">
+      	<br><br>
+      	<h1 class="header center orange-text">Starter Template</h1>
+      	<div class="row center">
+        	<h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+      	</div>
+      	<div class="row center">
+        	<a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
+      	</div>
+      	<br><br>
+
+    	</div>
+ 	</div>
+  
+	<div class="container">
+		<div></div>
+		<div class="z-depth-1">
+			<table class="hoverable">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nombre</th>
+						<th>Peso</th>
+						<th>Valor</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-class="item.colored" ng-repeat="item in opciones | orderBy: 'id'">
+						<td>{{item.id + 1}}</td>
+						<td>{{item.nombre}}</td>
+						<td>{{item.peso}}</td>
+						<td>{{item.valor}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		
-	 <script src="js/bounded.js"></script>
+	</container>
+	<!--Import jQuery before materialize.js-->
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/angular.min.js"></script>		
+	<script type="text/javascript" src="js/materialize.min.js"></script>
 	<script src="js/main.js"></script>
-	</body>
+</body>
 </html>
