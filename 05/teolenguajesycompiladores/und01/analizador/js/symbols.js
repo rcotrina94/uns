@@ -17,18 +17,6 @@ var es_delimitador = function(palabra){
 };
 
 var es_Numero = function(word){
-	/*
-	var caracteres = word.split("");
-	if(caracteres.indexOf(".") != -1){ // Si tiene punto (no entero)
-		caracteres = word.split(".")
-		if (caracteres.length != 2){
-			return false;
-		} else {
-			return es_Numero(caracteres.join(""));
-		}
-	} else { // Si es entero
-		
-	} */
 	return (!Number.isNaN(Number(word)));
 };
 
@@ -55,3 +43,18 @@ var es_Identificador = function(word){
 		return false;
 	}
 };
+
+/*
+var es_Numero = function(word){
+	var caracteres = word.split("");
+	if(caracteres.indexOf(".") != -1){ // Si tiene punto (no entero)
+		caracteres = word.split(".")
+		if (caracteres.length != 2){
+			return false;
+		} else {
+			return es_Numero(caracteres.join(""));
+		}
+	} else { // Si es entero
+		
+	}
+} */

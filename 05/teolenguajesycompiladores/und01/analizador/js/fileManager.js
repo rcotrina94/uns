@@ -6,7 +6,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 	alert('Tu navegador no soporta cargar archivos. Te recomiendo actualizar tu navegador.');
   	$('msg').innerHTML = "Tu navegador no soporta cargar archivos.\
 	  Te recomiendo actualizar tu navegador. <a href='https://browser-update.org/update.html'>Click aquí.</a>";
-  }
+  };
 }
 
 //function saveTextAsFile()
@@ -55,7 +55,7 @@ var loadFileAsText = function(){
 	} catch (e){
 		alert("No ha seleccionado ningún archivo");
 	}
-}
+};
 
 var generarArchivo = function(){
 	var text = $('code').value;
