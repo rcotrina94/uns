@@ -11,6 +11,8 @@ var analizar = function(){
 		}
 	});
 	
+	console.log(lineas);
+	
 	// Método para analizar las columnas de las líneas
 	var analizar_linea = function(linea, index_linea){
 		var columnas = linea.split("");
@@ -20,51 +22,57 @@ var analizar = function(){
 		
 		var addW = function(word){
 			palabras_linea.push(word);
+			memoria = "";
 		};
 		
 		// Método para analizar cada caracter
 		for (var columna_index = 0; columna_index < columnas.length; columna_index++) {
-			var caracter = columnas[columna_index].trim();
-			var siguiente_caracter = "";
-			if (columna_index <= columnas.length - 2){
-				siguiente_caracter = columnas[columna_index+1].trim();
+			if (es_palabraReservada(memoria)){
+				addW(memoria);
 			}
 			
+			var caracter = columnas[columna_index].trim();			
 			if (!caracter) {
 				if (memoria){
 					addW(memoria);
-					memoria = "";
 				}
 				continue;
 			}
 			
 			if(es_palabraReservada(memoria+caracter)){
-				palabras_linea.push(memoria+caracter);
-				memoria = "";
+				addW(memoria+caracter);
 				continue;
 			}
+			
+			var siguiente_caracter = "";
+			if (columna_index < columnas.length - 2){
+				siguiente_caracter = columnas[columna_index+1].trim();
+			}
+						
 
 			var indice_delimitador = Object.keys(delimitadores).indexOf(caracter);
 			
 			if ( indice_delimitador + 1){
 				if (memoria) {
-					palabras_linea.push(memoria);
-					memoria = "";
+					addW(memoria);
 				}
 				var delim_multiple = tiene_multiple(caracter, siguiente_caracter);
 				if (delim_multiple){
-					palabras_linea.push(delim_multiple);
+					addW(delim_multiple);
 				} else {
-					palabras_linea.push(caracter);
+					addW(caracter);
 				}
 				
 			} else {
 				memoria += caracter;
 			}
 		}
-		palabras_linea.push(memoria);
+		if (memoria){
+			addW(memoria);
+		}
+		
 		if (index_linea < lineas.length - 1){
-			palabras_linea.push("↵");	
+			addW("↵");	
 		}
 		
 		palabras = palabras.concat(palabras_linea);

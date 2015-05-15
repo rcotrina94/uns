@@ -4,12 +4,18 @@
 		<title>Analizador Lexigráfico</title>
 	</head>
 	<body>
-		<button onclick="analizar()"> ANALIZAR</button>
-		<br />
-		<textarea name="code" id="code" cols="70" rows="50"></textarea>
-		<textarea name="analizer" id="analizer" cols="50" rows="50" readonly></textarea>
+		<code id="msg"></code>		<br />
+		<div id="controls">
+			<input type="file" id="fileToLoad">
+			<button onclick="loadFileAsText()">Leer archivo</button>
+				<button onclick="analizar()"> ANALIZAR</button>
+		</div>
+		<textarea name="code" id="code" cols="70" rows="40"></textarea>
+		<textarea name="analizer" id="analizer" cols="50" rows="40" readonly></textarea>
+		<blockquote>CÓDIGO FUENTE: <a href="https://github.com/rcotrina94/uns/tree/gh-pages/05/teolenguajesycompiladores/und01/analizador">github.com/rcotrina94</a></blockquote>
 		<script src="js/constants.js"></script>
 		<script src="js/symbols.js"></script>
 		<script src="js/main.js"></script>
+		<script src="js/fileManager.js"></script>
 	</body>
 </html>
