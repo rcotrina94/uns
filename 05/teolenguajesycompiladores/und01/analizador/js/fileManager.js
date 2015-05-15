@@ -55,6 +55,4 @@ var loadFileAsText = function(){
 	} catch (e){
 		alert("No ha seleccionado ningún archivo");
 	}
-
-	
 }
