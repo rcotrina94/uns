@@ -14,11 +14,10 @@ var analizar = function(){
 	console.log(lineas);
 	
 	// Método para analizar las columnas de las líneas
+	var memoria = "";
 	var analizar_linea = function(linea, index_linea){
 		var columnas = linea.split("");
-		
 		var palabras_linea = [];
-		var memoria = "";
 		
 		var addW = function(word){
 			palabras_linea.push(word);
@@ -44,17 +43,15 @@ var analizar = function(){
 				continue;
 			}
 			
-			var siguiente_caracter = "";
-			if (columna_index < columnas.length - 2){
-				siguiente_caracter = columnas[columna_index+1].trim();
-			}
-						
-
 			var indice_delimitador = Object.keys(delimitadores).indexOf(caracter);
 			
 			if ( indice_delimitador + 1){
 				if (memoria) {
 					addW(memoria);
+				}
+				var siguiente_caracter = "";
+				if (columna_index < columnas.length - 2){
+					siguiente_caracter = columnas[columna_index+1].trim();
 				}
 				var delim_multiple = tiene_multiple(caracter, siguiente_caracter);
 				if (delim_multiple){
@@ -62,7 +59,6 @@ var analizar = function(){
 				} else {
 					addW(caracter);
 				}
-				
 			} else {
 				memoria += caracter;
 			}

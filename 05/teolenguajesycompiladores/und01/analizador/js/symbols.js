@@ -16,10 +16,6 @@ var es_delimitador = function(palabra){
 	}
 };
 
-var tokenize = function(token_type, cache){
-	return "TKN("+token_type.toUpperCase() + ") «" + cache + "»";
-};
-
 var es_Numero = function(word){
 	/*
 	var caracteres = word.split("");

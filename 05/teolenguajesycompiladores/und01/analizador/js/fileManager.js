@@ -56,3 +56,17 @@ var loadFileAsText = function(){
 		alert("No ha seleccionado ningún archivo");
 	}
 }
+
+var generarArchivo = function(){
+	var text = $('code').value;
+	var txturi = "data:text/plain;,";
+	return txturi+encodeURI(text);
+};
+
+var download = function(){
+	var text = $('code').value;
+	var link = document.createElement('a');
+	link.download = "codigo.pas";
+	link.href = generarArchivo(text);
+	link.click();
+};
