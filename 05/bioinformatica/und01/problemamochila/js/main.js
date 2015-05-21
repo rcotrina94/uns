@@ -3,6 +3,7 @@
 var app = angular.module('mochila', []);
 
 app.controller('mainCtrl', function($scope){
+	
 	var Mochila = function(capacidad){
 		var self = this;
 		
@@ -22,8 +23,8 @@ app.controller('mainCtrl', function($scope){
 		};  
 	
 		this.empacarMejores = function(opciones){
-			var ordenados = ordenar(opciones);
-			console.log(ordenados.map(function(x){ return x.nombre; }));
+			var ordenados = ordenar(opciones.slice(0));
+//			console.log(ordenados.map(function(x){ return x.nombre; }));
 			var i = 0;
 			
 			while (self.peso < self.capacidad && i < opciones.length){
@@ -48,11 +49,9 @@ app.controller('mainCtrl', function($scope){
 		this.valor_unitario = valor/peso;
 	};        
 	 
-	var mochila = new Mochila(400);
+	$scope.mochila = new Mochila(400);
 	
-	$scope.mochila = mochila;
-	
-	var opciones = [];
+	var _opciones = [];
 	 
 	var data= [
 	  {name: 'mapa',                    weight:  9, value:150, pieces:1},
@@ -79,19 +78,32 @@ app.controller('mainCtrl', function($scope){
 	  {name: 'book',                   weight: 30, value: 10, pieces:1}
 	];
 	
-	for (var i = 0; i < data.length; i++) {
-		var obj = data[i];
-		opciones.push(new Objeto(i, obj.name, obj.weight, obj.value));
-	}
-	$scope.opciones = opciones;
+	$scope.llenarDatos = function(){
+		_opciones = [];
+		for (var i = 0; i < data.length; i++) {
+			var obj = data[i];
+			_opciones.push(new Objeto(i, obj.name, obj.weight, obj.value));
+		}
+		$scope.opciones = _opciones.slice(0);
+	};
+	$scope.llenarDatos();
 	
-	mochila.empacarMejores(opciones);
+	$scope.resolver = function(){
+		$scope.mochila.empacarMejores(_opciones.slice(0));
+		$scope.mochila.items.forEach(function(item){
+			var index = $scope.opciones.indexOf(item);
+			$scope.opciones[index].colored = "blue lighten-5";
+		});
+	};
 	
-	console.log(mochila.items.map(function(x){ return x.nombre; }));
+	
+	$scope.reiniciar = function(){
+		$scope.llenarDatos();
+		console.log($scope.opciones);
 
-	$scope.mochila.items.forEach(function(item){
-		var index = $scope.opciones.indexOf(item);
-		$scope.opciones[index].colored = "blue lighten-5";
-	})
+	}
+//	console.log(mochila.items.map(function(x){ return x.nombre; }));
+
+	
 
 });

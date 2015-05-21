@@ -13,13 +13,21 @@
 	<div class="section no-pad-bot" id="index-banner">
     	<div class="container">
       	<br><br>
-      	<h1 class="header center orange-text">Starter Template</h1>
+      	<h1 class="header center blue-text">Problema de la Mochila</h1>
       	<div class="row center">
-        	<h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+        	<form class="col s6 offset-s3 center-align">
+		      <div class="row" >
+		        <div class="input-field col s5 right-align" >
+		          <input ng-model="mochila.capacidad" type="number" class="validate ">
+		          <label for="first_name">Capacidad</label>
+		        </div>
+		        <div class="input-field col s7 left-align">
+		          <a ng-click="resolver()" id="resolver_button" class="btn-large waves-effect waves-dark blue">RESOLVER</a>
+				  <a ng-click="reiniciar()" id="resolver_button" class="btn-large waves-effect waves-light orange">REINICIAR</a>
+		      </div>
+		    </form>
       	</div>
-      	<div class="row center">
-        	<a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
-      	</div>
+
       	<br><br>
 
     	</div>
@@ -38,7 +46,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-class="item.colored" ng-repeat="item in opciones | orderBy: 'id'">
+					<tr ng-class="item.colored" ng-repeat="item in opciones | orderBy: 'colored'">
 						<td>{{item.id + 1}}</td>
 						<td>{{item.nombre}}</td>
 						<td>{{item.peso}}</td>
@@ -54,5 +62,7 @@
 	<script type="text/javascript" src="js/angular.min.js"></script>		
 	<script type="text/javascript" src="js/materialize.min.js"></script>
 	<script src="js/main.js"></script>
+<!--	<script src="js/bounded.js"></script>-->
+	
 </body>
 </html>
