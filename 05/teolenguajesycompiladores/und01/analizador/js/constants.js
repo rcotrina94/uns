@@ -2,12 +2,14 @@ var palabras_reservadas = {
 	'PROGRAMA': "Definición Programa",
 	'FUNCION' : "Inicio de Función",
 	'VARIABLES': "Sección de Variables",
+	'VARIABLE' : "Variable",
 	'INICIO': "Inicio de programa",
 	'FIN': "Fin de programa",
 	'SI': "Condiciona",
 	'ENTONCES': "Condicional si verdad",
 	'CASO CONTRARIO': "Condicional si falso",
-	'RESTODIVIDIR': "Residuo"
+	'RESTODIVIDIR': "Residuo",
+	'NO':'NO'
 };
 
 var delimitadores = {
@@ -18,6 +20,7 @@ var delimitadores = {
 	")": "CIERRA PARÉNTESIS",
 	"[": "ABRE CORCHETES",
 	"]": "ABRE CORCHETES",
+	'.': "PUNTO",
 	",": "COMA",
 	";": "PUNTO Y COMA",
 	":": "DOS PUNTOS",
@@ -87,7 +90,7 @@ var $ = function(id_selector){
 	return obj;
 };
 
-$('code').value = default_code;
+//$('code').value = default_code;
 
 var alfabeto = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","r","s","t","u","v","w","x","y","z"];
 

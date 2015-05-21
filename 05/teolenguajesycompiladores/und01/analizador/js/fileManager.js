@@ -24,16 +24,14 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 }
 
 var generarArchivo = function(){
-	var text = $('code').value;
+	var text = getCodigo().join("\n")
 	var txturi = "data:text/plain;,";
 	return txturi+encodeURI(text);
 };
 
 var download = function(){
-	var text = $('code').value;
 	var link = document.createElement('a');
 	link.download = "codigo.pas";
-	link.href = generarArchivo(text);
+	link.href = generarArchivo();
 	link.click();
-	link.removeNode();
 };

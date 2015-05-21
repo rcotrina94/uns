@@ -1,10 +1,28 @@
+// editor.getSession().setMode("ace/mode/pascal");
+var Doc = editor.getSession().getDocument()
+var getCodigo = function(){
+	return Doc.getAllLines();
+};
+var setCodigo = function(cod){
+	Doc.setValue(cod);
+}
+setCodigo(default_code);
+editor.on('change', function(){
+
+});
+			
+
 var analizar = function(){
-	var codigo = $('code').value;
+	editor.getSession().setMode("ace/mode/pascal");
+	
+//	var codigo = $('code').value;
+	var codigo = getCodigo();
 	var palabras = [];
 	var lineas = [];
 	
 	// separar por líneas
-	codigo.split("\n").forEach(function(linea, index){
+//	codigo.split("\n").forEach(function(linea, index){
+	codigo.forEach(function(linea, index){
 		linea = linea.trim()
 		if (linea) {
 			lineas.push(linea);	
@@ -97,7 +115,7 @@ var analizar = function(){
 		resultado_analizador.push(cache_resultado);
 	});
 	
-	resultado_analizador.push("$$>EOF")
+	resultado_analizador.push("$$>FIN_DE_ARCHIVO")
 		
 	$('analizer').value = resultado_analizador.join("\n");
 	
