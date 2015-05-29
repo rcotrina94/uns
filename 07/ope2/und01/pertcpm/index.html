@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="pertcpm">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="./lib/angular-material/angular-material.css">
+	
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+</head>
+
+<body layout="column" ng-controller="controlador" ng-cloak>
+		<!--Import jQuery before materialize.js-->
+	<script src="./assets/js/jquery.min.js"></script>	
+	<script src="./lib/angular/angular.js"></script> 
+	<script src="./lib/angular-aria/angular-aria.js"></script> 
+	<script src="./lib/angular-animate/angular-animate.js"></script> 
+	<script src="./lib/angular-material/angular-material.js"></script>
+
+	<md-toolbar layout="row">
+		<h1 class="md-toolbar-tools" layout-align-gt-sm="center">PERT-CPM</h1>
+	</md-toolbar>
+	<div layout="row">
+		<div layout="column" flex="50" id="content">
+			<md-content layout-padding layout="column" flex class="md-padding">
+			<section layout="row" layout-align="end center">
+				<md-button ng-click="agregarActividad()" class="md-raised md-primary">+ Agregar</md-button>
+				<md-button ng-click="eliminarActividad()" class="md-raised md-primary">- Eliminar</md-button>
+			</section>
+			<section>
+				<table class="hoverable" layout="column">
+					<thead>
+						<tr layout="row">
+							<th flex="25">Actividad</th>
+							<th flex="50">Relación de Precedencia</th>
+							<th flex="25">Días</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="(nombre, actividad) in actividades" layout="row">
+							<td flex="25" layout="column" layout-padding>
+								<md-input-container flex>
+									<input aria-label="Nombre" type="text" ng-model="nombre" style="text-align:right;">
+								</md-input-container>
+							</td>
+							<td flex="50" ng-init="req_opt=(actividades|reqs:nombre)">
+								<md-chips ng-model="actividad.precedencia" md-autocomplete-snap md-require-match>
+									<md-autocomplete
+										md-search-text="req_text"
+										md-items="act in req_opt"
+										md-item-text="act"
+										placeholder="-">
+										<span md-highlight-text="req_text">{{act}}</span>
+									</md-autocomplete>
+									<md-chip-template>
+										<span>
+										<strong>{{$chip}}</strong>
+										</span>
+									</md-chip-template>
+								</md-chips>
+							</td>
+							<td flex="25">
+								<md-input-container md-no-float>
+									<input aria-label="Duración" type="number" ng-model="actividad.duracion" placeholder="Duración">
+								</md-input-container>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+			</md-content>
+			
+		</div>
+		<div layout="column" flex>
+			<md-card>
+				<div id="diagrama" style="min-width:100%; height:500px; background-color: #FEFEFE; display:none;"></div>
+				<div id="tabla" style="min-width:100%; height: 500px;">
+					
+				</div>
+				<md-card-content>
+					<h2 class="md-title">Gráfico PERT/CPM</h2>
+					<p>
+						La rara ri la la ria la, la rara li rara, larara ri rara, rararili rala la lala
+					</p>
+				</md-card-content>
+				<div class="md-actions" layout="row" layout-align="end center">
+				<md-button>Gráfico</md-button>
+				<md-button>Tabla</md-button>
+				</div>
+			</md-card>
+		</div>
+	</div>
+
+	<script src="assets/js/go.js"></script> 
+	<script src="assets/js/app.js"></script>
+	<script>
+		
+	</script>
+</body>
+</html>
