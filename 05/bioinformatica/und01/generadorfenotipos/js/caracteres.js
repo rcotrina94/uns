@@ -13,7 +13,25 @@ var caracteres = [
 				nombre: "Cuadrado",
 				codigo: "aa"	
 			}
-		]
+		],
+		fn : function(index){
+			var tipo = "img";
+			var img = "base";
+			switch (index){
+				case 0:
+					img = "A1";
+					break;
+				case 2:
+					img = "A2";
+					break;
+				default:
+					img = "A1";
+			}
+			return {
+				"tipo": tipo,
+				"img": img+".png"
+			}
+		}
 	},
 	{
 		nombre: "Tamaño de la barbilla",
