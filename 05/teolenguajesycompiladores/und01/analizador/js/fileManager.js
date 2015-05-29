@@ -8,7 +8,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 			var fileReader = new FileReader();
 			fileReader.onload = function(fileLoadedEvent){
 				var textFromFileLoaded = fileLoadedEvent.target.result;
-				$('code').value = textFromFileLoaded;
+				setCodigo(textFromFileLoaded);
 			};
 			fileReader.readAsText(fileToLoad, "UTF-8");
 		} catch (e){

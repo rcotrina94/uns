@@ -7,9 +7,27 @@ var palabras_reservadas = {
 	'FIN': "Fin de programa",
 	'SI': "Condiciona",
 	'ENTONCES': "Condicional si verdad",
-	'CASO CONTRARIO': "Condicional si falso",
+	'CASOCONTRARIO': "Condicional si falso",
 	'RESTODIVIDIR': "Residuo",
-	'NO':'NO'
+	'NO':'NO',
+	'LEER': 'Leer',
+	'ESCRIBIR': "Escribir",
+	'ENTERO': "Entero",
+	'ENTRADA': 'Entrada',
+	'SALIDA': 'Salida',
+	'ARREGLO' : 'Arreglo',
+	'DE': 'de',
+	'REAL': 'Real',
+	'PROCEDIMIENTO': 'Procedimiento',
+	'MIENTRAS': 'Mientras',
+	'HACER': 'Hacer',
+	'E': 'Exponente',
+	'NO': 'No',
+	'O': 'O',
+	'Y': 'I',
+	'DIVISION': 'División',
+	'CONSTANTE': 'Constante',
+	'CONSTANTES': 'Constantes'
 };
 
 var delimitadores = {
@@ -27,7 +45,7 @@ var delimitadores = {
 	"+": "SUMA",
 	"-": "RESTA",
 	"*": "MULTIPLICACIÓN",
-	"/":"DIVISIÓN",
+	"/": "DIVISIÓN",
 	"=": "IGUALDAD",
 	"<": "MENOR QUE",
 	">": "MAYOR QUE",
@@ -64,22 +82,22 @@ var tiene_multiple = function(caracter, next){
 
 var default_code = "PROGRAMA ejemplo(ENTRADA,SALIDA);\n\
 VARIABLES\n\
-     x, y : ENTERO;\n\
+    x, y : ENTERO;\n\
 FUNCION mcd(a,b : ENTERO) : ENTERO;\n\
-VARIABLES\n\
-     x : ENTERO;\n\
-     n : ENTERO;\n\
+    VARIABLES\n\
+        x : ENTERO;\n\
+        n : ENTERO;\n\
+    INICIO\n\
+        x := a;\n\
+        n := b;\n\
+        SI n = 0 ENTONCES  mcd:=x\n\
+        CASOCONTRARIO  mcd := mcd(n, x RESTODIVIDIR n)\n\
+    FIN;\n\
 INICIO\n\
-   x := a;\n\
-    n := b;\n\
-   SI n = 0 ENTONCES  mcd:=x\n\
-  CASOCONTRARIO  mcd := mcd(n, x RESTODIVIDIR n)\n\
-FIN;\n\
-INICIO\n\
-   LEER(x,y);\n\
-   x := x + 2;\n\
-   y := y * x ;\n\
-   ESCRIBIR(x,y);\n\
+    LEER(x,y);\n\
+    x := x + 2;\n\
+    y := y * x ;\n\
+    ESCRIBIR(x,y);\n\
 FIN.";
 
 var $ = function(id_selector){

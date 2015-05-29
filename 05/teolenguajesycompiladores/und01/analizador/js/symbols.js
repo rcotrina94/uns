@@ -1,3 +1,8 @@
+var TS = {
+	
+}
+
+
 var es_palabraReservada = function(palabra){
 	var indice = Object.keys(palabras_reservadas).indexOf(palabra);
 	if (indice + 1){
