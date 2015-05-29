@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="rasgos">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="./lib/angular-material/angular-material.css">
+	
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<title>Bioinformática | Generador de Fenotipos</title>
+	<style>
+		md-select-label span {
+			color:white !important;
+		}
+	</style>
+</head>
+
+<body layout="column" ng-controller="controlador" ng-cloak>
+	<md-toolbar layout="row">
+		<h1 class="md-toolbar-tools" layout-align-gt-sm="center">Generador de Fenotipos</h1>
+	</md-toolbar>
+	<div layout="row">
+		<div layout="column" flex="30" id="content" flex-order="1">
+			<md-content layout-padding layout="column" flex class="md-padding">
+				<section>
+					<md-toolbar class="md-toolbar-tools">
+						<h2 class="md-toolbar-tools">
+							<span>{{ indicePadre + 1 }} <md-select ng-model="indicePadre" style="min-width: 350px;">
+								<md-option ng-value="$index" ng-repeat="caracter in padre">{{ caracter.nombre }}</md-option>
+							</md-select></span>
+							
+						</h2>
+						<md-button style="font-size:20px" ng-click="anteriorPadre()" class="md-icon-button">«</md-button>
+						<md-button style="font-size:20px" ng-click="siguientePadre()" class="md-icon-button">»</md-button>
+					</md-toolbar>
+					<md-content layout class="md-padding">
+						<md-radio-group ng-model="caracterPadre().seleccionado" class="md-primary">
+							<md-radio-button ng-repeat="opcion in caracterPadre().opciones"
+								ng-value="$index + 1">
+								{{ opcion.nombre }} ({{ opcion.codigo }})
+							</md-radio-button>
+						</md-radio-group>
+					</md-content>
+					
+				</section>
+				<section>
+					<md-toolbar class="md-toolbar-tools md-accent">
+						<h2 class="md-toolbar-tools">
+							<span>{{ indiceMadre + 1 }} <md-select ng-model="indiceMadre" style="min-width: 350px;">
+								<md-option ng-value="$index" ng-repeat="caracter in madre">{{ caracter.nombre }}</md-option>
+							</md-select></span>
+						</h2>
+						<md-button style="font-size:20px" ng-click="anteriorMadre()" class="md-icon-button">«</md-button>
+						<md-button style="font-size:20px" ng-click="siguienteMadre()" class="md-icon-button">»</md-button>
+					</md-toolbar>
+					<md-content layout class="md-padding">
+						<md-radio-group ng-model="caracterMadre().seleccionado" class="md-accent">
+							<md-radio-button ng-repeat="opcion in caracterMadre().opciones"
+								ng-value="$index + 1">
+								{{ opcion.nombre }} ({{ opcion.codigo }})
+							</md-radio-button>
+						</md-radio-group>
+						
+					</md-content>
+					
+				</section>
+			</md-content>
+			
+		</div>
+		<div layout="column" offset="25">
+			<md-card>
+				<div style="width:400px; height:625px; min-width:100%; height:500px; background-color: #FEFEFE;" id="fenotipo">
+					<div style="width:100%; height:100%; background-image: url('img/baseA1.png'); background-size:contain;background-repeat: no-repeat;" alt=""></div>
+				</div>
+				<md-card-content>
+					<h2 class="md-title">Fenotipos</h2>
+					<p>
+						{{ fenotipo }}
+					</p>
+				</md-card-content>
+				<div class="md-actions" layout="row" layout-align="end center">
+				<md-button class="md-primary">Guardar</md-button>
+				<md-button class="md-warn">Reiniciar</md-button>
+				</div>
+			</md-card>
+		</div>
+	</div>
+
+	<!--Import jQuery before materialize.js-->
+	<script src="./js/jquery.min.js"></script>	
+	<script src="./lib/angular/angular.js"></script> 
+	<script src="./lib/angular-aria/angular-aria.js"></script> 
+	<script src="./lib/angular-animate/angular-animate.js"></script> 
+	<script src="./lib/angular-material/angular-material.js"></script>
+	<script src="./js/caracteres.js"></script>
+	<script src="./js/main.js"></script>
+</body>
+</html>
