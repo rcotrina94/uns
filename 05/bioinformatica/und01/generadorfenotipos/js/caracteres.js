@@ -15,23 +15,23 @@ var caracteres = [
 			}
 		],
 		fn : function(index){
-			var tipo = "img";
 			var img = "base";
 			switch (index){
-				case 0:
-					img = "A1";
+				case 1:
+					img += "A1";
 					break;
-				case 2:
-					img = "A2";
+				case 3:
+					img += "A2";
 					break;
 				default:
-					img = "A1";
+					img += "A2";
 			}
 			return {
-				"tipo": tipo,
+				"tipo": "img",
 				"img": img+".png"
 			}
-		}
+		},
+		Z: 1
 	},
 	{
 		nombre: "Tamaño de la barbilla",
@@ -84,6 +84,7 @@ var caracteres = [
 	},
 	{
 		nombre: "Color de piel",
+		seleccionado : 6,
 		opciones: [
 			{
 				nombre: "Negro",
@@ -113,10 +114,29 @@ var caracteres = [
 				nombre: "Blanco",
 				codigo: "p1p1p1p1p1p1"
 			}
-		]
+		],
+		fn : function(index){
+			var color = "";
+			switch(index){
+				case 1: color = "rgba( 69, 40,   16, 1)"; break;
+				case 2: color = "rgba(119, 75,   38, 1)"; break;
+				case 3: color = "rgba(147, 101,  62, 1)"; break;
+				case 4: color = "rgba(178, 122,  75, 1)"; break;
+				case 5: color = "rgba(195, 147, 107, 1)"; break;
+				case 6: color = "rgba(244, 210, 181, 1)"; break;
+				case 7: color = "rgba(255, 250, 246, 1)"; break;
+				
+			}
+			return {
+				"tipo": "color",
+				"color": color
+			}
+		},
+		z:0
 	},
 	{
 		nombre: "Color de cabello",
+		seleccionado: 6,
 		opciones: [
 			{
 				nombre: "Negro",
@@ -154,7 +174,13 @@ var caracteres = [
 				nombre: "Blanco",
 				codigo: "q1q1q1q1q1q1q1q1"
 			}
-		]
+		],
+		fn: function(index){
+			return {
+				'tipo':'img',
+				'img': "cabello"+index+".png"
+			}
+		}
 	},
 	{
 		nombre: "Tintes rojizos en el cabello",
@@ -175,6 +201,7 @@ var caracteres = [
 	},
 	{
 		nombre: "Tipo de cabello",
+		seleccionado: 2,
 		opciones: [
 			{
 				nombre: "Rizado",
@@ -188,7 +215,24 @@ var caracteres = [
 				nombre: "Lacio",
 				codigo: "M2M2"
 			}
-		]
+		],
+		fn : function (index){
+			var rizado = "M1M1.png";
+			var lacio = "M2M2.png";
+			var ondulado = "M1M2.png";
+			var cabello = "";
+			
+			switch (index){
+				case 1: cabello = rizado; break;
+				case 2: cabello = ondulado; break;
+				case 3: cabello = lacio; break;
+			}
+			
+			return {
+				"tipo": "img",
+				"img": cabello
+			}
+		}
 	},
 	{
 		nombre: "Pico de viuda",
@@ -245,7 +289,14 @@ var caracteres = [
 				nombre: "Azul claro",
 				codigo: "ppqq"
 			}
-		]
+		],
+		fn : function(index){
+			var ojos = "ojos";
+			return {
+				tipo: "img",
+				img: ojos+"1.png"
+			};
+		}
 	},
 	{
 		nombre: "Distancia de ojos",
@@ -344,7 +395,14 @@ var caracteres = [
 				nombre: "Ligeramente más claro que el color del cabello",
 				codigo: "W2W2"
 			}
-		]
+		],
+		fn : function(index){
+			var cejas = "cejas";
+			return {
+				tipo: "img",
+				img: cejas+"1.png"
+			};
+		}
 	},
 	{
 		nombre: "Grosor de cejas",
@@ -393,7 +451,14 @@ var caracteres = [
 				nombre: "Chica",
 				codigo: "B2B2"
 			}
-		]
+		],
+		fn : function(index){
+			var boca = "boca";
+			return {
+				tipo: "img",
+				img: boca+"1.png"
+			};
+		}
 	},
 	{
 		nombre: "Grosor de labios",
@@ -442,7 +507,22 @@ var caracteres = [
 				nombre: "Pequeña",
 				codigo: "E2E2"
 			}
-		]
+		],
+		fn : function(index){
+			var grande = "E1E1.png";
+			var mediana = "E1E2.png";
+			var pequena = "E2E2.png";
+			var tamanio;
+			switch(index){
+				case 1: tamanio = grande; break;
+				case 2: tamanio = mediana; break;
+				case 3: tamanio = pequena; break;
+			}
+			return {
+				tipo: "img",
+				img: tamanio
+			};
+		}
 	},
 	{
 		nombre: "Forma de la nariz",

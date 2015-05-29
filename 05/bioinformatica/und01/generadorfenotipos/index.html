@@ -12,6 +12,8 @@
 		md-select-label span {
 			color:white !important;
 		}
+		
+		
 	</style>
 </head>
 
@@ -25,7 +27,7 @@
 				<section>
 					<md-toolbar class="md-toolbar-tools">
 						<h2 class="md-toolbar-tools">
-							<span>{{ indicePadre + 1 }} <md-select ng-model="indicePadre" style="min-width: 350px;">
+							<span>{{ indicePadre + 1 }} <md-select ng-model="indicePadre" style="min-width: 300px;">
 								<md-option ng-value="$index" ng-repeat="caracter in padre">{{ caracter.nombre }}</md-option>
 							</md-select></span>
 							
@@ -46,7 +48,7 @@
 				<section>
 					<md-toolbar class="md-toolbar-tools md-accent">
 						<h2 class="md-toolbar-tools">
-							<span>{{ indiceMadre + 1 }} <md-select ng-model="indiceMadre" style="min-width: 350px;">
+							<span>{{ indiceMadre + 1 }} <md-select ng-model="indiceMadre" style="min-width: 300px;">
 								<md-option ng-value="$index" ng-repeat="caracter in madre">{{ caracter.nombre }}</md-option>
 							</md-select></span>
 						</h2>
@@ -69,8 +71,10 @@
 		</div>
 		<div layout="column" offset="25">
 			<md-card>
-				<div style="width:400px; height:625px; min-width:100%; height:500px; background-color: #FEFEFE;" id="fenotipo">
-					<div style="width:100%; height:100%; background-image: url('img/baseA1.png'); background-size:contain;background-repeat: no-repeat;" alt=""></div>
+				<div style="width:400px; height:625px; min-width:100%; height:500px; background-color: #FEFEFE; position:relative;" id="fenotipo">
+					<div ng-repeat="c in hijo as fenotipo " style="width:100%; height:100%;position:absolute" ng-style="fenStyle(getFenotipo(c, $index).z)">
+						<div ng-bind-html="getFenotipo(c, $index).html" style="height:100%;"></div>
+					</div>
 				</div>
 				<md-card-content>
 					<h2 class="md-title">Fenotipos</h2>
@@ -91,6 +95,7 @@
 	<script src="./lib/angular-aria/angular-aria.js"></script> 
 	<script src="./lib/angular-animate/angular-animate.js"></script> 
 	<script src="./lib/angular-material/angular-material.js"></script>
+	<script src="./js/templates.js"></script>
 	<script src="./js/caracteres.js"></script>
 	<script src="./js/main.js"></script>
 </body>

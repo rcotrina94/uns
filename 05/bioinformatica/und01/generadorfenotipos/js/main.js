@@ -6,11 +6,15 @@ app.controller('controlador', function($scope, $sce){
 	$scope.hijo = JSON.parse(JSON.stringify(caracteres));
 	
 	angular.forEach($scope.padre, function(caracter, indice){
-		caracter.seleccionado = 1;
+		if (!caracter.hasOwnProperty('seleccionado')){
+			caracter.seleccionado = 1;
+		}
 	});
 	
 	angular.forEach($scope.madre, function(caracter, indice){
-		caracter.seleccionado = 1;
+		if (!caracter.hasOwnProperty('seleccionado')){
+			caracter.seleccionado = 1;
+		}
 	});
 	
 	$scope.indicePadre = 0;
@@ -48,10 +52,6 @@ app.controller('controlador', function($scope, $sce){
 		}
 	};
 	
-
-	
-	function format(numero){ return ceros(numero,maxchar); }
-	function binario(numero){ return format(numero.toString(2)); }
 	
 	function range(start, stop, step){
 	    if (typeof stop=='undefined'){
@@ -119,11 +119,10 @@ app.controller('controlador', function($scope, $sce){
 			var genPadre = genesPadre[index].opciones[genesPadre[index].seleccionado - 1].codigo;
 			var genMadre = genesMadre[index].opciones[genesMadre[index].seleccionado - 1].codigo;
 			var gen = cruce(genPadre, genMadre);
-//			console.log(gen);
 			$scope.hijo[index].seleccionado = $scope.hijo[index].opciones.map(op_codes).indexOf(gen) + 1;
 		}
 	}
-	getHijo();
+//	getHijo();
 	
 	$scope.getHijo = function(){
 		return $sce.trustAsHtml( Object.keys($scope.hijo).map(function(caracter){
@@ -131,6 +130,31 @@ app.controller('controlador', function($scope, $sce){
 		}).join("<br />"));
 	};
 	
+	$scope.getFenotipo = function(caracter, indice){
+		if(caracteres[indice].hasOwnProperty('fn')){
+			var html;
+			var fn = caracteres[indice].fn(caracter.seleccionado);
+			if (fn.tipo == 'img'){
+				html = img(fn.img);
+			} else if (fn.tipo == 'color') {
+				html = color(fn.color);
+			}
+			return {
+				html : $sce.trustAsHtml(html.outerHTML),
+				z: caracter.z
+			}
+		} else {
+			return;
+		}
+	}
+	
+	$scope.fenStyle = function(z){
+		return {
+			"z-index" : z+1 || 999,
+			"width" : "100%",
+			"height": "100%"
+		};
+	};
 	/* Listener para los cambios en Padre o Madre */
 	$scope.$watch('[padre,madre]', getHijo, true);
 });
