@@ -7,9 +7,9 @@ var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
 var PascalHighlightRules = function() {
 
     this.$rules = { start:
-       [ { caseInsensitive: true,
+       [ { caseInsensitive: false,
            token: 'keyword.control.pascal',
-           regex: '\\b(?:(absolute|abstract|all|and|and_then|array|as|asm|attribute|inicio|bindable|case|class|const|constructor|destructor|div|do|do|casocontrario|fin|except|export|exports|external|far|file|finalization|finally|for|forward|goto|si|implementation|import|in|inherited|initialization|interface|interrupt|is|label|library|mod|module|name|near|nil|not|object|of|only|operator|or|or_else|otherwise|packed|pow|private|programa|property|protected|public|published|qualified|record|repeat|resident|restricted|segment|set|shl|shr|entonces|to|try|type|unit|until|uses|value|variables|view|virtual|mientras|with|xor))\\b' },
+           regex: '\\b(?:(PROGRAMA|VARIABLES|VARIABLE|INICIO|FIN|SI|ENTONCES|CASOCONTRARIO|RESTODIVIDIR|NO|LEER|ESCRIBIR|ENTERO|ENTRADA|SALIDA|ARREGLO|DE|REAL|MIENTRAS|HACER|E|O|DIVISION|CONSTANTE|CONSTANTES))\\b' },
          { caseInsensitive: true,
            token:
             [ 'variable.pascal', "text",

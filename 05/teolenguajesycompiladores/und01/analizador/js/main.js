@@ -7,22 +7,56 @@ var setCodigo = function(cod){
 	Doc.setValue(cod);
 }
 setCodigo(default_code);
-editor.on('change', function(){
 
+var Annotation = (function(){
+
+	var anns = [];
+	
+	var tipos = ["error","warning","info"];
+	
+	var create = function(linea, id_tipo, msg){
+		this.row = linea-1;
+		// this.column = 10;
+		this.text = msg;
+		this.type = tipos[Number.parseInt(Math.random()*2)];
+	}
+	
+	var check = function(){
+		create(); /// FIX
+	};
+	
+	return {
+		all : function(){
+			return anns;
+		},
+		check : check
+	};
+})();
+
+editor.on('change', function checkErrors(e){
+	var row = e.data.range.start.row;
+	
+	Session.setAnnotations(Annotation.all());
+	
+	/* if (row == 2){
+		setAnn(3, "La variable 'y', ya está definida");
+	} else if( row == 8){ 
+		setAnn(9, "La variable 'h' no está definida");
+	} */
+	
 });
 			
+
 
 var analizar = function(){
 	TS = {};
 	editor.getSession().setMode("ace/mode/pascal");
 	
-//	var codigo = $('code').value;
 	var codigo = getCodigo();
 	var palabras = [];
 	var lineas = [];
 	
 	// separar por líneas
-//	codigo.split("\n").forEach(function(linea, index){
 	codigo.forEach(function(linea, index){
 		linea = linea.trim()
 		if (linea) {
@@ -39,9 +73,6 @@ var analizar = function(){
 		var palabras_linea = [];
 		
 		var addW = function(word){
-			if (word == 'E'){
-				console.trace('Agregando EEEEEEEEEEEEEEEE');
-			}
 			palabras_linea.push({ w: word, l: index_linea +1});
 			memoria = "";
 		};
@@ -99,14 +130,13 @@ var analizar = function(){
 		
 		palabras = palabras.concat(palabras_linea);
 	};
+	
 	// Analizar lineas de cada columna
 	lineas.forEach(analizar_linea);
 	
 	var resultado_analizador = [];
 	
-	// Analizar palabras encontradas
-//	palabras.forEach(function(obj, index, lista){
-	
+	// Analizar palabras encontradas	
 	var siguiente = function(lista,indice_lista){
 		var max_indice = lista.length - 1;
 		if (indice_lista + 1 < max_indice) {
@@ -114,7 +144,7 @@ var analizar = function(){
 		} else {
 			return false;
 		}
-	}
+	};
 
 	var anterior = function(lista,indice_lista){
 		if (indice_lista - 1 >= 0) {
@@ -122,7 +152,7 @@ var analizar = function(){
 		} else {
 			return false;
 		}
-	}
+	};
 
 	for (var index = 0; index < palabras.length; index++){
 		

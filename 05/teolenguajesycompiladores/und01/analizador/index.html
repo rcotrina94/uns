@@ -2,34 +2,16 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Analizador Lexicográfico</title>
-		<style type="text/css" media="screen">
-			#editor { 
-				position: absolute;
-				top: 0;
-				left: 0;
-				bottom: 0;
-				width:60%;
-			}
-			#controls{
-				position: absolute;
-				top:0;
-				right:0;
-				bottom:0;
-				width: 40%;
-			}
-			blockquote {
-				position: absolute;
-				bottom:0;
-			}
-		</style>
+		<link rel="stylesheet" href="css/main.css">
 	</head>
 	<body>
 		<div id="editor"></div>
-		<script src="src/ace.js" data-ace-base="src" type="text/javascript" charset="utf-8"></script>
-		<script src="src/keybinding-vim.js"></script>
-		<script src="src/keybinding-emacs.js"></script>
+		<script src="lib/ace.js" data-ace-base="lib" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/keybinding-vim.js"></script>
+		<script src="lib/keybinding-emacs.js"></script>
 		<script type="text/javascript" charset="utf-8">
 		    var editor = ace.edit("editor");
+			editor.$blockScrolling = Infinity;
 			editor.setFontSize(14);
 		    editor.setTheme("ace/theme/chrome");
 			// editor.getSession().setMode("ace/mode/pascal");
@@ -40,17 +22,21 @@
 			<div class="controls">
 				<input type="file" id="fileToLoad">
 				<button onclick="loadFileAsText()">Leer archivo</button>
-				<button onclick="analizar()"> ANALIZAR</button>
+				<button onclick="c.analizar()"> ANALIZAR</button>
 				<button onclick="download()">GUARDAR</button>
-			</div>
-<!--			<textarea name="code" id="code" cols="70" rows="40"></textarea>-->
-			
-			<textarea name="analizer" id="analizer" cols="50" rows="40" readonly></textarea>
+			</div>			
+			<textarea name="output" id="output" cols="50" rows="40" readonly></textarea>
 		</div>
 		
 		<blockquote>CÓDIGO FUENTE: <a href="https://github.com/rcotrina94/uns/tree/gh-pages/05/teolenguajesycompiladores/und01/analizador">github.com/rcotrina94</a></blockquote>
 		<script src="js/symbols.js"></script>
-		<script src="js/main.js"></script>
+		<script src="js/utils.js"></script>
+		<script src="js/app.js"></script>
 		<script src="js/fileManager.js"></script>
+		<script>
+			var c = new Codigo();
+			c.set();
+			c.analizar();
+		</script>
 	</body>
 </html>

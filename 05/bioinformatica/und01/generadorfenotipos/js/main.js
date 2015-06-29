@@ -17,41 +17,28 @@ app.controller('controlador', function($scope, $sce){
 		}
 	});
 	
-	$scope.indicePadre = 0;
-	$scope.indiceMadre = 0;
+	$scope.indice = 0;
 	
 	$scope.caracterPadre = function(){
-		return $scope.padre[$scope.indicePadre];
+		return $scope.padre[$scope.indice];
 	}
 
 	$scope.caracterMadre = function(){
-		return $scope.madre[$scope.indiceMadre];
+		return $scope.madre[$scope.indice];
 	}
 	
-	$scope.anteriorPadre = function(){
-		if ($scope.indicePadre > 0){
-			$scope.indicePadre--;
+	$scope.anterior = function(){
+		if ($scope.indice > 0){
+			$scope.indice--;
 		}
 	};
 	
-	$scope.siguientePadre = function(){
-		if ($scope.indicePadre < $scope.padre.length - 1) {
-			$scope.indicePadre++;
+	$scope.siguiente = function(){
+		if ($scope.indice < $scope.padre.length - 1) {
+			$scope.indice++;
 		}
 	};	
-	
-	$scope.anteriorMadre = function(){
-		if ($scope.indiceMadre > 0){
-			$scope.indiceMadre--;
-		}
-	};
-	
-	$scope.siguienteMadre = function(){
-		if ($scope.indiceMadre < $scope.madre.length - 1) {
-			$scope.indiceMadre++;
-		}
-	};
-	
+		
 	
 	function range(start, stop, step){
 	    if (typeof stop=='undefined'){
