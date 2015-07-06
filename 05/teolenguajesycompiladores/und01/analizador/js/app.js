@@ -1,16 +1,15 @@
 /**
  * 	CLASES PARA EL ANALIZADOR
  */
-
 var Caracter = function(c){
 	this.valor = c;
 	this.tipo = UTILS.FN.TIPO_CARACTER(c);
-	// this.token = UTILS.FN.TIPO_TOKEN(c);
 };
 
-var Token = function(token, tipo){
+var Token = function(token, tipo, fila){
 	this.valor = Array.isArray(token)?token.join(""):token;
 	this.tipo = tipo?tipo:UTILS.FN.TIPO_TOKEN(token);
+	this.fila = fila;
 };
 
 var Codigo = function(){
@@ -23,15 +22,21 @@ var Codigo = function(){
 		self.lineas = getCodigo();
 		self.plano = self.lineas.join("\n");
 	};
-	this.getTokens = function(){
-		self.actualizar();
+	var getTokens = function(){
+		self.actualizar(); // resetear y analizar
+		tokenize(); // Separar tokens
+		combinarTokens(); // Unir tokens compuestos
+		checkSyntax(); // Análisis sintáctico
+		
+	};
+	var tokenize = function(){
 		var memoria = "";
 		// var mem_obj = [];
 		var mem_add = function(char){
 			memoria += char;
 		};
-		var add_tkn = function(str, tipo){
-			self.tokens.push(new Token(str, tipo?tipo:false));
+		var add_tkn = function(str, fila, tipo ){
+			self.tokens.push(new Token(str, tipo?tipo:false, fila));
 		};
 			
 		for (var linea = 0; linea < self.lineas.length; linea++) {
@@ -39,35 +44,39 @@ var Codigo = function(){
 				var c = new Caracter(self.lineas[linea][index]);
 				if (c.tipo == UTILS.CONSTANTS.TIPO_CARACTER.DELIMITADOR) {
 					if (memoria.length > 0){
-						add_tkn(memoria);
+						add_tkn(memoria, linea);
 						memoria = "";
 					}
 					if (!UTILS.CHECKER.VACIO(c.valor)){
-						add_tkn(c.valor);
+						add_tkn(c.valor, linea);
 					}
 				} else {
 					mem_add(c.valor);
 				}
 			}
 			if (memoria.length){
-				add_tkn(memoria);
+				add_tkn(memoria, linea);
 				memoria = "";
 			}
 			if (linea == self.lineas.length-1) {
-				add_tkn("EOF", UTILS.CONSTANTS.TIPO_TOKEN.EOF);
+				add_tkn("EOF", linea, UTILS.CONSTANTS.TIPO_TOKEN.EOF);
 			} else {
-				add_tkn("↵", UTILS.CONSTANTS.TIPO_TOKEN.SALTO_LINEA);
+				add_tkn("↵", linea, UTILS.CONSTANTS.TIPO_TOKEN.SALTO_LINEA);
 			}
 		}
 		if (memoria.length){
 			add_tkn(memoria);
 		}
+	};
+	
+	var siguientes_token = function(i, num){
+		var _siguientes = self.tokens.slice(i, i+(num?num:1));
+		return (_siguientes.length==(num||1))?(num?_siguientes:_siguientes[0]):false;
+	};
 		
+	var combinarTokens = function(){
 		// Combinar tokens compuestos
-		var siguientes_token = function(i, num){
-			var _siguientes = self.tokens.slice(i, i+num);
-			return _siguientes.length==num?_siguientes:false;
-		};
+		
 		for (var index = 0; index < self.tokens.length; index++) {
 			var token = self.tokens[index];
 			if (token.tipo == UTILS.CONSTANTS.TIPO_TOKEN.ENTERO){
@@ -75,7 +84,7 @@ var Codigo = function(){
 				if(tokens !== false){
 					var tipos_token = tokens.map(UTILS.FN.MAP_TIPO_TOKEN);
 					if (UTILS.CHECKER.REAL(tipos_token)){
-						self.tokens.splice(index, 3 ,new Token(tokens.map(UTILS.FN.MAP_TOKEN).join(""), UTILS.CONSTANTS.TIPO_TOKEN.REAL));
+						self.tokens.splice(index, 3 ,new Token(tokens.map(UTILS.FN.MAP_TOKEN).join(""), UTILS.CONSTANTS.TIPO_TOKEN.REAL, tokens[0].fila));
 						index-=3;
 						continue;
 					} else {
@@ -110,33 +119,83 @@ var Codigo = function(){
 					new_tkn_tipo = UTILS.CONSTANTS.TIPO_TOKEN.ASIGNACION;
 				}
 				if (new_tkn_tipo){
-					self.tokens.splice(index,2,new Token(UTILS.FN.EXTRACT_TOKEN_VALUES(_tokens), new_tkn_tipo));
-					console.log(index);
-					console.log(JSON.stringify(self.tokens, null, 2));
+					self.tokens.splice(index,2,new Token(UTILS.FN.EXTRACT_TOKEN_VALUES(_tokens), new_tkn_tipo, _tokens[0].fila));
 					index-=2;
-					
 				}
 			}
-			/*if (token.tipo == UTILS.CONSTANTS.TIPO_TOKEN.ENTERO){
-				if (siguiente?(siguiente.tipo == UTILS.CONSTANTS.TIPO_TOKEN.PUNTO):siguiente){
-					var siguiente2 = siguiente_token(index + 1); 
-					if (siguiente2?(siguiente2.tipo == UTILS.CONSTANTS.TIPO_TOKEN.ENTERO):siguiente2){
-						
-					}
-				} else {
-					continue;
-				}
-			} */
+		}
+	};
+	var ID_TYPES = [UTILS.CONSTANTS.TIPO_TOKEN.PROGRAMA]
+	var checkSyntax = function(){
+		var check_index = 0;
+		if (self.tokens[0].tipo != UTILS.CONSTANTS.TIPO_TOKEN.PROGRAMA){
+			UTILS.ERRORS.ADD(self.tokens[0],0,"Se esperaba PROGRAMA, se encontró '%s'.");
+			
+			if (self.tokens[0].tipo != UTILS.CONSTANTS.TIPO_TOKEN.IDENTIFICADOR){
+				UTILS.ERRORS.ADD(self.tokens[1],0,"Se esperaba IDENTIFICADOR, se encontró '%s'.");
+			} else {
+				check_index++;
+			}
+		} else {
+			if (self.tokens[1].tipo != UTILS.CONSTANTS.TIPO_TOKEN.IDENTIFICADOR){
+				UTILS.ERRORS.ADD(self.tokens[1],0,"Se esperaba IDENTIFICADOR, se encontró '%s'.");
+			} else {
+				check_index+=2;
+			}
 		}
 		
-		/*self.tokens.forEach(function(e, i){
-			console.dir(e);
-		}); */
+		if (check_index) {
+			// console.log(check_index); // FIXME: Algo iba a hacer...
+		}
+		
+		for (check_index; check_index < self.tokens.length; check_index++) {
+			var _token = self.tokens[check_index]; 
+			var _siguiente = siguientes_token(check_index+1);
+			if(UTILS.CONSTANTS.BLOQUES_START.indexOf(_token.tipo) != -1){
+				if(UTILS.CONSTANTS.BLOQUES_START_NOMBRE.indexOf(_token.tipo) != -1){
+					if(_siguiente?(_siguiente.tipo != UTILS.CONSTANTS.TIPO_TOKEN.IDENTIFICADOR):false){
+						UTILS.ERRORS.ADD(self.tokens[check_index+1],0,"Se esperaba IDENTIFICADOR, se encontró '%s'.");
+					} else {
+						// UTILS.SIMBOLOS.DEF(self.token)
+					}
+				} else if (UTILS.CONSTANTS.BLOQUES_START_NL.indexOf(_token.tipo) != -1){
+					if(_siguiente?(_siguiente.tipo != UTILS.CONSTANTS.TIPO_TOKEN.SALTO_LINEA):false){
+						UTILS.ERRORS.ADD(self.tokens[check_index+1],0,"Se esperaba ↵, se encontró '%s'.");
+					} else {
+						if (_siguiente.tipo == UTILS.CONSTANTS.TIPO_TOKEN.VARIABLES || _siguiente.tipo == UTILS.CONSTANTS.TIPO_TOKEN.CONTANTES){
+							/*
+							while (siguiente) */
+						}
+					}
+				} else {
+					switch(_token.tipo){
+						case UTILS.CONSTANTS.TIPO_TOKEN.REPETIR: break;
+						case UTILS.CONSTANTS.TIPO_TOKEN.HACER: break;
+						case UTILS.CONSTANTS.TIPO_TOKEN.MIENTRAS: break;
+						case UTILS.CONSTANTS.TIPO_TOKEN.SI: break;
+					}
+				}
+			} else {
+				
+			}
+		}
+	};
+	
+	this.buildSimbolos = function(){
+		var ids = self.tokens.filter(function(e){ return e.tipo == UTILS.CONSTANTS.TIPO_TOKEN.IDENTIFICADOR; });
 	};
 	
 	this.analizar = function(){
-		self.getTokens();
+		UTILS.ERRORS.RESET();
+		console.time("Analizando tokens")
+		getTokens();
+		console.timeEnd("Analizando tokens");
+		// self.buildSimbolos();
+		console.time("Mostrando resultados")		
 		self.output();
+		console.timeEnd("Mostrando resultados");
+		console.timeEnd("TOTAL");
+		
 	};
 	
 	this.set = function(str) {
@@ -148,11 +207,7 @@ var Codigo = function(){
 	};
 	
 	this.output = function(){
-		/*
-		var temp = UTILS.FN.MAP_CODIGO_TIPO_TOKEN(self.tokens);
-		output.value = JSON.stringify(temp, null, 4);
-		*/
-		
-		output.value = JSON.stringify(self.tokens, null, 2);
+		output.value = JSON.stringify(self.tokens.map(function(e){ return /* e.tipo; */ { valor: e.valor, tipo : e.tipo };}), null, 2);
+		tokens = self.tokens;
 	};
 };

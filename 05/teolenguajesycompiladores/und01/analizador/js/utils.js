@@ -16,7 +16,7 @@ var setCodigo = function(cod){
 
 var output = document.getElementById('output');
 
-editor.on('change', function(){});
+
 
 /**
  *	UTILIDADES: CONSTANTES Y FUNCIONES DE TIPO
@@ -44,6 +44,28 @@ var UTILS = (function(){
 			/** TOKENS COMPUESTOS */
 			"IDENTIFICADOR", "ENTERO", "REAL", "MAYOR_IGUAL", "MENOR_IGUAL", "DISTINTO", "ASIGNACION")
 	);
+	
+	var BLOCK_START_NAME = [ // CON IDENTIFICADOR
+		TIPOS_TOKEN.PROGRAMA,
+		TIPOS_TOKEN.FUNCION,
+		TIPOS_TOKEN.PROCEDIMIENTO,
+	];
+	
+	var BLOCK_START_NL = [ // CON SALTO LINEA
+		TIPOS_TOKEN.VARIABLES,
+		TIPOS_TOKEN.CONSTANTES,
+		TIPOS_TOKEN.INICIO
+	]
+		
+	var BLOCK_START = [].concat(BLOCK_START_NAME, BLOCK_START_NL,
+		[ // SIN IDENTIFICADOR o SALTO LINEA
+			TIPOS_TOKEN.REPETIR,
+			TIPOS_TOKEN.HACER,
+			TIPOS_TOKEN.MIENTRAS,
+			TIPOS_TOKEN.SI
+		]
+	);
+	
 	var PALABRAS_RESERVADAS = {
 		'PROGRAMA': {
 			tipo: TIPOS_TOKEN.PROGRAMA,
@@ -312,12 +334,16 @@ var UTILS = (function(){
 			+ "INICIO\n"
 			+ "    LEER(x,y);\n"
 			+ "    x := x + 2;\n"
-			+ "    y := y * x ;\n"
+			+ "    y := y * x;\n"
 			+ "    ESCRIBIR(x,y);\n"
 			+ "FIN.",
 		"TIPO_TOKEN" : TIPOS_TOKEN,
 		"TIPO_CARACTER" : TIPOS_CARACTER,
-		"COMP_TOKEN" : TOKENS_COMPUESTOS
+		"COMP_TOKEN" : TOKENS_COMPUESTOS,
+		"ANNOTATION_TYPES": Enum("ERROR","WARN","INFO"),
+		"BLOQUES_START": BLOCK_START,
+		"BLOQUES_START_NOMBRE": BLOCK_START_NAME,
+		"BLOQUES_START_NL": BLOCK_START_NL
 	};
 	
 	var es_ValorVacio = function(s){
@@ -399,16 +425,12 @@ var UTILS = (function(){
 				w = w.toString();
 			}
 			if(Object.keys(PALABRAS_RESERVADAS).indexOf(w) != -1){
-				// console.log("PALABRA RESERVADA");
 				return PALABRAS_RESERVADAS[w].tipo;
 			} else if(CHECKER.IDENTIFICADOR(w)) {
-				// console.log("IDENTIFICADOR");
 				return CONSTANTS.TIPO_TOKEN.IDENTIFICADOR;
 			} else if(CHECKER.DELIM(w)){
-				// console.log("DELIM");
 				return DELIMITADORES[w].token;
 			} else if(CHECKER.ENTERO(w)){
-				// console.log("ENTERO");
 				return CONSTANTS.TIPO_TOKEN.ENTERO;
 			} else {
 				return CONSTANTS.TIPO_TOKEN.DESCONOCIDO;
@@ -430,13 +452,120 @@ var UTILS = (function(){
 		}
 	};
 
-	
+	var Annotation = function(row, tipo, msg){
+		var tipos = ["error","warning","info"];
+		this.row = row;
+		this.text = msg;
+		this.type = tipos[tipo];
+	};
 
+	var annotationHandler = (function(){
+		var annotations = [];
+
+		var messages = {
+			"errors" : {
+				"undefined_token" : function(_var){
+					return "La variable "+_var+" no está definida";   /// 0
+				},
+				"already_defined" : function(_var){
+					return "La variable "+_var+" ya ha sido definida anteriormente";  /// 1
+				},
+				"custom_error" : function(msg){
+					return function(value){ return msg.replace("%s", value);};
+				},
+				"unexpected_token" : function(_var){
+					return "Se esperaba PROGRAMA";
+				}
+			}
+		};
+		
+		var update = function(){
+			Session.setAnnotations(annotations);
+		};
+		
+		var add = function(token, tipo, msg_id){
+			var msg = (function(){
+				var m;
+				switch(msg_id){
+					case 0: m = messages.errors.undefined_token; break;
+					case 1: m = messages.errors.already_defined; break;
+					default: m = messages.errors.custom_error(msg_id);
+				}
+				return m(token.valor);
+			})();
+			annotations.push(new Annotation(token.fila, tipo, msg));
+			update();
+		};
+		
+		var reset = function(){
+			annotations = [];
+			update();
+		}
+		return {
+			"ADD" : add,
+			"RESET" : reset
+		};
+	})();
+
+	var TS = (function(){
+		// var tipo_simbolo = Enum("PROGRAMA")
+		var tabla = {};
+		var ptr = tabla;
+		var last_ptr = null;
+		var push = function(token){
+			ptr[token.valor] = token;
+			last_ptr = ptr;	
+			ptr = ptr[token.valor];
+		};
+		
+		var pop = function(){
+			ptr = last_ptr;
+		};
+		
+		var define_block = function(token, tipo){
+			if (ptr.hasOwnProperty(token.valor)){
+				annotationHandler.ADD(token, CONSTANTS.ANNOTATION_TYPES.ERROR, 1);								
+			} else {
+				push(token);					
+			}
+		};
+		
+		var define = function(token, tipo){
+			if (ptr.hasOwnProperty(token.valor)){
+				annotationHandler.ADD(token, CONSTANTS.ANNOTATION_TYPES.ERROR, 1);								
+			} else {
+				ptr[token.valor] = token;							
+			}
+		};
+		
+		var ref = function(token){
+			if (tabla.hasOwnProperty(token.valor)){
+				ptr = ptr[token.valor];
+				if(ptr.hasOwnProperty("ref")){
+					ptr.ref.push(token.fila);
+				} else {
+					ptr.ref = [].concat(token.fila);
+				}
+			} else {
+				annotationHandler.ADD(token, CONSTANTS.ANNOTATION_TYPES.ERROR, 0);				
+			}
+		};
+		
+		
+		
+		return {
+			"REF" : ref,
+			"DEF" : define,
+			"DEF_BLOCK" : define_block,
+			"POP" : pop
+		};
+	})();
+	
 	return {
 		"CONSTANTS" : Object.freeze(CONSTANTS),
 		"CHECKER" : Object.freeze(CHECKER),
 		"FN" : Object.freeze(FN),
-		"TS" : {},
-		
+		"SIMBOLOS" : TS,
+		"ERRORS" : annotationHandler
 	};
 })();
