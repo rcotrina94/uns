@@ -33,6 +33,7 @@ var UTILS = (function(){
 			"REPETIR", "HASTA", "PARA", "HACER", "MIENTRAS",
 			"SI", "NO", "Y", "O", "ENTONCES", "CASOCONTRARIO",
 			"DIVISIONENTERA", "RESTODIVIDIR", "DE", "E",
+			"VERDADERO", "FALSO",
 			/** TOKENS BÁSICOS */
 			"EOF", "DESCONOCIDO", "LETRA", "DIGITO", "ESPACIO",
 			"SUMA", "RESTA", "DIVISION", "MULTIPLICACION",
@@ -41,6 +42,7 @@ var UTILS = (function(){
 			"COMA", "PUNTO", "PUNTO_COMA", "DOS_PUNTOS", "GUION_BAJO",
 			"MENOR", "MAYOR", "IGUAL",
 			"COMILLA", "COMILLA_DOBLE",
+			"LOGICO_VERDADERO", "LOGICO_FALSO",
 			/** TOKENS COMPUESTOS */
 			"IDENTIFICADOR", "ENTERO", "REAL", "MAYOR_IGUAL", "MENOR_IGUAL", "DISTINTO", "ASIGNACION")
 	);
@@ -66,6 +68,20 @@ var UTILS = (function(){
 		]
 	);
 	
+	var BLOCK_END = {
+		"FUNCION" : [TIPOS_TOKEN.FIN],
+		"PROGRAMA" : [TIPOS_TOKEN.FIN],
+		"VARIABLES" : [TIPOS_TOKEN.INICIO]
+	};
+	//BLOCK_END[TIPOS_TOKEN.PROGRAMA] = []
+	
+	var TIPO_VAR = [
+		TIPOS_TOKEN.TIPO_ARREGLO,
+		TIPOS_TOKEN.TIPO_ENTERO,
+		TIPOS_TOKEN.TIPO_REAL,
+		TIPOS_TOKEN.TIPO_LOGICO
+	];
+	
 	var PALABRAS_RESERVADAS = {
 		'PROGRAMA': {
 			tipo: TIPOS_TOKEN.PROGRAMA,
@@ -87,19 +103,19 @@ var UTILS = (function(){
 			tipo: TIPOS_TOKEN.CONSTANTES,
 			nombre: "Constantes"
 		},
-		'TIPO_ARREGLO': {
+		'ARREGLO': {
 			tipo: TIPOS_TOKEN.TIPO_ARREGLO,
 			nombre: "Arreglo"
 		},
-		'TIPO_ENTERO': {
+		'ENTERO': {
 			tipo: TIPOS_TOKEN.TIPO_ENTERO,
 			nombre: "Entero"
 		},
-		'TIPO_REAL': {
+		'REAL': {
 			tipo: TIPOS_TOKEN.TIPO_REAL,
 			nombre: "Real"
 		},
-		'TIPO_LOGICO': {
+		'LOGICO': {
 			tipo: TIPOS_TOKEN.LOGICO,
 			nombre: "Lógico"
 		},
@@ -194,6 +210,14 @@ var UTILS = (function(){
 		'E': {
 			tipo: TIPOS_TOKEN.E,				
 			nombre: "Exponente"
+		},
+		'VERDADERO': {
+			tipo: TIPOS_TOKEN.LOGICO_VERDADERO,				
+			nombre: "Verdadero"
+		},
+		'FALSO': {
+			tipo: TIPOS_TOKEN.LOGICO_FALSO,				
+			nombre: "Falso"
 		}
 	};
 	
@@ -343,7 +367,9 @@ var UTILS = (function(){
 		"ANNOTATION_TYPES": Enum("ERROR","WARN","INFO"),
 		"BLOQUES_START": BLOCK_START,
 		"BLOQUES_START_NOMBRE": BLOCK_START_NAME,
-		"BLOQUES_START_NL": BLOCK_START_NL
+		"BLOQUES_START_NL": BLOCK_START_NL,
+		"BLOQUES_END": BLOCK_END,
+		"TIPOS_VAR": TIPO_VAR
 	};
 	
 	var es_ValorVacio = function(s){
@@ -400,6 +426,22 @@ var UTILS = (function(){
 		}
 	};
 	
+	var es_Expr_Logica = function (tokens) {
+		
+		var valid_tokens = [TIPOS_TOKEN.PARENTESIS_A, TIPOS_TOKEN.PARENTESIS_C, TIPOS_TOKEN.O, TIPOS_TOKEN.Y, TIPOS_TOKEN.IDENTIFICADOR, TIPOS_TOKEN.LOGICO_VERDADERO, TIPOS_TOKEN.LOGICO_FALSO, TIPOS_TOKEN.MAYOR, TIPOS_TOKEN.MENOR, TIPOS_TOKEN.DISTINTO, TIPOS_TOKEN.MAYOR_IGUAL, TIPOS_TOKEN.MENOR_IGUAL, TIPOS_TOKEN.IGUAL, TIPOS_TOKEN.ENTERO, TIPOS_TOKEN.REAL, TIPOS_TOKEN.LOGICO_VERDADERO, TIPOS_TOKEN.LOGICO_FALSO];
+		
+		// Checka paréntesis
+		for (var token_index = 0; token_index < tokens.length; token_index++) {
+			var _tkn = tokens[token_index];
+			var indice = valid_tokens.indexOf(_tkn.tipo);
+
+			if (indice == -1){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	var CHECKER = {
 		"DELIM": es_Delimitador,
 		"LETRA": es_Letra,
@@ -407,7 +449,10 @@ var UTILS = (function(){
 		"IDENTIFICADOR": es_Identificador,
 		"ENTERO": es_Entero,
 		"REAL": es_Real,
-		"VACIO": es_ValorVacio
+		"VACIO": es_ValorVacio,
+		"EXPR" : {
+			"LOGICA" : es_Expr_Logica
+		}
 	};
 	
 	var FN = {
@@ -447,8 +492,39 @@ var UTILS = (function(){
 		"MAP_TOKEN" : function(e,i){
 			return e.valor;
 		},
+		"FILTRAR_IDENTIFICADORES" : function(e){
+			return e.tipo == UTILS.CONSTANTS.TIPO_TOKEN.IDENTIFICADOR;
+		},
 		"MAP_CODIGO_TIPO_TOKEN": function(tokens){
 			return Object.keys(tokens).map(function(e){ return tokens[e].tipo;});
+		},
+		"EXTRACT_BLOCK" : function(token, tokens, index){
+			var separarPorLinea = function(indice){
+				var lineas = [];
+				var mem = [];
+				for (indice; indice < tokens.length; indice++) {
+					var _token = tokens[indice];
+					if (UTILS.CONSTANTS.BLOQUES_START.indexOf(_token.tipo) != -1){ break; }
+					
+					if (_token.tipo != UTILS.CONSTANTS.TIPO_TOKEN.SALTO_LINEA){
+						mem.push(_token);
+					} else {
+						lineas.push(mem);
+						mem = [];
+					}
+				}
+				if (!lineas.length) { return null; } else {
+					return lineas;
+				}
+			}
+			switch(token.tipo){
+				case UTILS.CONSTANTS.TIPO_TOKEN.VARIABLES:
+					return separarPorLinea(index+2);
+					break;
+				case UTILS.CONSTANTS.TIPO_TOKEN.INICIO:
+					return separarPorLinea(index+2);
+					break;
+			}
 		}
 	};
 
@@ -512,13 +588,22 @@ var UTILS = (function(){
 		var tabla = {};
 		var ptr = tabla;
 		var last_ptr = null;
-		var push = function(token){
-			ptr[token.valor] = token;
+				
+		var push_block = function(token, tipo){
+			var _block = {
+				tipo : tipo,
+				def : token.fila+1
+			};
+			if (!ptr.hasOwnProperty("vars") && last_ptr){
+				ptr["vars"] = {};
+				ptr = ptr["vars"];
+			}
 			last_ptr = ptr;	
+			ptr[token.valor] = _block;
 			ptr = ptr[token.valor];
 		};
 		
-		var pop = function(){
+		var pop_block = function(){
 			ptr = last_ptr;
 		};
 		
@@ -526,7 +611,7 @@ var UTILS = (function(){
 			if (ptr.hasOwnProperty(token.valor)){
 				annotationHandler.ADD(token, CONSTANTS.ANNOTATION_TYPES.ERROR, 1);								
 			} else {
-				push(token);					
+				push_block(token, tipo);					
 			}
 		};
 		
@@ -534,30 +619,51 @@ var UTILS = (function(){
 			if (ptr.hasOwnProperty(token.valor)){
 				annotationHandler.ADD(token, CONSTANTS.ANNOTATION_TYPES.ERROR, 1);								
 			} else {
-				ptr[token.valor] = token;							
+				var _simbolo = {
+					tipo : tipo,
+					def : token.fila+1
+				};
+				if (!ptr.hasOwnProperty("vars") && last_ptr){
+					ptr["vars"] = {};
+				}
+				ptr["vars"][token.valor] = _simbolo;							
 			}
 		};
 		
 		var ref = function(token){
-			if (tabla.hasOwnProperty(token.valor)){
-				ptr = ptr[token.valor];
-				if(ptr.hasOwnProperty("ref")){
-					ptr.ref.push(token.fila);
+			if (ptr.hasOwnProperty("vars")) {
+				if (ptr["vars"].hasOwnProperty(token.valor)){
+					if(ptr["vars"][token.valor].hasOwnProperty("ref")){
+						ptr["vars"][token.valor].ref.push(token.fila);
+					} else {
+						ptr["vars"][token.valor].ref = [].concat(token.fila);
+					}
 				} else {
-					ptr.ref = [].concat(token.fila);
+					console.log(ptr["vars"], token.valor);
+					annotationHandler.ADD(token, CONSTANTS.ANNOTATION_TYPES.ERROR, 0)
 				}
 			} else {
 				annotationHandler.ADD(token, CONSTANTS.ANNOTATION_TYPES.ERROR, 0);				
 			}
 		};
 		
+		var reset = function(){
+			tabla = {};
+			ptr = tabla;
+			last_ptr = null;
+		}
 		
+		var get_ts = function(){
+			return tabla;
+		}
 		
 		return {
+			"GET" : get_ts,
 			"REF" : ref,
 			"DEF" : define,
 			"DEF_BLOCK" : define_block,
-			"POP" : pop
+			"POP" : pop_block,
+			"RESET" : reset
 		};
 	})();
 	

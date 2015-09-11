@@ -38,7 +38,9 @@
 			var c = new Codigo();
 			c.set();
 			c.analizar();
-			editor.on('change', function(){ c.analizar();} );			
+			editor.on('change', function(e){
+				 c.analizar();
+			});			
 			editor.getSession().setMode("ace/mode/pascal");
 		</script>
 	</body>
