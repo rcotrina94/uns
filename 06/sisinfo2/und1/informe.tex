@@ -1,1 +1,172 @@
-/media/rc/Datos/Documentos/UNS/CICLO06/SI2/SISTEMA/cap1.tex
+\documentclass[a4paper,11pt, spanish]{report}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage[margin=1.5in]{geometry}
+\usepackage{tabularx}
+\usepackage{booktabs} 
+\usepackage{float}
+
+\title{\Huge \textbf{Implementación de un Sistema de Información con tecnología Web para mejorar los proceso de registro y venta de medicamentos para la Botica Santa Patricia\\[3em]}}
+\author{
+  \Large Cotrina Alvitres,\\
+  Richard A.\\[2em]
+  \and
+  \Large Zarate Izaguirre, \\
+  Albert\\[2em]
+  \and
+  \Large Rojas Arellano, \\
+  Giancarlos\\[2em]
+  \and
+  \Large Lluen Chirinos, \\
+  Víctor\\[2em]
+  \and
+  \Large Caballero Morachino,\\
+  Carolina\\[2em]
+}
+\date{\LARGE 2015}
+\makeatletter
+\renewcommand\@biblabel[1]{}
+%% \renewcommand\@biblabel[1]{\textbullet}
+\makeatother
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{3}
+
+\renewcommand{\thesubsubsection}{}
+
+\makeatletter
+  \def\@seccntformat#1{\csname #1ignore\expandafter\endcsname\csname the#1\endcsname\quad}
+  \let\subsubsectionignore\@gobbletwo
+  \let\latex@numberline\numberline
+  \def\numberline#1{\if\relax#1\relax\else\latex@numberline{#1}\fi}
+\makeatother
+
+\newcommand{\celda}[3][t]{%
+  \begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+%% \begin{abstract}
+%% \end{abstract}
+\part{Fase de inicio}
+  \chapter{Documento visión}
+    \section{Introducción}
+      \subsection{Descripción del Negocio}
+        La Botica Patricia, se fundó el 28 de diciembre de 1985, siendo su propietario el Sr. Sergio Albitres Gonzáles, quien viendo que en ese entonces había necesidad de cubrir la atención de medicinas para éste sector de la población, y después de obtener los permisos correspondientes, inicia con su atención al público.         
+Éste establecimiento se crea pensando en la población que se incrementa día a día, factor que asegura su sostenibilidad.
+
+Aparte de cubrir la demanda de medicamentos se brinda servicio gratuito de medida de presión arterial y consejo profesional del personal con título de químico-farmacéutico. Y aparte de las medicinas, y debido a la competencia en este rubro, el propietario ha tenido que reinventarse, tanto es así que ahora también se ofrece líneas de regalos, juguetería, copias, perfumería, línea de telefonía.
+
+En cuanto a personal, la Botica cuenta con una químico-farmacéutica, y 2 técnicas de farmacia, que se turnan en la atención diaria. Se atiende a más 260 clientes diarios aproximadamente.
+
+La gente se enferma frecuentemente, por lo que la asistencia médica y la adquisición de medicamentos, son una necesidad básica para recuperar la salud. Además una farmacia es un negocio muy resistente que se mantiene ante cualquier problema económico que se presente. \\
+El público objetivo de la Botica Patricia es muy amplio, abarca a toda la población en general. Sí es cierto que a medida que las personas avanzan en edad, van surgiendo mayores problemas de salud, por lo que las personas de la tercera edad serán los clientes más habituales.
+Por otro lado, serán los bebés y niños de corta edad los mayores consumidores de productos de parafarmacia como higiene personal, alimentación infantil y derivados (chupetes, biberones, etc.).
+
+Actualmente la Botica Patricia, no cuenta con ningún soporte digital de la compra o venta de sus productos, además de registro de la ubicación, existencias, laboratorios, y demás información de los medicamentos que ofrece. Utiliza únicamente el método tradicional físico para las boletas, sin embargo no lleva registro adicional de sus ventas.
+
+      \subsection{Propósito}
+      Recopilar información necesaria para analizarla y definir los requisitos para los cuales los procesos realizados en la compra, venta, y almacenado de los productos de la Botica Patricia, se realicen de manera eficiente y automatizada permitiendo así la reducción de los tiempos a la hora de ubicar un producto, predecir el escaseo de productos, y controlar mejor la existencias.
+      
+      \subsection{Alcance}
+      La aplicación web en línea permitirá al personal de la Botica Patricia,  seleccionar, registrar y consultar información de los productos desde cualquier terminal. Además, a través de una interfaz móvil para administración, el encargado obtendrá acceso para visualizar al momento información útil para toma de decisiones.
+      
+      \subsection{Visión General}
+      En las próximas secciones del presente informe se hará mención del posicionamiento, características, beneficios del producto,	personas	involucradas,	así	como	de	las restricciones, funcionalidades entre otras relativas a la aplicación.
+      
+    \section{Posicionamiento}
+      \subsection{Oportunidad del negocio}
+      La aplicación web fue planeada para gestionar y optimizar el proceso registro de información de los productos que la Botica Patricia ofrece al público, elevar la calidad de las actividades involucradas, permitir un acceso a los administradores a información privilegiada y ponerse a la vanguardia en el uso de las tecnologías de información aplicadas al entorno web como lo hacen otras empresas.
+      
+La implantación de la aplicación web en línea para el control de productos, crea en la empresa la necesidad de realizar un cambio	en la forma   actual del proceso de control de productos, optimizando y mejorando los subprocesos y actividades involucradas y alcanzar el logro de incrementar la aceptación de la clientela y personal del nuevo proceso.
+      
+      \subsection{Exposición del problema}
+      {\renewcommand{\arraystretch}{1.5}%
+      \noindent\begin{table}[H]
+      \noindent\begin{tabularx}{\textwidth}{r|X}
+        Problema & Inconsistencia en el actual proceso control de existencia de los productos debido a la ineficacia en el control de compras y demora en el proceso de venta, debido al tiempo utilizado ubicando el producto.\\
+        Afecta & A la consistencia de la información,la forma como los productos son
+administrados.
+
+A los clientes a la hora de efectuar una compra. \\
+        Impacto & Demora en el proceso de compra, ocasionando descontento en la población
+comprante. \\
+        Solución & Una aplicación web en línea para mejorar el proceso de control de productos
+como lo es: seleccionar, registrar y consultar información de estos y una interfaz móvil para administración, donde el encargado obtendrá acceso 
+para la toma decisiones.\\
+      \end{tabularx}
+      \caption{Exposición del problema}
+      \end{table}
+      
+      \subsection{Declaración del posicionamiento del producto}
+      {\renewcommand{\arraystretch}{1.5}%
+      \noindent\begin{table}[H]
+      \noindent\begin{tabularx}{\textwidth}{r|X}
+        Para & el personal de la botica Patrica\\
+        Quienes & Seleccionan, registran y consultan información acerca de los productos.\\
+        \celda{r}{Aplicación \\ en linea es} & Software desarrollado en el lenguaje Python y utilizando el gestor de base de datos MySQL así como el servidor de aplicaciones Apache para la capa de servidor, y del lado del cliente tecnologías estándares como HTML, CSS3 y JS, con sus respectivos \textit{frameworks}.\\
+        Tal que & Mejorará el proceso de compras,ventas y almacenado de los productos de la botica.\\
+        A diferencia & Del registro y consultas de informacion de productos manualmente.\\
+        \celda{r}{Nuestro \\ producto} & Permite al personal de la Botica Patricia, seleccionar, registrar y consultar información de los productos desde cualquier terminal. Además, a través de una interfaz móvil para administración.\\
+      \end{tabularx}
+      \caption{Declaración del posicionamiento del producto}
+      \end{table}
+    \section{Descripción de Stakehoders y usuarios}
+      \subsection{Demografía del mercado}
+        En los ultimos años el avance de la tecnología ha avanzado demasiado, que ahora es muy común ver una computadora con internet en cada casa.
+        Esto a llevado a que las nuevas empresas, ya sean tiendas, colegio, universidades o empresas tengan que adquirir una pagina web para un mejor rendimiento de la misma, por lo que es necesario contar con una aplicación web online capaz de mejorar los procesos de registro y venta medicamentos para la Botica Santa Patricia.
+      \subsection{Descripción de Stakeholders}
+      
+        {\renewcommand{\arraystretch}{1.7}%
+        \noindent\begin{table}[H]
+        \noindent\begin{tabularx}{\textwidth}{c|c|X}
+          \textbf{{\large Nombre}} & \textbf{{\large Representa}} & \textbf{{\large Rol}} \\
+          \hline
+          Administrador & Personas naturales & Selecciona, registra y consulta información de los productos desde cualquier terminal.\\
+          Dueño & Personas naturales & su principal objetivo dotar a la botica de una estructura acorde con el principio de especialización.\\
+        \end{tabularx}
+        \caption{Descripción de Stakeholders}
+        \end{table}
+
+      \subsection{Descripción de usuarios}
+      
+        {\renewcommand{\arraystretch}{1.7}%
+        \noindent\begin{table}[H]
+        \noindent\begin{tabularx}{\textwidth}{c|X|X}
+          \textbf{{\large Nombre}} & \textbf{{\large Descripción}} & \textbf{{\large Responsabilidades}} \\
+          \hline
+          Personal & Es la persona que va a interactuar con la aplicación web. Debe tener un conocimiento basico en computacion, asi como de las normas y reglamenos referentes a la botica y sus productos. & Selecciona, registra y consulta información de los productos \\
+          Administrador & Es la persona que va a gestionar y conservar los datos de su empresa. & Preside las operaciones diarias de una organización que se crea para ofrecer bienes servicios
+        \end{tabularx}
+        \caption{Descripción de usuarios}
+        \end{table}
+        
+      \subsection{Ambiente}
+        La aplicación web en línea estará diseñada para trabajar sobre la red. Los trabajadores
+        en este caso los usuarios del sistema tendran acceso a la aplicación dentro de los ambientes del centro
+        de trabajo como desde fuera el cual le mostrara el registro de productos y ventas de la Botica Santa Patricia,
+        y estará limitado de acuerdo a la asignacion de perfiles de usuario y contraseña.
+
+    \section{Panorama del Producto}
+      \subsection{Perspectiva del producto}
+      \subsection{Resumen de características}
+      \subsection{Aspectos asumidos y dependencias}
+    \section{Características del producto}
+      \subsection{Administración de la seguridad en el aceso al sistema}
+      \subsection{Funciones principales}
+    \section{Restricciones}
+    \section{Criterios de calidad}
+    
+\part{Fase de elaboración}
+\part{Fase de construcción}
+\part{Fase de transición}
+
+\end{document}
