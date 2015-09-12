@@ -1,0 +1,134 @@
+@-webkit-keyframes fadeOutUp {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -100%, 0);
+  }
+}
+
+@keyframes fadeOutUp {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -100%, 0);
+  }
+}
+
+@-webkit-keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none;
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none;
+  }
+}
+
+
+body {
+	padding-top:80px;
+}
+#tabla tbody{
+	font-family: monospace;
+}
+ul.pagination li a{
+	cursor: pointer;
+}
+
+.no-select {
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+}
+
+.clvl .radio {
+	display: inline-block;
+	margin-right: 30px;
+}
+
+.animate-show {
+ -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+}
+
+
+.animate-show * {
+	-webkit-transition: all 0.5s ease-in-out;
+}
+
+.animate-show.ng-hide-add.ng-hide-add-active,
+.animate-show.ng-hide-remove.ng-hide-remove-active {
+	display: block!important;
+ -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+}
+
+.animate-show.ng-hide-add.ng-hide-add-active {
+	-webkit-animation-name: fadeOutUp;
+	animation-name: fadeOutUp;
+
+}
+
+.animate-show.ng-hide-remove.ng-hide-remove-active {
+	-webkit-animation-name: fadeInDown;
+	animation-name: fadeInDown;
+}
+
+/*.animate-show.ng-hide, .animate-show.ng-hide * {
+	-webkit-transition: all 0.5s ease-in-out;
+	display: block;
+	height: 0px;
+}
+*/
+
+.ng-animate {
+	transition:0s none;
+	-webkit-transition:0s none;
+	animation: 0s none;
+	-webkit-animation: 0s none;
+}
+
+.text-bold {
+	font-weight: bold;
+}
+
+.text-black {
+	color: black;
+}
+
+.text-blue {
+  color: blue;
+}
