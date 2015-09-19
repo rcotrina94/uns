@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="ConversionNumerica">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sistemas de Conversión</title>
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/font.css">
+    </head>
+    <body ng-controller="MainController">
+        <div id="calculator">
+            <!-- Screen and clear key -->
+            <div class="top">
+                <span ng-click="limpiar()" class="clear">LIMPIAR</span>
+                <input ng-model="numero" type="text" class="screen" id="display" />
+                <select ng-model="base" id="base-selector" class="screen" />
+                    <option>HEX</option>
+                    <option>DEC</option>
+                    <option>OCT</option>
+                    <option>BCD</option>
+                    <option>BIN</option>
+                </select>
+            </div>
+
+            <div class="keys">
+                <!-- operators and other keys -->
+                <span ng-click="convertir(numero, base, convertir_base)" class="eval">CONVERTIR</span>
+                <span ng-click="cambiarBase('HEX')" ng-class="{'active': isSelected('HEX')}">HEX</span>
+                <span ng-click="cambiarBase('DEC')" ng-class="{'active': isSelected('DEC')}">DEC</span>
+                <span ng-click="cambiarBase('OCT')" ng-class="{'active': isSelected('OCT')}">OCT</span>
+                <span ng-click="cambiarBase('BCD')" ng-class="{'active': isSelected('BCD')}">BCD</span>
+                <span ng-click="cambiarBase('BIN')" ng-class="{'active': isSelected('BIN')}">BIN</span>
+            </div>
+            <pre class="bottom" id="console">{{ output }}</pre>
+        </div>
+
+        <!-- PrefixFree
+        <script src="http://thecodeplayer.com/uploads/js/prefixfree-1.0.7.js" type="text/javascript" type="text/javascript"></script>-->
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/angular.min.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+
+    </body>
+</html>
