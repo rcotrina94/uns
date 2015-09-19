@@ -91,7 +91,9 @@ app.controller('MainController', function($scope){
 		var digits = dec.split("");
 		var BCD = []
 		digits.forEach(function(d){
-			BCD.push(BCDformat(dec2bin(d)));
+			if (parseInt(d)!="0"){
+				BCD.push(BCDformat(dec2bin(d)));
+			}
 		})
 		return BCD.join(" ");
 	}
