@@ -83,17 +83,33 @@ app.controller('MainController', function($scope){
 		return parseInt(dec).toString(2);
 	}
 
-	var BCDprint = function(str){
-		return str.length<4?BCDprint("0"+str):str;
+	var BCDformat = function(str){
+		return str.length<4?BCDformat("0"+str):str;
 	}
 
-	var formatBCD = function(str){
-		var digits = str.split("");
+	var dec2bcd = function(dec){
+		var digits = dec.split("");
 		var BCD = []
 		digits.forEach(function(d){
-			BCD.push(BCDprint(dec2bin(d)));
+			BCD.push(BCDformat(dec2bin(d)));
 		})
 		return BCD.join(" ");
+	}
+
+	var BCDdeformat = function(bcd){
+		return (bcd.length % 4 != 0)?BCDdeformat("0"+bcd):bcd;
+	}
+
+	var bcd2dec = function(bcd){
+		if (bcd.length <= 4){
+			return bin2dec(bcd);
+		} else {
+			bcd_digits = BCDdeformat(bcd.split(" ").join("")).match(/.{4}/g);;
+			return bcd_digits.reduce(function(prev, curr){
+				return "" + bin2dec(prev) + bin2dec(curr);
+			});
+		}
+
 	}
 
 
@@ -116,7 +132,7 @@ app.controller('MainController', function($scope){
 					case OCT:
 						return convertir(oct2bin(num), BIN, BCD);
 					case DEC:
-						formatprint("=>", formatBCD(num));
+						formatprint("=>", dec2bcd(num));
 				}
 				break;
 
@@ -127,8 +143,9 @@ app.controller('MainController', function($scope){
 					case OCT:
 						return convertir(oct2bin(num), BIN, DEC);
 					case BIN:
+						return formatprint("=>", bin2dec(num));
 					case BCD:
-						formatprint("=>", bin2dec(num));
+						return formatprint("=>", bcd2dec(num));
 				}
 				break;
 			case BIN:
@@ -140,7 +157,7 @@ app.controller('MainController', function($scope){
 					case DEC:
 						formatprint("=>", dec2bin(num)); break;
 					case BCD:
-						return convertir(bin2dec(num), DEC, BIN);
+						return convertir(bcd2dec(num), DEC, BIN);
 				}
 				break;
 			case OCT:
