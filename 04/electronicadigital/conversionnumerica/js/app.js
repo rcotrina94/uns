@@ -116,7 +116,7 @@ app.controller('MainController', function($scope){
 
 
 	var convertir = function(num, base, nueva_base){
-		num = num.replace(/^0+(?!\.|$)/, '');
+		num = num.toString().replace(/^0+(?!\.|$)/, '');
 
 		formatprint("Convertir", num, "("+ base +")", "a", nueva_base+":");
 
