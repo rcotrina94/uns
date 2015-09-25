@@ -9,11 +9,16 @@
 \usepackage{tabularx}
 \usepackage{booktabs} 
 \usepackage{float}
+\usepackage{color}
+\usepackage{enumerate}
 
-\title{\Huge \textbf{Implementación de un Sistema de Información con tecnología Web para mejorar los proceso de registro y venta de medicamentos para la Botica Santa Patricia\\[3em]}}
+\title{\Huge \textbf{Implementación de un Sistema de Información con tecnología Web para mejorar los proceso de registro y venta de medicamentos para la Botica Patricia\\[3em]}}
 \author{
   \Large Cotrina Alvitres,\\
   Richard A.\\[2em]
+  \and
+  \Large Caballero Morachino,\\
+  Carolina\\[2em]
   \and
   \Large Zarate Izaguirre, \\
   Albert\\[2em]
@@ -22,10 +27,7 @@
   Giancarlos\\[2em]
   \and
   \Large Lluen Chirinos, \\
-  Víctor\\[2em]
-  \and
-  \Large Caballero Morachino,\\
-  Carolina\\[2em]
+  Víctor\\[2em] 
 }
 \date{\LARGE 2015}
 \makeatletter
@@ -46,6 +48,13 @@
 
 \newcommand{\celda}[3][t]{%
   \begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}
+  
+\definecolor{light-gray}{gray}{0.95}
+
+\newcommand{\inlinecode}[1]{%
+  \colorbox{light-gray}{\texttt{#1}}
+}
+
 \begin{document}
 
 \maketitle
@@ -114,7 +123,7 @@ para la toma decisiones.\\
         Quienes & Seleccionan, registran y consultan información acerca de los productos.\\
         \celda{r}{Aplicación \\ en linea es} & Software desarrollado en el lenguaje Python y utilizando el gestor de base de datos MySQL así como el servidor de aplicaciones Apache para la capa de servidor, y del lado del cliente tecnologías estándares como HTML, CSS3 y JS, con sus respectivos \textit{frameworks}.\\
         Tal que & Mejorará el proceso de compras,ventas y almacenado de los productos de la botica.\\
-        A diferencia & Del registro y consultas de informacion de productos manualmente.\\
+        A diferencia & Del registro y consultas de informacion de productos de forma manual.\\
         \celda{r}{Nuestro \\ producto} & Permite al personal de la Botica Patricia, seleccionar, registrar y consultar información de los productos desde cualquier terminal. Además, a través de una interfaz móvil para administración.\\
       \end{tabularx}
       \caption{Declaración del posicionamiento del producto}
@@ -122,7 +131,7 @@ para la toma decisiones.\\
     \section{Descripción de Stakehoders y usuarios}
       \subsection{Demografía del mercado}
         En los ultimos años el avance de la tecnología ha avanzado demasiado, que ahora es muy común ver una computadora con internet en cada casa.
-        Esto a llevado a que las nuevas empresas, ya sean tiendas, colegio, universidades o empresas tengan que adquirir una pagina web para un mejor rendimiento de la misma, por lo que es necesario contar con una aplicación web online capaz de mejorar los procesos de registro y venta medicamentos para la Botica Santa Patricia.
+        Esto a llevado a que las nuevas empresas, ya sean tiendas, colegio, universidades o empresas tengan que adquirir una pagina web para un mejor rendimiento de la misma, por lo que es necesario contar con una aplicación web online capaz de mejorar los procesos de registro y venta medicamentos para la Botica Patricia.
       \subsection{Descripción de Stakeholders}
       
         {\renewcommand{\arraystretch}{1.7}%
@@ -152,18 +161,64 @@ para la toma decisiones.\\
       \subsection{Ambiente}
         La aplicación web en línea estará diseñada para trabajar sobre la red. Los trabajadores
         en este caso los usuarios del sistema tendran acceso a la aplicación dentro de los ambientes del centro
-        de trabajo como desde fuera el cual le mostrara el registro de productos y ventas de la Botica Santa Patricia,
+        de trabajo como desde fuera el cual le mostrara el registro de productos y ventas de la Botica Patricia,
         y estará limitado de acuerdo a la asignacion de perfiles de usuario y contraseña.
 
     \section{Panorama del Producto}
       \subsection{Perspectiva del producto}
+        El producto a desarrollar es una aplicación web en línea que permitirá el registro, y sobre todo consulta de información del producto evitando la necesidad de que el personal busque la ubicación del producto, y verifique las existencias. Luego registre manualmente sobre papel, detalles de la venta. Un sistema que principalmente manejará información y reportes de las existencias de los productos, haciéndolas disponible y de acceso inmediato para la toma de decisiones.
+        
+        La siguiente sección lista los beneficios que obtendrá la empresa Botica Patricia con la aplicación
+        
       \subsection{Resumen de características}
+        {\renewcommand{\arraystretch}{1.7}%
+        \noindent\begin{table}[H]
+        \noindent\begin{tabularx}{\textwidth}{X|X}
+          \textbf{{\large Beneficios}} & \textbf{{\large Características que lo apoyan}} \\
+          \hline
+          Fácil y rápido acceso a la aplicación & La aplicación contará con una interfaz amigable, y fácil de manejar. \\
+          Emisión de boletas y facturas de manera rápida con información confiable y exacta & Se podrá tener acceso a las ventas y compras realizadas de manera inmediata en base a los datos que fueron registrados, brindando información confiable y veraz.\\
+          Rápida adaptación a los cambios & Configurable al conexto donde se desarrolla. \\
+          Tolerante a fallas & Manejo de cambios, costos e implicaciones asociadas a dichos cambios.\\
+          Seguridad y estabilidad de información & No hay pérdida de información. Ni acceso de personas no autorizadas.
+        \end{tabularx}
+        \caption{Resumen de características}
+        \end{table}
       \subsection{Aspectos asumidos y dependencias}
+        Se asumen que cada computador involuctado donde se quiera acceder a la aplicación web en línea, deberá contar con el servicio de Internet para poder acceder al servidor de aplicaciones y base de datos de la aplicación. Ésto con el objetivo de que cada usuario según su rol, pueda acceder a la información que requiera, y le permita consultar, registrar, modificar, generar reportes, o imprimir soporte físico dentro de la aplicación.
+        Se desarrollará la aplicación web para administrar los productos, usando arquitectura distribuida por lo que es necesario un servidor de Base de Datos y un servidor de Aplicaciones.
+        
     \section{Características del producto}
       \subsection{Administración de la seguridad en el aceso al sistema}
+        Cada usuario tendrá un identificador \inlinecode{ID}  y contraseña de ingreso a la aplicación, la cual podrá ser personalizada. Ambos permitirán al usuario acceder a la aplicación mediante un \inlinecode{token} autogenerado.
       \subsection{Funciones principales}
+      \begin{enumerate}[\indent\textbullet]
+        \item Registrar productos
+        \item Consultar información acerca de un producto
+        \item Registrar proveedores
+        \item Registrar ventas
+        \item Registrar compras
+        \item Generar facturas o boletas
+        \item Generar reportes
+        \item Imprimir soporte físico de reportes
+        \item Imprimir facturas o boletas
+      \end{enumerate}
+      
     \section{Restricciones}
+      No posee restricciones de plataforma.
     \section{Criterios de calidad}
+      Esta sección define los criterios de calidad para el funcionamiento, robustez, tolerancia a fallos, usabilidad, y características similares para la aplicación web en línea.
+      \subsection{Disponibilidad}
+        El Sistema estará disponible para todos los trabajadores de la Botica Patricia, cada vez que se requiera su uso. El usuario podrá acceder al sistema respetando la jerarquía de mando, es decir, el personal tendrá un acceso limitado a diferencia del Administrador.
+      \subsection{Robustez}
+        Nuestro sistema puede generar diversos procesos a la vez, sin generar fallos o bloquearse al ser sometido a una sobre carga de información o a datos erróneos.
+      \subsection{Usabilidad}
+        El sistema es cómodo y fácil de manejar, sin embargo se requiere una previa capacitación del personal.
+      \subsection{Capacidad de configuración}
+        Se ha desarrollado el sistema con la habilidad para reaccionar y adaptarse sin perder calidad, o bien manejar el crecimiento continuo de información de manera fluida, y así no perder eficiencia en los servicios ofrecidos.
+      \subsection{Capacidad de mantenimiento}
+      El mantenimiento de nuestro sistema estará basado en la mejora continua, a partir de los informes que nos proporcionen los mismos usuarios.
+      
     
 \part{Fase de elaboración}
 \part{Fase de construcción}
