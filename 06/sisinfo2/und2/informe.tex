@@ -1,0 +1,669 @@
+\documentclass[a4paper,11pt, spanish]{report}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage[margin=1.5in]{geometry}
+\usepackage{tabularx}
+\usepackage{booktabs} 
+\usepackage{float}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{longtable}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{light-gray}{gray}{0.97}
+\lstset{
+  basicstyle=\footnotesize\fontfamily{txtt}\selectfont, 
+  numberstyle=\tiny,          
+  numbersep=5pt,             
+  tabsize=2,                
+  extendedchars=true,      
+  breaklines=true,        
+  showspaces=false,      
+  showtabs=false,       
+  xleftmargin=17pt,
+  framexleftmargin=17pt,
+  framexrightmargin=5pt,
+  framexbottommargin=4pt,
+  backgroundcolor=\color{light-gray}, 
+  showstringspaces=face,
+  keywordstyle=\color{blue},
+  commentstyle=\color{mygreen},
+  stringstyle=\color{mymauve},
+  literate=%
+     {á}{{\'a}}1
+     {í}{{\'i}}1
+     {é}{{\'e}}1
+     {ý}{{\'y}}1
+     {ú}{{\'u}}1
+     {ó}{{\'o}}1
+     {ě}{{\v{e}}}1
+     {š}{{\v{s}}}1
+     {č}{{\v{c}}}1
+     {ř}{{\v{r}}}1
+     {ž}{{\v{z}}}1
+     {ď}{{\v{d}}}1
+     {ť}{{\v{t}}}1
+     {ň}{{\v{n}}}1                
+     {ů}{{\r{u}}}1
+     {Á}{{\'A}}1
+     {Í}{{\'I}}1
+     {É}{{\'E}}1
+     {Ý}{{\'Y}}1
+     {Ú}{{\'U}}1
+     {Ó}{{\'O}}1
+     {Ě}{{\v{E}}}1
+     {Š}{{\v{S}}}1
+     {Č}{{\v{C}}}1
+     {Ř}{{\v{R}}}1
+     {Ž}{{\v{Z}}}1
+     {Ď}{{\v{D}}}1
+     {Ť}{{\v{T}}}1
+     {Ň}{{\v{N}}}1                
+     {Ů}{{\r{U}}}1    
+}
+\lstloadlanguages{
+  Python
+}
+
+\definecolor{punct}{rgb}{0.4,0,0}
+\definecolor{delim}{rgb}{0.08,0,0.82}
+\definecolor{numb}{rgb}{0.6, 0, 0.6 }
+
+\lstdefinelanguage{json}{
+    basicstyle=\footnotesize\fontfamily{txtt}\selectfont, 
+    numbers=left,
+    numberstyle=\footnotesize\fontfamily{txtt}\selectfont, 
+    numbersep=5pt,
+    tabsize=2,
+    extendedchars=true,
+    breaklines=true,
+    showspaces=false,
+    showtabs=false,       
+    xleftmargin=17pt,
+    framexleftmargin=17pt,
+    framexrightmargin=5pt,
+    framexbottommargin=4pt,
+    stepnumber=1,
+    showstringspaces=false,
+    frame=lines,
+    backgroundcolor=\color{light-gray},
+    literate=
+     *{0}{{{\color{numb}0}}}{1}
+      {1}{{{\color{numb}1}}}{1}
+      {2}{{{\color{numb}2}}}{1}
+      {3}{{{\color{numb}3}}}{1}
+      {4}{{{\color{numb}4}}}{1}
+      {5}{{{\color{numb}5}}}{1}
+      {6}{{{\color{numb}6}}}{1}
+      {7}{{{\color{numb}7}}}{1}
+      {8}{{{\color{numb}8}}}{1}
+      {9}{{{\color{numb}9}}}{1}
+      {:}{{{\color{punct}{:}}}}{1}
+      {,}{{{\color{punct}{,}}}}{1}
+      {\{}{{{\color{delim}{\{}}}}{1}
+      {\}}{{{\color{delim}{\}}}}}{1}
+      {[}{{{\color{delim}{[}}}}{1}
+      {]}{{{\color{delim}{]}}}}{1}
+      {á}{{\'a}}1
+      {í}{{\'i}}1
+      {é}{{\'e}}1
+      {ý}{{\'y}}1
+      {ú}{{\'u}}1
+      {ó}{{\'o}}1
+      {ě}{{\v{e}}}1
+      {š}{{\v{s}}}1
+      {č}{{\v{c}}}1
+      {ř}{{\v{r}}}1
+      {ž}{{\v{z}}}1
+      {ď}{{\v{d}}}1
+      {ť}{{\v{t}}}1
+      {ň}{{\v{n}}}1                
+      {ů}{{\r{u}}}1
+      {Á}{{\'A}}1
+      {Í}{{\'I}}1
+      {É}{{\'E}}1
+      {Ý}{{\'Y}}1
+      {Ú}{{\'U}}1
+      {Ó}{{\'O}}1
+      {Ě}{{\v{E}}}1
+      {Š}{{\v{S}}}1
+      {Č}{{\v{C}}}1
+      {Ř}{{\v{R}}}1
+      {Ž}{{\v{Z}}}1
+      {Ď}{{\v{D}}}1
+      {Ť}{{\v{T}}}1
+      {Ň}{{\v{N}}}1                
+      {Ů}{{\r{U}}}1,
+}
+
+
+\title{\Huge \textbf{Implementación de un Sistema de Información con tecnología Web para mejorar los proceso de registro y venta de medicamentos para la Botica Patricia\\[3em]}}
+\author{
+  \Large Cotrina Alvitres,\\
+  Richard A.\\[2em]
+  \and
+  \Large Caballero Morachino,\\
+  Diana C.\\[2em]
+  \and
+  \Large Suyón Martinez, \\
+  Nataly\\[2em]
+  \and
+  \Large Palacios Zamudio, \\
+  Brandon\\[2em]
+}
+\date{\LARGE 2015}
+\makeatletter
+\renewcommand\@biblabel[1]{}
+%% \renewcommand\@biblabel[1]{\textbullet}
+\makeatother
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{3}
+
+\renewcommand{\thesubsubsection}{}
+
+\makeatletter
+  \def\@seccntformat#1{\csname #1ignore\expandafter\endcsname\csname the#1\endcsname\quad}
+  \let\subsubsectionignore\@gobbletwo
+  \let\latex@numberline\numberline
+  \def\numberline#1{\if\relax#1\relax\else\latex@numberline{#1}\fi}
+\makeatother
+
+\newcommand{\celda}[3][t]{%
+  \begin{tabular}[#1]{@{}#2@{}}#3\end{tabular}}
+  
+\definecolor{light-gray}{gray}{0.95}
+
+\newcommand{\inlinecode}[1]{%
+  \colorbox{light-gray}{\texttt{#1}}
+}
+
+\newcommand{\PNG}[5][\linewidth]{%
+  \begin{figure}[H]
+    %% #5
+    \caption{#3}\label{#4}
+    \centering\makebox[\textwidth]{\includegraphics[width=#1\paperwidth]{pictures/#2.png}}
+  \end{figure}
+}
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+%% \begin{abstract}
+%% \end{abstract}
+\part{Fase de inicio}
+  \chapter{Documento visión}
+    \section{Introducción}
+      \subsection{Descripción del Negocio}
+        La Botica Patricia, se fundó el 28 de diciembre de 1985, siendo su propietario el Sr. Sergio Albitres Gonzáles, quien viendo que en ese entonces había necesidad de cubrir la atención de medicinas para éste sector de la población, y después de obtener los permisos correspondientes, inicia con su atención al público.         
+Éste establecimiento se crea pensando en la población que se incrementa día a día, factor que asegura su sostenibilidad.
+
+Aparte de cubrir la demanda de medicamentos se brinda servicio gratuito de medida de presión arterial y consejo profesional del personal con título de químico-farmacéutico. Y aparte de las medicinas, y debido a la competencia en este rubro, el propietario ha tenido que reinventarse, tanto es así que ahora también se ofrece líneas de regalos, juguetería, copias, perfumería, línea de telefonía.
+
+En cuanto a personal, la Botica cuenta con una químico-farmacéutica, y 2 técnicas de farmacia, que se turnan en la atención diaria. Se atiende a más 260 clientes diarios aproximadamente.
+
+La gente se enferma frecuentemente, por lo que la asistencia médica y la adquisición de medicamentos, son una necesidad básica para recuperar la salud. Además una farmacia es un negocio muy resistente que se mantiene ante cualquier problema económico que se presente. \\
+El público objetivo de la Botica Patricia es muy amplio, abarca a toda la población en general. Sí es cierto que a medida que las personas avanzan en edad, van surgiendo mayores problemas de salud, por lo que las personas de la tercera edad serán los clientes más habituales.
+Por otro lado, serán los bebés y niños de corta edad los mayores consumidores de productos de parafarmacia como higiene personal, alimentación infantil y derivados (chupetes, biberones, etc.).
+
+Actualmente la Botica Patricia, no cuenta con ningún soporte digital de la compra o venta de sus productos, además de registro de la ubicación, existencias, laboratorios, y demás información de los medicamentos que ofrece. Utiliza únicamente el método tradicional físico para las boletas, sin embargo no lleva registro adicional de sus ventas.
+
+      \subsection{Propósito}
+      Recopilar información necesaria para analizarla y definir los requisitos para los cuales los procesos realizados en la compra, venta, y almacenado de los productos de la Botica Patricia, se realicen de manera eficiente y automatizada permitiendo así la reducción de los tiempos a la hora de ubicar un producto, predecir el escaseo de productos, y controlar mejor la existencias.
+      
+      \subsection{Alcance}
+      La aplicación web en línea permitirá al personal de la Botica Patricia,  seleccionar, registrar y consultar información de los productos desde cualquier terminal. Además, a través de una interfaz móvil para administración, el encargado obtendrá acceso para visualizar al momento información útil para toma de decisiones.
+      
+      \subsection{Visión General}
+      En las próximas secciones del presente informe se hará mención del posicionamiento, características, beneficios del producto,	personas	involucradas,	así	como	de	las restricciones, funcionalidades entre otras relativas a la aplicación.
+      
+    \section{Posicionamiento}
+      \subsection{Oportunidad del negocio}
+      La aplicación web fue planeada para gestionar y optimizar el proceso registro de información de los productos que la Botica Patricia ofrece al público, elevar la calidad de las actividades involucradas, permitir un acceso a los administradores a información privilegiada y ponerse a la vanguardia en el uso de las tecnologías de información aplicadas al entorno web como lo hacen otras empresas.
+      
+La implantación de la aplicación web en línea para el control de productos, crea en la empresa la necesidad de realizar un cambio	en la forma   actual del proceso de control de productos, optimizando y mejorando los subprocesos y actividades involucradas y alcanzar el logro de incrementar la aceptación de la clientela y personal del nuevo proceso.
+      
+      \subsection{Exposición del problema}
+      {\renewcommand{\arraystretch}{1.5}%
+      \noindent\begin{table}[H]
+      \noindent\begin{tabularx}{\textwidth}{r|X}
+        Problema & Inconsistencia en el actual proceso control de existencia de los productos debido a la ineficacia en el control de compras y demora en el proceso de venta, debido al tiempo utilizado ubicando el producto. Además de que todas las operaciones son manuales y sobre papel.\\
+        Afecta & A la consistencia de la información,la forma como los productos son
+administrados.
+
+A los clientes a la hora de efectuar una compra. \\
+        Impacto & Demora en el proceso de compra, ocasionando descontento en la población
+comprante. \\
+        Solución & Una aplicación web en línea para mejorar el proceso de control de productos
+como lo es: seleccionar, registrar y consultar información de estos y una interfaz móvil para administración, donde el encargado obtendrá acceso 
+para la toma decisiones.\\
+      \end{tabularx}
+      \caption{Exposición del problema}
+      \end{table}
+      
+      \subsection{Declaración del posicionamiento del producto}
+      {\renewcommand{\arraystretch}{1.5}%
+      \noindent\begin{table}[H]
+      \noindent\begin{tabularx}{\textwidth}{r|X}
+        Para & el personal de la botica Patrica\\
+        Quienes & Seleccionan, registran y consultan información acerca de los productos.\\
+        \celda{r}{Aplicación \\ en linea es} & Software desarrollado en el lenguaje Python y utilizando el gestor de base de datos MySQL así como el servidor de aplicaciones Apache para la capa de servidor, y del lado del cliente tecnologías estándares como HTML, CSS3 y JS, con sus respectivos \textit{frameworks}.\\
+        Tal que & Mejorará el proceso de compras,ventas y almacenado de los productos de la botica.\\
+        A diferencia & Del registro y consultas de informacion de productos de forma manual.\\
+        \celda{r}{Nuestro \\ producto} & Permite al personal de la Botica Patricia, seleccionar, registrar y consultar información de los productos desde cualquier terminal. Además, a través de una interfaz móvil para administración.\\
+      \end{tabularx}
+      \caption{Declaración del posicionamiento del producto}
+      \end{table}
+    \section{Descripción de Stakehoders y usuarios}
+      \subsection{Demografía del mercado}
+        En los ultimos años el avance de la tecnología ha avanzado demasiado, que ahora es muy común ver una computadora con internet en cada casa.
+        Esto a llevado a que las nuevas empresas, ya sean tiendas, colegio, universidades o empresas tengan que adquirir una pagina web para un mejor rendimiento de la misma, por lo que es necesario contar con una aplicación web online capaz de mejorar los procesos de registro y venta medicamentos para la Botica Patricia.
+      \subsection{Descripción de Stakeholders}
+      
+        {\renewcommand{\arraystretch}{1.7}%
+        \noindent\begin{table}[H]
+        \noindent\begin{tabularx}{\textwidth}{c|c|X}
+          \textbf{{\large Nombre}} & \textbf{{\large Representa}} & \textbf{{\large Rol}} \\
+          \hline
+          Administrador & Personas naturales & Selecciona, registra y consulta información de los productos desde cualquier terminal.\\
+          Dueño & Personas naturales & su principal objetivo dotar a la botica de una estructura acorde con el principio de especialización.\\
+        \end{tabularx}
+        \caption{Descripción de Stakeholders}
+        \end{table}
+
+      \subsection{Descripción de usuarios}
+      
+        {\renewcommand{\arraystretch}{1.7}%
+        \noindent\begin{table}[H]
+        \noindent\begin{tabularx}{\textwidth}{c|X|X}
+          \textbf{{\large Nombre}} & \textbf{{\large Descripción}} & \textbf{{\large Responsabilidades}} \\
+          \hline
+          Personal & Es la persona que va a interactuar con la aplicación web. Debe tener un conocimiento basico en computacion, asi como de las normas y reglamenos referentes a la botica y sus productos. & Selecciona, registra y consulta información de los productos \\
+          Administrador & Es la persona que va a gestionar y conservar los datos de su empresa. & Preside las operaciones diarias de una organización que se crea para ofrecer bienes servicios
+        \end{tabularx}
+        \caption{Descripción de usuarios}
+        \end{table}
+        
+      \subsection{Ambiente}
+        La aplicación web en línea estará diseñada para trabajar sobre la red. Los trabajadores
+        en este caso los usuarios del sistema tendran acceso a la aplicación dentro de los ambientes del centro
+        de trabajo como desde fuera el cual le mostrara el registro de productos y ventas de la Botica Patricia,
+        y estará limitado de acuerdo a la asignacion de perfiles de usuario y contraseña.
+
+    \section{Panorama del Producto}
+      \subsection{Perspectiva del producto}
+        El producto a desarrollar es una aplicación web en línea que permitirá el registro, y sobre todo consulta de información del producto evitando la necesidad de que el personal busque la ubicación del producto, y verifique las existencias. Luego registre manualmente sobre papel, detalles de la venta. Un sistema que principalmente manejará información y reportes de las existencias de los productos, haciéndolas disponible y de acceso inmediato para la toma de decisiones.
+        
+        La siguiente sección lista los beneficios que obtendrá la empresa Botica Patricia con la aplicación
+        
+      \subsection{Resumen de características}
+        {\renewcommand{\arraystretch}{1.7}%
+        \noindent\begin{table}[H]
+        \noindent\begin{tabularx}{\textwidth}{X|X}
+          \textbf {\large Beneficios} & \textbf{ \large Características que lo apoyan} \\
+          \hline Fácil y rápido acceso a la aplicación & La aplicación contará con una interfaz amigable, y fácil de manejar. \\
+          Emisión de boletas y facturas de manera rápida con información confiable y exacta & Se podrá tener acceso a las ventas y compras realizadas de manera inmediata en base a los datos que fueron registrados, brindando información confiable y veraz.\\
+          Rápida adaptación a los cambios & Configurable al conexto donde se desarrolla. \\
+          Tolerante a fallas & Manejo de cambios, costos e implicaciones asociadas a dichos cambios.\\
+          Seguridad y estabilidad de información & No hay pérdida de información ni acceso de personas no autorizadas.\\
+        \end{tabularx}
+        \caption{Resumen de características}
+        \end{table}
+      \subsection{Aspectos asumidos y dependencias}
+        Se asumen que cada computador involuctado donde se quiera acceder a la aplicación web en línea, deberá contar con el servicio de Internet para poder acceder al servidor de aplicaciones y base de datos de la aplicación. Ésto con el objetivo de que cada usuario según su rol, pueda acceder a la información que requiera, y le permita consultar, registrar, modificar, generar reportes, o imprimir soporte físico dentro de la aplicación.
+        Se desarrollará la aplicación web para administrar los productos, usando arquitectura distribuida por lo que es necesario un servidor de Base de Datos y un servidor de Aplicaciones.
+        
+    \section{Características del producto}
+      \subsection{Administración de la seguridad en el aceso al sistema}
+        Cada usuario tendrá un identificador \inlinecode{ID}  y contraseña de ingreso a la aplicación, la cual podrá ser personalizada. Ambos permitirán al usuario acceder a la aplicación mediante un \inlinecode{token} autogenerado.
+      \subsection{Funciones principales}
+      \begin{enumerate}[\indent\textbullet]
+        \item Registrar productos
+        \item Consultar información acerca de un producto
+        \item Registrar proveedores
+        \item Registrar ventas
+        \item Registrar compras
+        \item Generar facturas o boletas
+        \item Generar reportes
+        \item Imprimir soporte físico de reportes
+        \item Imprimir facturas o boletas
+      \end{enumerate}
+      
+    \section{Restricciones}
+      No posee restricciones de plataforma.
+    \section{Criterios de calidad}
+      Esta sección define los criterios de calidad para el funcionamiento, robustez, tolerancia a fallos, usabilidad, y características similares para la aplicación web en línea.
+      \subsection{Disponibilidad}
+        El Sistema estará disponible para todos los trabajadores de la Botica Patricia, cada vez que se requiera su uso. El usuario podrá acceder al sistema respetando la jerarquía de mando, es decir, el personal tendrá un acceso limitado a diferencia del Administrador.
+      \subsection{Robustez}
+        Nuestro sistema puede generar diversos procesos a la vez, sin generar fallos o bloquearse al ser sometido a una sobre carga de información o a datos erróneos.
+      \subsection{Usabilidad}
+        El sistema es cómodo y fácil de manejar, sin embargo se requiere una previa capacitación del personal.
+      \subsection{Capacidad de configuración}
+        Se ha desarrollado el sistema con la habilidad para reaccionar y adaptarse sin perder calidad, o bien manejar el crecimiento continuo de información de manera fluida, y así no perder eficiencia en los servicios ofrecidos.
+      \subsection{Capacidad de mantenimiento}
+      El mantenimiento de nuestro sistema estará basado en la mejora continua, a partir de los informes que nos proporcionen los mismos usuarios.
+      \subsection{Seguridad}
+      Como desarrolladores del sistema tenemos la responsabilidad de administrar, supervisar, asesorar, controlar y auditar la información que entra y sale, lo que está cada vez más expuesto a contingencias que pueden afectar la propia existencia de la empresa, por medio de auditorías, normas y estándares de trabajo que garanticen la calidad y seguridad del  sistema de información.
+      
+\section{Requerimientos del Sistema}
+   \subsection{Estándares Aplicables}
+   \subsection{Requerimientos del Sistema}
+        \subsubsection{Requerimientos Software:}
+        {\renewcommand{\arraystretch}{1.7}%
+        \noindent\begin{table}[H]
+        \noindent\begin{tabularx}{\textwidth}{r|X|X}
+          \textbf{{\large Categorías de Software}} & \textbf{{\large Requerimientos Mínimos}} & \textbf{{\large Requerimientos Recomendados}} \\
+          \hline
+         \celda{r}{Sistema Operativo \\ (Máquina Server)} & Raspbian OS  & Ubuntu Server LTS \\ \hline
+         \celda{r}{Sistema Operativo \\ (Máquina Cliente)} & Windows XP SP2  \newline Ubuntu Desktop 12.04 & Windows 10 \newline Ubuntu Desktop 15.04 o LTS superior\\ \hline
+         Software SGDB & PostgreSQL 9.0 \newline MySQL 5.5 \newline Oracle 11.1 & PostgreSQL 9.4 \newline MySQL 5.6.26 \newline Oracle 12 o superior \\ \hline
+         Software Ofimático & Microsoft Office 2007 \newline Libre Office 3.5 & Microsoft 2015 o superior \newline Libre Office 4.4 \\\hline
+        \end{tabularx}
+        \caption{Requerimientos mínimos y recomendados de Software}
+        \end{table}
+        En el caso de que la Botica no decida instalar una red (por motivos económicos), el Sistema puede funcionar sobre una máquina configurada como servidor.
+        \subsubsection{Requerimientos Hardware:}
+        {\renewcommand{\arraystretch}{1.7}%
+        \noindent\begin{table}[H]
+        \noindent\begin{tabularx}{\textwidth}{r|X|X}
+          \textbf{{\large Componentes}} & \textbf{{\large Máquina Servidor}} & \textbf{{\large Máquina Cliente}} \\
+          \hline
+         Microprocesador & Intel i5 3.0GHz \newline AMD A10 9000 series & Intel DualCore 1.5GHz \newline AMD A8 6400 series\\ \hline
+         Memoria RAM & 8GB & 2 GB \\ \hline
+         Almacenamiento & 32GB SSD & 16GB \\ \hline
+        \end{tabularx}
+        \caption{Requerimientos recomendados de Hardware}
+        \end{table}
+        \subsubsection{Requerimientos Hardware:}
+        {\renewcommand{\arraystretch}{1.7}%
+        \noindent\begin{table}[H]
+        \noindent\begin{tabularx}{\textwidth}{r|X|X}
+          \textbf{{\large Componentes}} & \textbf{{\large Máquina Servidor}} & \textbf{{\large Máquina Cliente}} \\
+          \hline
+         Microprocesador & Intel i3 3.0GHz \newline AMD A8 6400 series & Intel Celeron / Atom DualCore 1GHz \newline Broadcom BCM2836 Arm7 Quad Core 900MHz\\ \hline
+         Memoria RAM & 4GB & 1 GB \\ \hline
+         Almacenamiento & 16GB & 4GB \\ \hline
+        \end{tabularx}
+        \caption{Requerimientos mínimos de Hardware}
+        \end{table}
+        
+        \subsection{Requerimientos de Performance}
+             El sistema soporta hasta más de 100 usuarios simultáneos contra la aplicación servidor en cualquier momento. El Sistema proporciona acceso a la base de datos en un promedio de 0.12 segundos para el almacenamiento de datos y 1 segundo para la recuperación de información.
+        \subsection{Requerimientos de Documentación}
+            \subsubsection {Ayuda On-Line}
+                La Ayuda Online estará disponible al usuario para cada función del Sistema y describirá principalmente el uso del Sistema desde el punto de vista del usuario. La ayuda On-Line incluirá:
+                \begin{itemize}
+                \item Introducción al Sistema.
+                \item Requerimientos Mínimos del Sistema.
+                \item Requerimientos Recomendados del Sistema.
+                \item Instalación de las Aplicaciones.
+                \item Modo de empezar el Sistema.
+                \item Características Funcionales del Sistema.
+                \item Comandos del Sistema.
+                \item Ingresos al Sistema (logging on).
+                \item Salidas del Sistema (logging off).
+                \item Información de Soporte al Cliente.
+                \end{itemize}
+    \section{Plan de Desarrollo del Software}
+    \subsection{Introducción al Plan de Desarrollo}
+        El objetivo de este Plan es definir el desarrollo de actividades en términos de fases e iteraciones requeridas para implementar el Sistema Integral de Control en el Area Administrativa del Colegio Inmaculada de la Merced. Los detalles individuales de las iteraciones serán descritos en los planes de iteración. Los planes esquematizados en este documento están basados en los requerimientos del producto definidos en el Documento Visión.
+    \subsection{Vista General del Proyecto}
+    \subsubsection{Retricciones del Proyecto}
+        La aplicación web fue planeada para gestionar y optimizar el proceso de registro de información de los productos que la Botica Patricia ofrece al público bajos las normativas de seguridad que la misma empresa a designado. El sistema debe estar implementado en su totalidad hasta el 23 de Diciembre del 2015 para su posterior implantación.
+    \subsubsection{Entregables del Proyecto}
+        Los siguientes entregables serán producidos durante el proyecto:
+            \begin{itemize}
+            \item Documento Visión.
+            \item Plan de Desarrollo del Software.
+            \item Diagrama de Casos de Uso del Negocio.
+            \item Diagrama de Objetos del Negocio.
+            \item Diagramas de Casos de Uso del Sistema.
+            \item Diagramas de Colaboración.
+            \item Diagramas de Secuencia.
+            \item Diagrama de Clases de Análisis.
+            \item Diseño de la Interfaz de Usuario.
+            \item Diagrama de Clases de Diseño.
+            \item Diagrama de Clases de Diseño en Capas.
+            \item Mapeo de Tablas de Base de Datos.
+            \item Diagrama de Implementación.
+            \item Diagrama de Despliegue.
+            \end {itemize}
+    \subsubsection{Evolución del Plan de Desarrollo}
+        El Plan de Desarrollo del Software será revisado antes de comenzar cada iteración de una fase.
+    \subsubsection{Interfaces Externas}
+        Se proporcionará la estimación del plan del proyecto al dueño de la Botica. Además se interactuará con los usuarios del Sistema y con el personal administrativo para solicitar las entradas, las salidas y otros artefactos relevantes del Sistema. 
+    \subsection{Administración de Procesos}
+        \subsubsection{Estimación del Proyecto:}
+            El desarrollo del Sistema de Gestión de Productos es similar en complejidad al de cualquier otro Sistema basado en el esquema Cliente/Servidor. El tiempo-estructura y el esfuerzo estimado están basados en el cronograma y el presupuesto del proyecto.
+        \subsubsection{Plan de Proyecto:}
+            
+            \paragraph{Plan de Fases}: El desarrollo del Sistema de Gestión de Productos será conducido a través de la utilización de un número de iteraciones y del tiempo de duración aproximado por cada fase. 
+            {\renewcommand{\arraystretch}{1.7}%
+            \noindent\begin{table}[H]
+            \noindent\begin{tabularx}{\textwidth}{r|X|X|X}
+            \textbf{{\large Fases}} & \textbf{{\large No Iteraciones}} & \textbf{{\large Empieza}} & \textbf{{\large Finaliza}} \\ \hline
+            Iniciación & 01 & Semana 01 & Semana 04 \\ \hline
+            Elaboración & 01 & Semana 05 & Semana 10 \\ \hline
+            Construcción & 02 & Semana 11 & Semana 16 \\ \hline
+            Transición & 01 & Semana 16 & Semana 20 \\ \hline
+            \end{tabularx}
+            \caption{Fases y líneas de tiempo relativas del Proyecto}
+            \end {table}
+                A continuación se describen las fases desarrolladas y los principales hitos del proyecto:
+            {\renewcommand{\arraystretch}{1.5}%
+            \noindent\begin{table}[H]
+            \noindent\begin{tabularx}{\textwidth}{r|X|X}
+            \textbf{{\large Fases}} & \textbf{{\large Descripción}} & \textbf{{\large Hito}} \\ \hline
+            Iniciación & En la Fase de Iniciación se desarrollarán los requerimientos del producto y se establecerán los casos de uso del negocio. Además se desarrollarán los principales casos de uso del Sistema así como el Plan de Desarrollo del Software.  & El Hito Revisión de Casos del Negocio marcará la decisión de seguir o cancelar el proyecto.  \\ \hline
+            Elaboración & En la Fase de Elaboración se analizarán los requerimientos y  se desarrollará el prototipo arquitectónico. Al término de la Fase de Elaboración todos los casos de uso seleccionados serán completados en el análisis y diseño.  & El Hito Prototipo Arquitectural marcará la verificación de los principales componentes arquitecturales \\ \hline
+            Construcción & Durante la Fase de Construcción, se analizarán y se diseñarán los casos del uso restantes.Además se desarrollará y se distribuirá la versión Beta del producto para su eva luación respectiva. Por último se completarán las actividades de prueba e implementación de v1.0.  & El Hito Capacidad Operacional de la versión beta y de la v1.0 marcará la disponibilidad del Software. \\ \hline
+            Transición & En la Fase de Transición se preparará la versión 1.0 del producto para su distribución. Además se proporcionará el apoyo necesario para la instalación del sistema y la capacitación del usuario. & En la Fase de Transición se preparará la versión 1.0 del producto para su distribución. Además se proporcionará el apoyo necesario para la instalación del sistema y la capacitación del usuario. 
+            \end{tabularx}
+            \caption{Descripción de Fases y Principales Hitos del Proyecto}
+            \end {table}
+            
+            \paragraph{Plan de Iteraciones}
+            
+              Cada fase del proyecto estará constituida por iteraciones en las que serán desarrolladas partes del Sistema Integral de Control (el número de iteraciones por fase se describe en la Tabla 1.9). En general, las iteraciones: 
+                \begin{itemize}
+                \item Proporcionarán versiones tempranas del funcionamiento del Sistema de Gestión de Ventas. 
+                \item Permitirán la máxima flexibilidad en las características planeadas para cada versión. 
+                \item Facilitará el manejo eficaz de cambios dentro de un ciclo de la iteración.
+                \end{itemize}
+            \paragraph{Plan de Versiones}
+            
+            Se desea Implementar nuevas versiones del software tras su verificación en un entorno realista de desarrollo. Todas las características principales del Sistema están definidas en el Documento Visión por lo que esta versión puede ser revisada y modificada según se den cambios en la empresa.
+            
+            \paragraph{Cronograma del Proyecto}
+            
+            A continuación se muestra el cronograma de desarrollo de las Fases, Iteraciones e Hitos del proyecto:
+            
+            {\renewcommand{\arraystretch}{1.5}%
+            \noindent\begin{table}[H]
+            \noindent\begin{tabularx}{\textwidth}{X}
+              \noindent\centering\makebox[\textwidth]{\includegraphics[width=0.6\paperwidth]{pictures/cronograma.png}}
+%             \textbf{{\large Hitos del Proyecto}} & \textbf{{\large Fecha Inicio}} & \textbf{{\large Fecha Término}} \\ \hline
+            \end{tabularx}
+            \caption{Cronograma de los Hitos del Proyecto}
+            \end {table}
+              
+            \paragraph{Recurso del proyecto}
+            El presente proyecto será desarrollado totalmente por los mismos autores del presente trabajo. Las actividades de prueba contarán con el apoyo de los usuarios del Sistema así como del personal de administración de la Botica Patricia.
+            
+            \paragraph{Estimación del proyecto}
+            \subparagraph{Estimación de desarrollo basado en caso de uso}
+            La Planificación basada en casos de uso es una actividad de gran importancia en el desarrollo del software, al establecerse los objetivos y metas del sistema por desarrollar a la vez que ayuda a valorar costos. Para que la planificación se logre efectuar de una forma eficiente, resulta fundamental evaluar el sistema de software por desarrollar, con el fin de estimar su nivel de dificultad, buscando obtener un aproximado del tiempo que será requerido en el desarrollo del mismo. 
+            \subparagraph{cálculo de puntos de casos de uso sin ajustar}
+            La planificación basada en Casos e Uso es de los métodos prácticos para estimar la duración de un desarrollo de tesis; este se emplea con el fin de capturar las diferentes potencialidades de una aplicación web. Empleamos la formula siguiente para realizar los cálculos previos 
+                        
+\part{Fase de elaboración}
+\section{Modelado UML del caso}
+  EL diagrama de casos de uso inicial es como sigue:
+  \PNG[0.69]{usecase_final}{Casos de uso de la aplicación}{diagram:usecase_final}{http://yuml.me/edit/b08ffb83}
+  
+\section{Modelado de Base de Datos}
+  EL diagrama de base de datos implementado en PostgresSQL, tiene la siguiente estructura:
+  \PNG[0.73]{db_model_final}{Diagrama de Entidad-Relación de la aplicación}{diagram:database_final}{}
+  Se ingresarán datos y procesarán los siguientes informes y reportes para las siguientes tablas:
+  
+{\renewcommand{\arraystretch}{1.5}%
+  \begin{table}[H]
+  \begin{tabularx}{\textwidth}{r|X}
+    \textbf{\large Casos de uso} & \textbf{\large Tablas}\\
+      \hline
+      Registrar producto & \inlinecode{main.producto} \newline
+                           \inlinecode{main.laboratorio} \newline
+                           \inlinecode{main.categoría} \newline
+                           \inlinecode{main.ubicación} \newline
+                           \inlinecode{main.genérico}  \\ \hline
+      Modificar producto & \inlinecode{main.producto} \newline
+                           \inlinecode{main.laboratorio} \newline
+                           \inlinecode{main.categoría} \newline
+                           \inlinecode{main.ubicación} \newline
+                           \inlinecode{main.genérico}  \\ \hline
+      Consultar producto & \inlinecode{main.producto} \newline
+                           \inlinecode{main.laboratorio} \newline
+                           \inlinecode{main.categoría} \newline
+                           \inlinecode{main.ubicación} \newline
+                           \inlinecode{main.inventario} \newline
+                           \inlinecode{main.genérico}  \\
+      \hline
+      Vender producto & \inlinecode{main.producto} \newline
+                        \inlinecode{main.venta} \newline
+                        \inlinecode{main.detalle\_venta}\\
+      \hline
+      Eliminar producto & \inlinecode{main.producto}\\
+      \hline
+      Registrar proveedor & \inlinecode{main.proveedor} \\
+      \hline
+      Consultar proveedor & \inlinecode{main.proveedor} \newline
+                            \inlinecode{main.producto}\\
+      \hline
+      Modificar proveedor & \inlinecode{main.proveedor} \newline
+                            \inlinecode{main.producto}\\
+      \hline
+      Dar de baja a proveedor  & \inlinecode{main.proveedor}\\
+  \end{tabularx}
+  \caption{Diseño de B.D. y Casos de uso}
+  \end{table}
+\newpage
+  \section{Requerimientos Funcionales}
+  {\renewcommand{\arraystretch}{1.31}%
+    \begin{longtable}{r|p{4.1in}}
+          \textbf{\Large ID} & \textbf{\Large Descripcion}\\ \hline
+      \textbf{\large RF01} & \textbf{\large Registrar Producto} \\ 
+      RF1.1 & Se especifíca qué proveedor facilitó dicho producto, mediante su código de proveedor, además debe detallarse todas las características del producto.\\
+      RF1.2 & No se permite dejar en blanco campos obligatorios del detallado del producto. \\ \hline
+      \textbf{\large RF02} & \textbf{\large Consultar información acerca de un producto} \\
+      RF2.1 & El sistema deberá brindar al usuario(administrador o trabador) un tipo de búsqueda rápida permitiendo evitar demoras en la atención al cliente. \\
+      RF2.2 & Se debe proporcionar el acceso a la base de datos para extraer e informar al cliente sobre el producto que solicitó. \\ \hline
+      \textbf{\large RF03} & \textbf{\large Registrar proveedores} \\
+      RF3.1 & Se debe registrar los datos personales del proveedor contacto, para solicitar sus servicios cuando sea necesario. \\
+      RF3.2 & El proveedor debe proporcionar productos de calidad, de lo contrario, se le borraría de la base de datos y ya no se le solicitaría sus servicios.\\ \hline
+      \textbf{\large RF04} & \textbf{\large Registrar ventas} \\
+      RF4.1 & El trabajador deberá rellenar un formulario desde la aplicación con la relación de productos a comprar por parte del cliente.\\
+      RF4.2 & El trabajador generará el monto a pagar y le informará al cliente.\\
+      RF4.2.1. & Si el cliente acepta el monto a pagar le informará al trabajador quien a su vez le dará un ticket de pago\\
+      RF4.2.2. & Si no acepta el trabajador le ofrecerá otras  opciones de productos, a un precio cómodo. \\ \hline
+      \textbf{\large RF05} & \textbf{\large Registrar compras} \\
+      RF5.1 & El sistema deberá brindar una alerta sobre los productos que están por acabarse y el trabajador deberá informarle al admistrador la relación de productos a comprar. \\
+      RF5.2 & El administrador habiéndose enterado de la baja del stock de los productos, se contactará con el proveedor para solicitarle la compra de dichos productos y realizará el pago respectivo. \\
+      RF5.3 & Posteriormente el administrador recepcionará el voucher de compra y los productos solicitados.\\ \hline
+      \textbf{\large RF06} & \textbf{\large Generar facturas o boletas}\\
+      RF6.1 & El trabajador deberá generar la boleta o factura según la lista de solicitud de compra por parte del cliente.\\
+      RF6.2 & Posteriormente el cliente recepcionará su boleta o factura con el cual podrá hacer su reclamo de los productos solicitados.\\ \hline 
+      \textbf{\large RF07} & \textbf{\large Generar reportes }\\
+      RF7.1 & El sistema contará con una opción para generar reportes estadísticos sobre las ventas de productos ya sea semanal, mensual , trimestral, etc.\\
+      RF7.2 & Cuando el administrador solicite reportes, el trabajador será el encargado de generarlos utlizando el sistema.\\ \hline
+      \textbf{\large RF08} & \textbf{\large Imprimir soporte físico de reportes} \\
+      RF8.1 & Una vez que el trabajador haya generado el reporte, deberá imprimirlo usando el sistema.\\
+      RF8.2 & El sistema también contará con una opción que permitirá la impresión de reportes.\\ \hline
+      \textbf{\large RF09} & \textbf{\large Imprimir facturas o boletas} \\
+      RF9.1 & Después de que el trabajador haya generado el monto a pagar de la lista de productos solicitados por el cliente, deberá imprimirlo usando el sistema.\\
+      RF9.2 & El sistema tambien contara con una opcion que permitira la impresion de facturas o boletas, y automaticamente guadará en la base de datos la venta realizada.\\
+
+    \caption{\\Requerimientos Funcionales}
+    \end{longtable}
+    
+    \section{Requerimientos no Funcionales}
+      {\renewcommand{\arraystretch}{1.25}%
+      \begin{table}[H]
+      \begin{tabularx}{\textwidth}{r|X}
+      \textbf{\Large ID} & \textbf{\Large Descripción}\\\hline
+      \textbf{\large RNF01} & \textbf{\large RENDIMIENTO}\\
+      RNF1.1 & Se tiene en cuenta que el sistema soporta más de 100 usuarios simultáneamente en la aplicación.\\
+      RNF1.2 & Se debe proporcionar el acceso a la base de datos en un promedio de 0.12 segundos para el almacenamiento de datos y un segundo para la recuperación de información.\\ \hline
+      \textbf{\large RNF02} & \textbf{\large VOLUMEN}\\
+      RNF2.1 & el volumen aproximado de datos "Activos" manejados por cajero genérico laboratorio.\\
+      RFN2.2 & diariamente se pueden hacer mas de 260 ventas por cajero.\\\hline
+      \textbf{\large RNF03} & \textbf{\large SEGURIDAD - Control de acceso}\\
+      RNF3.1 & Para acceder a la aplicación web los usuarios deben introducir un nombre de usuario y contraseña.\\
+      RNF3.2 & Habrá 3 divisiones:\celda{l}{\newline -Permisos \newline -Roles \newline -Perfiles}\\
+      RNF3.3 & Los diferentes roles estarán asociadas a diferentes funcionalidades y permisos de acceso a determinados datos de la aplicación.\newline
+      \textbf{NOTA:} Los roles están divididos en cajero, administrador, vendedor a los cuales se les asiggna permisos diferentes\\
+      RNF3.4 & Debe identificarse el usuario y la fecha en que realiza las siguientes  operaciones:\newline -Cantidad de productos vendidos \newline -Registro de ventas diarias.\\ \hline
+      \textbf{\large RNF04} & \textbf{\large SEGURIDAD - Copias de Seguridad}\\
+      RNF 3.5 & Debe realizarse copias de seguridad de toda la información de ventas y usuarios diariamente.\\
+      \end{tabularx}
+      \caption{Requerimientos no Funcionales}
+      \end{table}
+    
+    \section{Requerimientos de Dominio}
+      {\renewcommand{\arraystretch}{1.25}%
+      \begin{table}[H]
+      \begin{tabularx}{\textwidth}{r|X}
+        \textbf{\large ID} & \textbf{\large Requerimiento }\\ \hline
+        RD01 & No requiere de internet puesto que es un sistema interno.\\ \hline
+        RD02 & Computadoras deben estar conectadas a una red en común.\\\hline
+        RD03 & Debe tener una red Intranet (cableada o estructurada).\\\hline
+        RD04 & Se puede ejecutar en cuaquier sistema operativo.\\
+        \end{tabularx}
+      \caption{Requerimientos de Dominio}
+      \end{table}
+  
+\part{Creación de la solución}
+La solución para el caso se compone de 1 proyecto de Visual Studio Code que integra aplicaciones interrelacionadas. Al iniciar Visual Studio code obtenemos la siguiente ventana.
+  \PNG[0.8]{ss01}{Visual Studio Code: Ventana Principal}{screenshot:vscode}{}
+  Antes de agregar algún directorio al proyecto, se debe crear un projecto con la herramienta \inlinecode{django-admin} como se muestra en la Figura \ref{screenshot:django_startproject}, lo cuál creará un conjunto de directorios y archivos con la estrucuta que se ve en la figura \ref{screenshot:django_startproject_dirtree}
+  \PNG[0.7]{ss02}{Iniciando un proyecto}{screenshot:django_startproject}{}
+  \PNG[0.7]{ss03}{Árbol de directorio inicial}{screenshot:django_startproject_dirtree}{}
+  \PNG[0.8]{ss04}{Abrir carpeta de proyecto}{screenshot:vscode_openfolder_0}{}
+  \PNG[0.8]{ss05}{Abrir carpeta de proyecto}{screenshot:vscode_openfolder_1}{}
+  \PNG[0.72]{ss06}{Creando aplicación \texttt{main}}{screenshot:vscode_createapp_main}{}
+  \PNG[0.72]{ss07}{Árbol de directorio \texttt{main}}{screenshot:vscode_createapp_main_dirtree}{}
+  \PNG[0.72]{ss08}{Archivo de configuración del proyecto}{screenshot:vscode_createapp_main_settings}{}
+  
+  Luego de seguir el proceso de las Figuras \ref{screenshot:vscode_createapp_main}, \ref{screenshot:vscode_createapp_main_dirtree} y \ref{screenshot:vscode_createapp_main_settings}, se repite para cada aplicación incluída en el proyecto.
+  
+  %\lstinputlisting[language=python]{src/models.py}
+\chapter{Capa Lógica de Presentación}
+  \section{Interfaz}
+  Para la capa de Lógica de Presentación, se utilizará el lenguaje de marcas HTML (versión 5) para maquetar las interfaces. Además de usar el framework de diseño Angular Material y framework para lógica de presentación AngularJS.
+  \PNG[0.72]{ss09}{Lógica de Presentación: Módulo de Consulta}{screenshot:design_consulta_base}{}
+  \PNG[0.5]{ss10}{Lógica de Presentación: Módulo de Consulta}{screenshot:design_consulta_base_source}{}
+  Además deL módulo de consulta, se hizo de igual forma los módulos de venta, y de los procesos CRUD de las entidades.
+\chapter{Capa de Lógica de Negocios}
+  \PNG[0.8]{ss11}{Lógica de Negocio: Clases de la aplicación principal}{screenshot:vscode_models_base}{}
+  
+\chapter{Capa de Acceso a Datos}
+  Para el acceso a datos se creará una nueva aplicacion \inlinecode{api}, el cual consistirá en una Interfaz de Programación de Aplicaciones, el cuál permitirá un acceso \texttt{REST} (Transferencia de Estado Representacional) a la capa de datos en formato \texttt{JSON}. Para ello se utiliza el módulo de \texttt{django-rest-framework}. 
+  \PNG[0.8]{ss12}{Capa de Acceso a Datos: API REST, lógica de acceso a datos}{screenshot:vscode_api}{}
+  \PNG[0.8]{ss13}{Capa de Acceso a Datos: API REST con datos de prueba}{screenshot:browser_api}{}
+  \section*{Ejemplo de \texttt{response} de la \texttt{API}}
+  \lstinputlisting[language=json]{src/products.json}
+\part{Fase de construcción}
+\part{Fase de transición}
+
+\end{document}
