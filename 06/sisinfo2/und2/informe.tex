@@ -418,7 +418,7 @@ para la toma decisiones.\\
                 \end{itemize}
     \section{Plan de Desarrollo del Software}
     \subsection{Introducción al Plan de Desarrollo}
-        El objetivo de este Plan es definir el desarrollo de actividades en términos de fases e iteraciones requeridas para implementar el Sistema Integral de Control en el Area Administrativa del Colegio Inmaculada de la Merced. Los detalles individuales de las iteraciones serán descritos en los planes de iteración. Los planes esquematizados en este documento están basados en los requerimientos del producto definidos en el Documento Visión.
+        El objetivo de este Plan es definir el desarrollo de actividades en términos de fases e iteraciones requeridas para implementar el Sistema de Gestión de Productos y Almacén de la Botica Patricia. Los detalles individuales de las iteraciones serán descritos en los planes de iteración. Los planes esquematizados en este documento están basados en los requerimientos del producto definidos en el Documento Visión.
     \subsection{Vista General del Proyecto}
     \subsubsection{Retricciones del Proyecto}
         La aplicación web fue planeada para gestionar y optimizar el proceso de registro de información de los productos que la Botica Patricia ofrece al público bajos las normativas de seguridad que la misma empresa a designado. El sistema debe estar implementado en su totalidad hasta el 23 de Diciembre del 2015 para su posterior implantación.
@@ -507,11 +507,35 @@ para la toma decisiones.\\
             La Planificación basada en casos de uso es una actividad de gran importancia en el desarrollo del software, al establecerse los objetivos y metas del sistema por desarrollar a la vez que ayuda a valorar costos. Para que la planificación se logre efectuar de una forma eficiente, resulta fundamental evaluar el sistema de software por desarrollar, con el fin de estimar su nivel de dificultad, buscando obtener un aproximado del tiempo que será requerido en el desarrollo del mismo. 
             \subparagraph{cálculo de puntos de casos de uso sin ajustar}
             La planificación basada en Casos e Uso es de los métodos prácticos para estimar la duración de un desarrollo de tesis; este se emplea con el fin de capturar las diferentes potencialidades de una aplicación web. Empleamos la formula siguiente para realizar los cálculos previos 
-                        
+              
+  \chapter{Modelo de Negocio}
+  La empresa Botica Patricia que solicitó el proyecto de desarrollo software consta de una área de atención al cliente, una área de ventas, una área de recursos, un almacén central y una área de administración y control general.
+
+  El diagrama que representa los diferentes subsistemas en los que se ha dividido la empresa a nivel de abstracción es el siguiente:
+  \PNG[0.65]{biz_model}{Diagrama de representación de subsistemas del negocio}{diagram:biz_model}
+  
+  \newpage
+  \section{Modelo de Casos de Uso}
+  La empresa interactúa con distintos elementos externos, entre los que se identifican el cliente externo (persona o entidad que solicita la compra de productos a la empresa), el proveedor (persona o entidad que reabastece de productos a la empresa) y por último el vendedor, que es una persona encargada de servir los pedidos desde el punto de venta a los clientes, y el administrador que se encarga de asegurarse de que los indicadores de la empresa sean los adecuados.
+  
+  \PNG[0.4]{usecase_general}{Modelo de casos de uso general}{diagram:usecase_general}
+  
+  \PNG[0.75]{usecase_admin_explode}{Modelo de casos de uso del Administrador}{diagram:usecase_admin_explode}
+  
+  \PNG[0.79]{usecase_final}{Casos de uso de la aplicación}{diagram:usecase_final}{http://yuml.me/edit/deba96b9}
+  
+  \section{Modelo de Objetos}
+    \subsection{Modelo de objetos de Administrar Producto}
+      \PNG[0.69]{objectmodel_adm_product}{Modelo de objetos de Administrar Producto}{diagram:objectmodel_adm_product}
+      
+    \subsection{Modelo de objetos de Administrar Proveedores}
+      \PNG[0.69]{objectmodel_adm_provider}{Modelo de objetos de Administrar Producto}{diagram:objectmodel_adm_provider}
+  
+      
 \part{Fase de elaboración}
 \section{Modelado UML del caso}
   EL diagrama de casos de uso inicial es como sigue:
-  \PNG[0.69]{usecase_final}{Casos de uso de la aplicación}{diagram:usecase_final}{http://yuml.me/edit/b08ffb83}
+  
   
 \section{Modelado de Base de Datos}
   EL diagrama de base de datos implementado en PostgresSQL, tiene la siguiente estructura:
