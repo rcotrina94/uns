@@ -19,130 +19,9 @@
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
 \definecolor{light-gray}{gray}{0.97}
-\lstset{
-  basicstyle=\footnotesize\fontfamily{txtt}\selectfont, 
-  numberstyle=\tiny,          
-  numbersep=5pt,             
-  tabsize=2,                
-  extendedchars=true,      
-  breaklines=true,        
-  showspaces=false,      
-  showtabs=false,       
-  xleftmargin=17pt,
-  framexleftmargin=17pt,
-  framexrightmargin=5pt,
-  framexbottommargin=4pt,
-  backgroundcolor=\color{light-gray}, 
-  showstringspaces=face,
-  keywordstyle=\color{blue},
-  commentstyle=\color{mygreen},
-  stringstyle=\color{mymauve},
-  literate=%
-     {á}{{\'a}}1
-     {í}{{\'i}}1
-     {é}{{\'e}}1
-     {ý}{{\'y}}1
-     {ú}{{\'u}}1
-     {ó}{{\'o}}1
-     {ě}{{\v{e}}}1
-     {š}{{\v{s}}}1
-     {č}{{\v{c}}}1
-     {ř}{{\v{r}}}1
-     {ž}{{\v{z}}}1
-     {ď}{{\v{d}}}1
-     {ť}{{\v{t}}}1
-     {ň}{{\v{n}}}1                
-     {ů}{{\r{u}}}1
-     {Á}{{\'A}}1
-     {Í}{{\'I}}1
-     {É}{{\'E}}1
-     {Ý}{{\'Y}}1
-     {Ú}{{\'U}}1
-     {Ó}{{\'O}}1
-     {Ě}{{\v{E}}}1
-     {Š}{{\v{S}}}1
-     {Č}{{\v{C}}}1
-     {Ř}{{\v{R}}}1
-     {Ž}{{\v{Z}}}1
-     {Ď}{{\v{D}}}1
-     {Ť}{{\v{T}}}1
-     {Ň}{{\v{N}}}1                
-     {Ů}{{\r{U}}}1    
-}
-\lstloadlanguages{
-  Python
-}
-
 \definecolor{punct}{rgb}{0.4,0,0}
 \definecolor{delim}{rgb}{0.08,0,0.82}
 \definecolor{numb}{rgb}{0.6, 0, 0.6 }
-
-\lstdefinelanguage{json}{
-    basicstyle=\footnotesize\fontfamily{txtt}\selectfont, 
-    numbers=left,
-    numberstyle=\footnotesize\fontfamily{txtt}\selectfont, 
-    numbersep=5pt,
-    tabsize=2,
-    extendedchars=true,
-    breaklines=true,
-    showspaces=false,
-    showtabs=false,       
-    xleftmargin=17pt,
-    framexleftmargin=17pt,
-    framexrightmargin=5pt,
-    framexbottommargin=4pt,
-    stepnumber=1,
-    showstringspaces=false,
-    frame=lines,
-    backgroundcolor=\color{light-gray},
-    literate=
-     *{0}{{{\color{numb}0}}}{1}
-      {1}{{{\color{numb}1}}}{1}
-      {2}{{{\color{numb}2}}}{1}
-      {3}{{{\color{numb}3}}}{1}
-      {4}{{{\color{numb}4}}}{1}
-      {5}{{{\color{numb}5}}}{1}
-      {6}{{{\color{numb}6}}}{1}
-      {7}{{{\color{numb}7}}}{1}
-      {8}{{{\color{numb}8}}}{1}
-      {9}{{{\color{numb}9}}}{1}
-      {:}{{{\color{punct}{:}}}}{1}
-      {,}{{{\color{punct}{,}}}}{1}
-      {\{}{{{\color{delim}{\{}}}}{1}
-      {\}}{{{\color{delim}{\}}}}}{1}
-      {[}{{{\color{delim}{[}}}}{1}
-      {]}{{{\color{delim}{]}}}}{1}
-      {á}{{\'a}}1
-      {í}{{\'i}}1
-      {é}{{\'e}}1
-      {ý}{{\'y}}1
-      {ú}{{\'u}}1
-      {ó}{{\'o}}1
-      {ě}{{\v{e}}}1
-      {š}{{\v{s}}}1
-      {č}{{\v{c}}}1
-      {ř}{{\v{r}}}1
-      {ž}{{\v{z}}}1
-      {ď}{{\v{d}}}1
-      {ť}{{\v{t}}}1
-      {ň}{{\v{n}}}1                
-      {ů}{{\r{u}}}1
-      {Á}{{\'A}}1
-      {Í}{{\'I}}1
-      {É}{{\'E}}1
-      {Ý}{{\'Y}}1
-      {Ú}{{\'U}}1
-      {Ó}{{\'O}}1
-      {Ě}{{\v{E}}}1
-      {Š}{{\v{S}}}1
-      {Č}{{\v{C}}}1
-      {Ř}{{\v{R}}}1
-      {Ž}{{\v{Z}}}1
-      {Ď}{{\v{D}}}1
-      {Ť}{{\v{T}}}1
-      {Ň}{{\v{N}}}1                
-      {Ů}{{\r{U}}}1,
-}
 
 
 \title{\Huge \textbf{Implementación de un Sistema de Información con tecnología Web para mejorar los proceso de registro y venta de medicamentos para la Botica Patricia\\[3em]}}
@@ -192,6 +71,9 @@
     \centering\makebox[\textwidth]{\includegraphics[width=#1\paperwidth]{pictures/#2.png}}
   \end{figure}
 }
+
+\makeatletter\@addtoreset{chapter}{part}\makeatother%
+
 \begin{document}
 
 \maketitle
@@ -507,18 +389,19 @@ para la toma decisiones.\\
             La Planificación basada en casos de uso es una actividad de gran importancia en el desarrollo del software, al establecerse los objetivos y metas del sistema por desarrollar a la vez que ayuda a valorar costos. Para que la planificación se logre efectuar de una forma eficiente, resulta fundamental evaluar el sistema de software por desarrollar, con el fin de estimar su nivel de dificultad, buscando obtener un aproximado del tiempo que será requerido en el desarrollo del mismo. 
             \subparagraph{cálculo de puntos de casos de uso sin ajustar}
             La planificación basada en Casos e Uso es de los métodos prácticos para estimar la duración de un desarrollo de tesis; este se emplea con el fin de capturar las diferentes potencialidades de una aplicación web. Empleamos la formula siguiente para realizar los cálculos previos 
-              
-  \chapter{Modelo de Negocio}
+
+\chapter{Modelo de Negocio}
   La empresa Botica Patricia que solicitó el proyecto de desarrollo software consta de una área de atención al cliente, una área de ventas, una área de recursos, un almacén central y una área de administración y control general.
 
   El diagrama que representa los diferentes subsistemas en los que se ha dividido la empresa a nivel de abstracción es el siguiente:
   \PNG[0.65]{biz_model}{Diagrama de representación de subsistemas del negocio}{diagram:biz_model}
   
-  \newpage
+  \PNG[0.4]{usecase_biz}{Modelo de casos de uso general de Negocio}{diagram:usecase_biz}
+  
   \section{Modelo de Casos de Uso}
   La empresa interactúa con distintos elementos externos, entre los que se identifican el cliente externo (persona o entidad que solicita la compra de productos a la empresa), el proveedor (persona o entidad que reabastece de productos a la empresa) y por último el vendedor, que es una persona encargada de servir los pedidos desde el punto de venta a los clientes, y el administrador que se encarga de asegurarse de que los indicadores de la empresa sean los adecuados.
   
-  \PNG[0.4]{usecase_general}{Modelo de casos de uso general}{diagram:usecase_general}
+  \PNG[0.35]{usecase_general}{Modelo de casos de uso general}{diagram:usecase_general}
   
   \PNG[0.75]{usecase_admin_explode}{Modelo de casos de uso del Administrador}{diagram:usecase_admin_explode}
   
@@ -528,21 +411,292 @@ para la toma decisiones.\\
     \subsection{Modelo de objetos de Administrar Producto}
       \PNG[0.69]{objectmodel_adm_product}{Modelo de objetos de Administrar Producto}{diagram:objectmodel_adm_product}
       
+      
     \subsection{Modelo de objetos de Administrar Proveedores}
       \PNG[0.69]{objectmodel_adm_provider}{Modelo de objetos de Administrar Producto}{diagram:objectmodel_adm_provider}
   
+  
+    \subsection{Modelo de objetos de Listar Productos}
+      \PNG[0.69]{objectmodel_product_listing}{Modelo de objetos de Listar Productos}{diagram:objectmodel_product_listing}{http://yuml.me/edit/316d35d1}
       
+      
+    \subsection{Modelo de objetos de Consultar Producto}
+      \PNG[0.69]{objectmodel_product_detail}{Modelo de objetos de Consultar Producto}{diagram:objectmodel_product_detail}{http://yuml.me/edit/5b604ab9}
+      
+    \subsection{Modelo de objetos de Vender Producto}
+      \PNG[0.69]{objectmodel_product_sale}{Modelo de objetos de Vender Producto}{diagram:objectmodel_product_sale}{http://yuml.me/edit/29281812}
+      
+                              
 \part{Fase de elaboración}
-\section{Modelado UML del caso}
+\chapter{Modelado de Sistema}
+\section{Modelo de Requerimientos}
+ \subsection{Requerimientos Funcionales}
+ 
+  {\renewcommand{\arraystretch}{1}%
+    \begin{longtable}{r|p{4.1in}}
+          \textbf{\Large ID} & \textbf{\Large Descripcion}\\ \hline
+      \textbf{\large RF01} & \textbf{\large Registrar Producto} \\ 
+      RF1.1 & Se especifíca qué proveedor facilitó dicho producto, mediante su código de proveedor, además debe detallarse todas las características del producto.\\
+      RF1.2 & No se permite dejar en blanco campos obligatorios del detallado del producto. \\ \hline
+      \textbf{\large RF02} & \textbf{\large Consultar información acerca de un producto} \\
+      RF2.1 & El sistema deberá brindar al usuario(administrador o trabador) un tipo de búsqueda rápida permitiendo evitar demoras en la atención al cliente. \\
+      RF2.2 & Se debe proporcionar el acceso a la base de datos para extraer e informar al cliente sobre el producto que solicitó. \\ \hline
+      \textbf{\large RF03} & \textbf{\large Registrar proveedores} \\
+      RF3.1 & Se debe registrar los datos personales del proveedor contacto, para solicitar sus servicios cuando sea necesario. \\
+      RF3.2 & El proveedor debe proporcionar productos de calidad, de lo contrario, se le borraría de la base de datos y ya no se le solicitaría sus servicios.\\ \hline
+      \textbf{\large RF04} & \textbf{\large Registrar ventas} \\
+      RF4.1 & El trabajador deberá rellenar un formulario desde la aplicación con la relación de productos a comprar por parte del cliente.\\
+      RF4.2 & El trabajador generará el monto a pagar y le informará al cliente.\\
+      RF4.2.1 & Si el cliente acepta el monto a pagar le informará al trabajador quien a su vez le dará un ticket de pago\\
+      RF4.2.2 & Si no acepta el trabajador le ofrecerá otras  opciones de productos, a un precio cómodo. \\ \hline
+      \textbf{\large RF05} & \textbf{\large Registrar compras} \\
+      RF5.1 & El sistema deberá brindar una alerta sobre los productos que están por acabarse y el trabajador deberá informarle al admistrador la relación de productos a comprar. \\
+      RF5.2 & El administrador habiéndose enterado de la baja del stock de los productos, se contactará con el proveedor para solicitarle la compra de dichos productos y realizará el pago respectivo. \\
+      RF5.3 & Posteriormente el administrador recepcionará el voucher de compra y los productos solicitados.\\ \hline
+      \textbf{\large RF06} & \textbf{\large Generar facturas o boletas}\\
+      RF6.1 & El trabajador deberá generar la boleta o factura según la lista de solicitud de compra por parte del cliente.\\
+      RF6.2 & Posteriormente el cliente recepcionará su boleta o factura con el cual podrá hacer su reclamo de los productos solicitados.\\ \hline 
+      \textbf{\large RF07} & \textbf{\large Generar reportes }\\
+      RF7.1 & El sistema contará con una opción para generar reportes estadísticos sobre las ventas de productos ya sea semanal, mensual , trimestral, etc.\\
+      RF7.2 & Cuando el administrador solicite reportes, el trabajador será el encargado de generarlos utlizando el sistema.\\ \hline
+      \textbf{\large RF08} & \textbf{\large Imprimir soporte físico de reportes} \\
+      RF8.1 & Una vez que el trabajador haya generado el reporte, deberá imprimirlo usando el sistema.\\
+      RF8.2 & El sistema también contará con una opción que permitirá la impresión de reportes.\\ \hline
+      \textbf{\large RF09} & \textbf{\large Imprimir facturas o boletas} \\
+      RF9.1 & Después de que el trabajador haya generado el monto a pagar de la lista de productos solicitados por el cliente, deberá imprimirlo usando el sistema.\\
+      RF9.2 & El sistema tambien contara con una opcion que permitira la impresion de facturas o boletas, y automaticamente guadará en la base de datos la venta realizada.\\
+
+    \caption{\\Requerimientos Funcionales}
+    \end{longtable}
+    
+    \subsection{Requerimientos no Funcionales}
+      {\renewcommand{\arraystretch}{1.25}%
+      \begin{table}[H]
+      \begin{tabularx}{\textwidth}{r|X}
+      \textbf{\Large ID} & \textbf{\Large Descripción}\\\hline
+      \textbf{\large RNF01} & \textbf{\large RENDIMIENTO}\\
+      RNF1.1 & Se tiene en cuenta que el sistema soporta más de 100 usuarios simultáneamente en la aplicación.\\
+      RNF1.2 & Se debe proporcionar el acceso a la base de datos en un promedio de 0.12 segundos para el almacenamiento de datos y un segundo para la recuperación de información.\\ \hline
+      \textbf{\large RNF02} & \textbf{\large VOLUMEN}\\
+      RNF2.1 & el volumen aproximado de datos "Activos" manejados por cajero genérico laboratorio.\\
+      RFN2.2 & diariamente se pueden hacer mas de 260 ventas por cajero.\\\hline
+      \textbf{\large RNF03} & \textbf{\large SEGURIDAD - Control de acceso}\\
+      RNF3.1 & Para acceder a la aplicación web los usuarios deben introducir un nombre de usuario y contraseña.\\
+      RNF3.2 & Habrá 3 divisiones:\celda{l}{\newline -Permisos \newline -Roles \newline -Perfiles}\\
+      RNF3.3 & Los diferentes roles estarán asociadas a diferentes funcionalidades y permisos de acceso a determinados datos de la aplicación.\newline
+      \textbf{NOTA:} Los roles están divididos en cajero, administrador, vendedor a los cuales se les asiggna permisos diferentes\\
+      RNF3.4 & Debe identificarse el usuario y la fecha en que realiza las siguientes  operaciones:\newline -Cantidad de productos vendidos \newline -Registro de ventas diarias.\\ \hline
+      \textbf{\large RNF04} & \textbf{\large SEGURIDAD - Copias de Seguridad}\\
+      RNF 3.5 & Debe realizarse copias de seguridad de toda la información de ventas y usuarios diariamente.\\
+      \end{tabularx}
+      \caption{Requerimientos no Funcionales}
+      \end{table}
+    
+    \subsection{Requerimientos de Dominio}
+      {\renewcommand{\arraystretch}{1.25}%
+      \begin{table}[H]
+      \begin{tabularx}{\textwidth}{r|X}
+        \textbf{\large ID} & \textbf{\large Requerimiento }\\ \hline
+        RD01 & No requiere de internet puesto que es un sistema interno.\\ \hline
+        RD02 & Computadoras deben estar conectadas a una red en común.\\\hline
+        RD03 & Debe tener una red Intranet (cableada o estructurada).\\\hline
+        RD04 & Se puede ejecutar en cuaquier sistema operativo.\\
+        \end{tabularx}
+      \caption{Requerimientos de Dominio}
+      \end{table}
+
+\section{Descripción de los casos de Uso}
+
+\subsection{D.C.U. Registrar Producto}
+
+  {\renewcommand{\arraystretch}{1.25}%
+  \begin{table}[H]
+  \begin{tabularx}{\textwidth}{r|X}
+  \textbf{ID}: & CU01\\\hline
+  \textbf{NOMBRE}: & REGISTRAR PRODUCTO\\\hline
+  \textbf{ACTORES:} & Administrador y Sistema \\\hline
+  \textbf{DESCRIPCIÓN:} & El sistema le permite al Administrador la opción de registrar un producto nuevo con sus datos correspondientes. \\\hline
+  \textbf{FLUJO DE EVENTOS}  \\
+  1.- & El administrador debe ingresar al Sistema con su ID.\\
+  2.- & El administrador accederá a la interfaz de Producto.\\
+  3.- & El administrador ingresará los datos del nuevo producto.\\
+  4.- & El sistema debe validar que se hayan llenado los datos de caracter obligatorio.\\
+  5.- & Una vez validado los datos el Administrador confirmará el registro. \\\hline
+  \textbf{Excepciones:} & \\
+  4a.- & De no haberse llenado los campos de caracter obligatorio pedir al usuario su llenado para poder seguir con su registro.
+  \end{tabularx}
+  \caption{Descripción de Caso de Uso - Registrar Producto.}
+  \end{table}
+
+\subsection{D.C.U. Registrar Proveedor}
+
+  {\renewcommand{\arraystretch}{1.25}%
+  \begin{table}[H]
+  \begin{tabularx}{\textwidth}{r|X}
+  \textbf{ID}: & CU02\\\hline
+  \textbf{NOMBRE}: & REGISTRAR PROVEEDORESO\\\hline
+  \textbf{ACTORES:} & Administrador y Sistema \\\hline
+  \textbf{DESCRIPCIÓN:} & El sistema le permite al Administrador la opción de registrar un proveedor con sus datos correspondientes. \\\hline
+  \textbf{FLUJO DE EVENTOS:}  \\
+  1.- & El administrador debe ingresar al Sistema con su ID.\\
+  2.- & El administrador accederá a la interfaz de Proveedores.\\
+  3.- & El administrador ingresará los datos del proveedor.\\
+  4.- & El sistema debe validar que se hayan llenado los datos de caracter obligatorio.\\
+  5.- & Una vez validado los datos el Administrador confirmará el registro. \\\hline
+  \textbf{Excepciones:} & \\
+  4a.- & De no haberse llenado los campos de caracter obligatorio pedir al usuario su llenado para poder seguir con su registro.
+  \end{tabularx}
+  \caption{Descripción de Caso de Uso - Registrar Proveedor}
+  \end{table}
+
+\subsection{D.C.U. Registrar Compras}
+
+{\renewcommand{\arraystretch}{1.25}%
+  \begin{table}[H]
+  \begin{tabularx}{\textwidth}{r|X}
+  \textbf{ID}: & CU03\\\hline
+  \textbf{NOMBRE}: & REGISTRAR COMPRAS\\\hline
+  \textbf{ACTORES:} & Administrador y Sistema \\\hline
+  \textbf{DESCRIPCIÓN:} & El sistema le permite al Administrador llevar un registro ordenado de todas su Compras.  \\\hline
+  \textbf{FLUJO DE EVENTOS}  \\
+  1.- & El administrador debe ingresar al Sistema con su ID.\\
+  2.- & El administrador accederá a la interfaz de Compras.\\
+  3.- & El administrador ingresará los datos de la Compra\\
+  4.- & El sistema debe validar que se hayan llenado los datos de caracter obligatorio.\\
+  5.- & Una vez validado los datos el Administrador confirmará el registro. \\\hline
+  \textbf{Excepciones:} & \\
+  4a.- & De no haberse llenado los campos de caracter obligatorio pedir al usuario su llenado para poder seguir con su registro.
+  \end{tabularx}
+  \caption{Descripción de Caso de Uso - Registrar Compras}
+  \end{table}
+
+\subsection{D.C.U. Consultar Reportes}
+
+  {\renewcommand{\arraystretch}{1.25}%
+  \begin{table}[H]
+  \begin{tabularx}{\textwidth}{r|X}
+  \textbf{ID}: & CU04\\\hline
+  \textbf{NOMBRE}: & CONSULTAR REPORTE\\\hline
+  \textbf{ACTORES:} & Administrador y Sistema \\\hline
+  \textbf{DESCRIPCIÓN:} & El sistema genera una serie de reportes que le permitirán al Administrador llevar un Control ordenado de su negocio.  \\\hline
+  \textbf{FLUJO DE EVENTOS}  \\
+  1.- & El administrador debe ingresar al Sistema con su ID.\\
+  2.- & El administrador accederá a la interfaz de Reportes.\\
+  3.- & Se mostrarán en pantalla los tipos de Reportes que genera el Sistema.\\
+  4.- & El administrador tiene la opción de imprimir el reporte.\\\hline
+  \end{tabularx}
+  \caption{Descripción de Caso de Uso - Consultar Reportes}
+  \end{table}
+
+\subsection{D.C.U. Consultar Producto}
+
+  {\renewcommand{\arraystretch}{1.25}%
+  \begin{table}[H]
+  \begin{tabularx}{\textwidth}{r|X}
+  \textbf{ID}: & CU05\\\hline
+  \textbf{NOMBRE}: & CONSULTAR PRODUCTO\\\hline
+  \textbf{ACTORES:} & Vendedor, Administrador y Sistema \\\hline
+  \textbf{DESCRIPCIÓN:} & Este caso de uso en primer lugar le permite al Administrador consultar el stock de cada producto que tiene en almacñe.Y fundamentalmente sirve para cada consulta que le haga el cliente al vendedor sobre un producto en específico.\\\hline
+  \textbf{FLUJO DE EVENTOS}  \\
+  1.- & El Vendedor debe ingresar al Sistema con su ID.\\
+  2.- & El vendedor podrá apreciar en pantalla la lista de productos con la que se dispone.\\
+  3.- & El vendedor podrá consultar luego la cantidad que hay por cada producto actualmente para venta.\\\hline
+  \end{tabularx}
+  \caption{Descripción de Caso de Uso - Consultar Producto}
+  \end{table}
+
+\subsection{D.C.U. Imprimir Ticket}
+
+  {\renewcommand{\arraystretch}{1.25}%
+  \begin{table}[H]
+  \begin{tabularx}{\textwidth}{r|X}
+  \textbf{ID}: & CU06\\\hline
+  \textbf{NOMBRE}: & IMPRIMIR TICKET\\\hline
+  \textbf{ACTORES:} & Vendedor y Sistema \\\hline
+  \textbf{DESCRIPCIÓN:} & Luego de realizada la seleccion de productos a comprar, el vendedor generará a través del sistema un ticket de venta para que el cliente proceda a cancelar el pago.\\\hline
+  \textbf{FLUJO DE EVENTOS}  \\
+  1.- & El El vendedor marcará los productos que el cliente vaya a llevarse.\\
+  2.- & El sistema cargará los IDs de todos los productos seleccionados mas su precio unitario y el precio total de venta.\\
+  3.- & El vendedor le hará entrega del ticket al cliente.\\
+  \end{tabularx}
+  \caption{Descripción de Caso de Uso - Imprimir Ticket}
+  \end{table}
+
+\subsection{D.C.U. Registrar Venta}
+
+  {\renewcommand{\arraystretch}{1.25}%
+  \begin{table}[H]
+  \begin{tabularx}{\textwidth}{r|X}
+  \textbf{ID}: & CU07\\\hline
+  \textbf{NOMBRE}: & Registrar Venta\\\hline
+  \textbf{ACTORES:} & Vendedor y Sistema \\\hline
+  \textbf{DESCRIPCIÓN:} & Luego de la generación de tickets el vendedor debe proceder a guardar en el Sistema el registro de esa venta.\\\hline
+  \textbf{FLUJO DE EVENTOS}  \\
+  1.- & El vendedor luego de imprimir el ticket al cliente, pulsará la opción para Guardar Venta.\\
+  2.- & Las casillas automaticamente se guardarán con los datos previamente llenados \\\hline
+  \end{tabularx}
+  \caption{Descripción de Caso de Uso - Registrar Venta}
+  \end{table}
+
+\subsection{D.C.U. Imprimir comprobante}
+
+  {\renewcommand{\arraystretch}{1.25}%
+  \begin{table}[H]
+  \begin{tabularx}{\textwidth}{r|X}
+  \textbf{ID}: & CU08\\\hline
+  \textbf{NOMBRE}: & IMPRIMIR COMPROBANTE\\\hline
+  \textbf{ACTORES:} & Cajero y Sistema \\\hline
+  \textbf{DESCRIPCIÓN:} & El sistema genera un comprobante de pago a partir del ticket, y se imprimirá luego de cancelado el pago. \\\hline
+  \textbf{FLUJO DE EVENTOS}  \\
+  1.- & Luego de cancelado el pago el cajero solicitará al Sistema una muestra del comprobante de pago.\\
+  2.- & El cajero procederá a la impresion del comprobante.\\
+  3.- & El cajero le entregará el comprobante al cliente\\
+  4.- & El sistema guardará automaticamente una copia de cada factura generada.\\\hline
+  \end{tabularx}
+  \caption{Descripción de Caso de Uso - Imprimir Comprobante}
+  \end{table}
+
+\subsection{D.C.U. Registrar Compras}
+
+  {\renewcommand{\arraystretch}{1.25}%
+  \begin{table}[H]
+  \begin{tabularx}{\textwidth}{r|X}
+  \textbf{ID}: & CU09\\\hline
+  \textbf{NOMBRE}: & REGISTRAR PAGO\\\hline
+  \textbf{ACTORES:} & Cajero y Sistema \\\hline
+  \textbf{DESCRIPCIÓN:} & El sistema automaticamente guardará una copia del comprobante de pago. A partir de este generará un registro de Pago.  \\\hline
+  \textbf{FLUJO DE EVENTOS}  \\
+  1.- & El sistema luego de emitir el comprobante autoguardará los datos de la factura\\
+  2.- & El Sistema verificará que no falte ningún dato.\\
+  3.- & De faltar algún dato el sistema lo reportará, para que así sea el cajero quien se encargue de autocompletarlo.\\
+  4.- & Luego el sistema procederá a guardar el registro.
+  \end{tabularx}
+  \caption{Descripción de Caso de Uso - Registrar Compras}
+  \end{table}
+\newpage
+\chapter{Análisis y diseño}
   EL diagrama de casos de uso inicial es como sigue:
+  \PNG[0.69]{usecase_system_general}{Casos de uso de la aplicación}{diagram:usecase_system_general}{http://yuml.me/edit/b08ffb83}
+  
+  \section{Identificación de paquetes según casos de uso}
+  \PNG[0.7]{packet_by_use_case}{Identificación de paquetes según casos de uso}{diagram:packet_by_use_case}
+  
+  \section{Identificación de paquetes según clases de dominio}
+  \PNG[0.7]{packet_by_domain}{Identificación de paquetes según casos de uso}{diagram:packet_by_domain}
+  
+  \section{Diagrama de sequencia: Registrar Producto}
+  \PNG[0.7]{sequence_prod}{Diagrama de sequencia: Registrar Producto}{diagram:sequence_prod}
   
   
-\section{Modelado de Base de Datos}
-  EL diagrama de base de datos implementado en PostgresSQL, tiene la siguiente estructura:
-  \PNG[0.73]{db_model_final}{Diagrama de Entidad-Relación de la aplicación}{diagram:database_final}{}
-  Se ingresarán datos y procesarán los siguientes informes y reportes para las siguientes tablas:
+  \section{Modelo de despliegue}
+  \PNG[0.7]{deployment}{Diagrama de despliegue}{diagram:deployment}
   
-{\renewcommand{\arraystretch}{1.5}%
+
+\part{Fase de Construcción}
+
+  \chapter{Modelado de Base de Datos}
+  
+  {\renewcommand{\arraystretch}{1}%
   \begin{table}[H]
   \begin{tabularx}{\textwidth}{r|X}
     \textbf{\large Casos de uso} & \textbf{\large Tablas}\\
@@ -582,82 +736,14 @@ para la toma decisiones.\\
   \end{tabularx}
   \caption{Diseño de B.D. y Casos de uso}
   \end{table}
-\newpage
-  \section{Requerimientos Funcionales}
-  {\renewcommand{\arraystretch}{1.31}%
-    \begin{longtable}{r|p{4.1in}}
-          \textbf{\Large ID} & \textbf{\Large Descripcion}\\ \hline
-      \textbf{\large RF01} & \textbf{\large Registrar Producto} \\ 
-      RF1.1 & Se especifíca qué proveedor facilitó dicho producto, mediante su código de proveedor, además debe detallarse todas las características del producto.\\
-      RF1.2 & No se permite dejar en blanco campos obligatorios del detallado del producto. \\ \hline
-      \textbf{\large RF02} & \textbf{\large Consultar información acerca de un producto} \\
-      RF2.1 & El sistema deberá brindar al usuario(administrador o trabador) un tipo de búsqueda rápida permitiendo evitar demoras en la atención al cliente. \\
-      RF2.2 & Se debe proporcionar el acceso a la base de datos para extraer e informar al cliente sobre el producto que solicitó. \\ \hline
-      \textbf{\large RF03} & \textbf{\large Registrar proveedores} \\
-      RF3.1 & Se debe registrar los datos personales del proveedor contacto, para solicitar sus servicios cuando sea necesario. \\
-      RF3.2 & El proveedor debe proporcionar productos de calidad, de lo contrario, se le borraría de la base de datos y ya no se le solicitaría sus servicios.\\ \hline
-      \textbf{\large RF04} & \textbf{\large Registrar ventas} \\
-      RF4.1 & El trabajador deberá rellenar un formulario desde la aplicación con la relación de productos a comprar por parte del cliente.\\
-      RF4.2 & El trabajador generará el monto a pagar y le informará al cliente.\\
-      RF4.2.1. & Si el cliente acepta el monto a pagar le informará al trabajador quien a su vez le dará un ticket de pago\\
-      RF4.2.2. & Si no acepta el trabajador le ofrecerá otras  opciones de productos, a un precio cómodo. \\ \hline
-      \textbf{\large RF05} & \textbf{\large Registrar compras} \\
-      RF5.1 & El sistema deberá brindar una alerta sobre los productos que están por acabarse y el trabajador deberá informarle al admistrador la relación de productos a comprar. \\
-      RF5.2 & El administrador habiéndose enterado de la baja del stock de los productos, se contactará con el proveedor para solicitarle la compra de dichos productos y realizará el pago respectivo. \\
-      RF5.3 & Posteriormente el administrador recepcionará el voucher de compra y los productos solicitados.\\ \hline
-      \textbf{\large RF06} & \textbf{\large Generar facturas o boletas}\\
-      RF6.1 & El trabajador deberá generar la boleta o factura según la lista de solicitud de compra por parte del cliente.\\
-      RF6.2 & Posteriormente el cliente recepcionará su boleta o factura con el cual podrá hacer su reclamo de los productos solicitados.\\ \hline 
-      \textbf{\large RF07} & \textbf{\large Generar reportes }\\
-      RF7.1 & El sistema contará con una opción para generar reportes estadísticos sobre las ventas de productos ya sea semanal, mensual , trimestral, etc.\\
-      RF7.2 & Cuando el administrador solicite reportes, el trabajador será el encargado de generarlos utlizando el sistema.\\ \hline
-      \textbf{\large RF08} & \textbf{\large Imprimir soporte físico de reportes} \\
-      RF8.1 & Una vez que el trabajador haya generado el reporte, deberá imprimirlo usando el sistema.\\
-      RF8.2 & El sistema también contará con una opción que permitirá la impresión de reportes.\\ \hline
-      \textbf{\large RF09} & \textbf{\large Imprimir facturas o boletas} \\
-      RF9.1 & Después de que el trabajador haya generado el monto a pagar de la lista de productos solicitados por el cliente, deberá imprimirlo usando el sistema.\\
-      RF9.2 & El sistema tambien contara con una opcion que permitira la impresion de facturas o boletas, y automaticamente guadará en la base de datos la venta realizada.\\
-
-    \caption{\\Requerimientos Funcionales}
-    \end{longtable}
-    
-    \section{Requerimientos no Funcionales}
-      {\renewcommand{\arraystretch}{1.25}%
-      \begin{table}[H]
-      \begin{tabularx}{\textwidth}{r|X}
-      \textbf{\Large ID} & \textbf{\Large Descripción}\\\hline
-      \textbf{\large RNF01} & \textbf{\large RENDIMIENTO}\\
-      RNF1.1 & Se tiene en cuenta que el sistema soporta más de 100 usuarios simultáneamente en la aplicación.\\
-      RNF1.2 & Se debe proporcionar el acceso a la base de datos en un promedio de 0.12 segundos para el almacenamiento de datos y un segundo para la recuperación de información.\\ \hline
-      \textbf{\large RNF02} & \textbf{\large VOLUMEN}\\
-      RNF2.1 & el volumen aproximado de datos "Activos" manejados por cajero genérico laboratorio.\\
-      RFN2.2 & diariamente se pueden hacer mas de 260 ventas por cajero.\\\hline
-      \textbf{\large RNF03} & \textbf{\large SEGURIDAD - Control de acceso}\\
-      RNF3.1 & Para acceder a la aplicación web los usuarios deben introducir un nombre de usuario y contraseña.\\
-      RNF3.2 & Habrá 3 divisiones:\celda{l}{\newline -Permisos \newline -Roles \newline -Perfiles}\\
-      RNF3.3 & Los diferentes roles estarán asociadas a diferentes funcionalidades y permisos de acceso a determinados datos de la aplicación.\newline
-      \textbf{NOTA:} Los roles están divididos en cajero, administrador, vendedor a los cuales se les asiggna permisos diferentes\\
-      RNF3.4 & Debe identificarse el usuario y la fecha en que realiza las siguientes  operaciones:\newline -Cantidad de productos vendidos \newline -Registro de ventas diarias.\\ \hline
-      \textbf{\large RNF04} & \textbf{\large SEGURIDAD - Copias de Seguridad}\\
-      RNF 3.5 & Debe realizarse copias de seguridad de toda la información de ventas y usuarios diariamente.\\
-      \end{tabularx}
-      \caption{Requerimientos no Funcionales}
-      \end{table}
-    
-    \section{Requerimientos de Dominio}
-      {\renewcommand{\arraystretch}{1.25}%
-      \begin{table}[H]
-      \begin{tabularx}{\textwidth}{r|X}
-        \textbf{\large ID} & \textbf{\large Requerimiento }\\ \hline
-        RD01 & No requiere de internet puesto que es un sistema interno.\\ \hline
-        RD02 & Computadoras deben estar conectadas a una red en común.\\\hline
-        RD03 & Debe tener una red Intranet (cableada o estructurada).\\\hline
-        RD04 & Se puede ejecutar en cuaquier sistema operativo.\\
-        \end{tabularx}
-      \caption{Requerimientos de Dominio}
-      \end{table}
+  % Se ingresarán datos y procesarán los siguientes informes y reportes para las siguientes tablas:
   
-\part{Creación de la solución}
+  El diagrama de base de datos implementado en PostgresSQL, tiene la siguiente estructura:
+  
+  \PNG[0.67]{db_model_final}{Diagrama de Entidad-Relación de la aplicación}{diagram:database_final}{}
+  
+
+
 La solución para el caso se compone de 1 proyecto de Visual Studio Code que integra aplicaciones interrelacionadas. Al iniciar Visual Studio code obtenemos la siguiente ventana.
   \PNG[0.8]{ss01}{Visual Studio Code: Ventana Principal}{screenshot:vscode}{}
   Antes de agregar algún directorio al proyecto, se debe crear un projecto con la herramienta \inlinecode{django-admin} como se muestra en la Figura \ref{screenshot:django_startproject}, lo cuál creará un conjunto de directorios y archivos con la estrucuta que se ve en la figura \ref{screenshot:django_startproject_dirtree}
@@ -671,7 +757,6 @@ La solución para el caso se compone de 1 proyecto de Visual Studio Code que int
   
   Luego de seguir el proceso de las Figuras \ref{screenshot:vscode_createapp_main}, \ref{screenshot:vscode_createapp_main_dirtree} y \ref{screenshot:vscode_createapp_main_settings}, se repite para cada aplicación incluída en el proyecto.
   
-  %\lstinputlisting[language=python]{src/models.py}
 \chapter{Capa Lógica de Presentación}
   \section{Interfaz}
   Para la capa de Lógica de Presentación, se utilizará el lenguaje de marcas HTML (versión 5) para maquetar las interfaces. Además de usar el framework de diseño Angular Material y framework para lógica de presentación AngularJS.
@@ -685,9 +770,8 @@ La solución para el caso se compone de 1 proyecto de Visual Studio Code que int
   Para el acceso a datos se creará una nueva aplicacion \inlinecode{api}, el cual consistirá en una Interfaz de Programación de Aplicaciones, el cuál permitirá un acceso \texttt{REST} (Transferencia de Estado Representacional) a la capa de datos en formato \texttt{JSON}. Para ello se utiliza el módulo de \texttt{django-rest-framework}. 
   \PNG[0.8]{ss12}{Capa de Acceso a Datos: API REST, lógica de acceso a datos}{screenshot:vscode_api}{}
   \PNG[0.8]{ss13}{Capa de Acceso a Datos: API REST con datos de prueba}{screenshot:browser_api}{}
-  \section*{Ejemplo de \texttt{response} de la \texttt{API}}
-  \lstinputlisting[language=json]{src/products.json}
-\part{Fase de construcción}
+  % \section*{Ejemplo de \texttt{response} de la \texttt{API}}
+
 \part{Fase de transición}
 
 \end{document}
