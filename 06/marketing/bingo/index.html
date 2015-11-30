@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">	
+	<title>Bingo Online</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="./css/jumbotron-narrow.css">
+	<link rel="stylesheet" type="text/css" href="./css/app.css">
+
+	
+</head>
+<body>
+	<div class="container">
+		<div class="header clearfix">
+			<nav>
+			<ul class="nav nav-pills pull-right">
+			<li role="presentation"><button id="play" class="btn btn-lg btn-success" href="#" role="button">Jugar ahora!</button></li>
+			<li role="presentation"><button id="init" class="btn btn-lg btn-primary">Iniciar juego</button></li>
+			<!-- <li role="presentation"><a href="#">3</a></li> -->
+			</ul>
+			</nav>
+			<h2 style="margin-top:10px;">Juega Bingo online gratis</h2>
+		</div>
+		<div class="jumbotron" id="tarjeta_container">
+			<table id="tarjeta" class="table table-bordered">
+				<thead>
+					<tr>
+						<td><h2>B</h2></td>
+						<td><h2>I</h2></td>
+						<td><h2>N</h2></td>
+						<td><h2>G</h2></td>
+						<td><h2>O</h2></td>
+					</tr>
+				</thead>
+				<tbody id="numeros">
+
+				</tbody>
+				
+			</table>
+			
+		</div>
+
+		<div class="row marketing">
+			<ul id="bolillas">
+				
+			</ul>
+			<!-- <div class="col-lg-6">
+				<h4>Subheading</h4>
+				<p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+			</div>
+
+			<div class="col-lg-6">
+				<h4>Subheading</h4>
+				<p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+			</div> -->
+		</div>
+
+		<footer class="footer">
+			<p>&copy; 2015 <a href="https://github.com/rcotrina94/">rcotrina94</a>.</p>
+		</footer>
+
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	
+	<script>
+		var TogetherJSConfig_dontShowClicks = true,
+			TogetherJSConfig_storagePrefix = "sala",
+			TogetherJSConfig_lang = "es",
+			TogetherJSConfig_fallbackLang = "es-BO";
+	</script>
+
+	<script src="https://togetherjs.com/togetherjs-min.js"></script>
+	<script type="text/javascript" src="main.js"></script>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<!-- Latest compiled and minified JavaScript -->
+</body>
+</html>

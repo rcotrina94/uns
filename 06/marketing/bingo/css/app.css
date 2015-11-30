@@ -1,0 +1,7 @@
+#tarjeta{
+	background-color: white !important;
+	margin-bottom: 0;
+}
+#tarjeta td{
+	width: 20% !important;
+}
