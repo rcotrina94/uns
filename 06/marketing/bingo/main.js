@@ -19,16 +19,16 @@ $(document).ready(function(){
 		var self = this;
 		var isClient
 		var initialized;
-		var bolillas = (function(){
-			var _bolillas = [];
-			for (var i = 0; i < 75; i++) {
-				_bolillas.push(i+1);
-			};
-			return _bolillas;
-		})();
+var bolillas = (function(){
+	var _bolillas = [];
+	for (var i = 0; i < 75; i++) {
+		_bolillas.push(i+1);
+	};
+	return _bolillas;
+})();
 
 		var bingoInterval, bingofn = function(){
-			// console.count("RANDOMS")
+
 			var bl = bolillas.length;
 			// console.warn("BOLILLAS: "+ bl);
 			if (bl <= 0){
@@ -50,6 +50,7 @@ $(document).ready(function(){
 				self.win(winners);
 
 			} else {
+				console.count("BOLILLA");
 				var numero = bolillas.splice(r(bl)-1,1)[0]
 				TogetherJS.send({type: "numero", numero : numero})
 				self.marcarNumero(numero);
@@ -60,7 +61,7 @@ $(document).ready(function(){
 			return Math.floor((Math.random() * max) + 1);
 		};
 		var rmin = function(min, max){
-			return r(max) + min;
+			return r(max-min) + min;
 		};
 
 
@@ -70,7 +71,7 @@ $(document).ready(function(){
 			isClient = is_client;
 			if (isClient){
 				TogetherJS.hub.on("numero", function (msg) {
-					console.info("Mensaje" + msg.numero);
+					console.warn("Numero a marcar:", msg.numero);
 					self.marcarNumero(msg.numero);
 				});
 				TogetherJS.hub.on("start", function () {
@@ -122,7 +123,7 @@ $(document).ready(function(){
 				}, 1000);
 			} else {}
 			self.generateCard();
-			$('#play').hide();
+			$('#init').hide();
 		}
 
 		this.generateCard = function(){
@@ -167,6 +168,8 @@ $(document).ready(function(){
 			$("#bolillas").prepend("<li>"+num+"</li>");
 			var celdas = $("#numeros td");
 			var nums = jQuery.map(celdas, function(elm){ return parseInt($(elm).text())});
+			console.warn("CELDAS TOTALES", nums.length);
+
 			var index = nums.indexOf(num);
 			// console.warn(num, index);
 			if (index != -1){
