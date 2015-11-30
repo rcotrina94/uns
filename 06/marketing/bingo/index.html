@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<meta charset="utf-8">	
+	<meta charset="utf-8">
 	<title>Bingo Online</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -11,7 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="./css/jumbotron-narrow.css">
 	<link rel="stylesheet" type="text/css" href="./css/app.css">
 
-	
+
 </head>
 <body>
 	<div class="container">
@@ -25,28 +25,42 @@
 			</nav>
 			<h2 style="margin-top:10px;">Juega Bingo online gratis</h2>
 		</div>
-		<div class="jumbotron" id="tarjeta_container">
-			<table id="tarjeta" class="table table-bordered">
-				<thead>
-					<tr>
-						<td><h2>B</h2></td>
-						<td><h2>I</h2></td>
-						<td><h2>N</h2></td>
-						<td><h2>G</h2></td>
-						<td><h2>O</h2></td>
-					</tr>
-				</thead>
-				<tbody id="numeros">
+		<div class="jumbotron">
+			<div id="peers">
+				<h3>Esperando inicio del Juego...</h3>
+				<div class="row">
+					<!-- <div class="col-sm-3 col-md-3">
+						<div class="thumbnail">
+							<img src="...">
+							<div class="caption">
+								<h3>Thumbnail label</h3>
+							</div>
+						</div>
+					</div> -->
+				</div>
+			</div>
+			<div id="tarjeta_container">
+				<table id="tarjeta" class="table table-bordered">
+					<thead>
+						<tr>
+							<td><h2>B</h2></td>
+							<td><h2>I</h2></td>
+							<td><h2>N</h2></td>
+							<td><h2>G</h2></td>
+							<td><h2>O</h2></td>
+						</tr>
+					</thead>
+					<tbody id="numeros">
 
-				</tbody>
-				
-			</table>
-			
+					</tbody>
+
+				</table>
+			</div>
 		</div>
 
 		<div class="row marketing">
 			<ul id="bolillas">
-				
+
 			</ul>
 			<!-- <div class="col-lg-6">
 				<h4>Subheading</h4>
@@ -66,12 +80,13 @@
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-	
+
 	<script>
 		var TogetherJSConfig_dontShowClicks = true,
 			TogetherJSConfig_storagePrefix = "sala",
 			TogetherJSConfig_lang = "es",
 			TogetherJSConfig_fallbackLang = "es-BO";
+			TogetherJSConfig_suppressJoinConfirmation = true;
 	</script>
 
 	<script src="https://togetherjs.com/togetherjs-min.js"></script>

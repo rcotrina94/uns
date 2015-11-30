@@ -6,9 +6,14 @@ var td = function(content, class_name){
 var tr = function(content){ return "<tr>"+content+"</tr>"; }
 // var game;
 // autoStart: false,
+
+var $STATS = {};
+
 $(document).ready(function(){
 	$("#init").hide();
 	$("#tarjeta_container").hide();
+	var session;
+	var peers;
 
 	var Game = function(){
 		var self = this;
@@ -28,6 +33,21 @@ $(document).ready(function(){
 			// console.warn("BOLILLAS: "+ bl);
 			if (bl <= 0){
 				clearInterval(bingoInterval);
+
+				var me = peers.Self.name || peers.Self.defaultName;
+				var winners = me;
+				var qty = $("#numeros td.warning").length;
+
+				for (name in $STATS){
+					if ($STATS[name] == qty){
+						winners += ","+name;
+					} else if ($STATS[name] > qty){
+						winners = name;
+					}
+				}
+				console.warn(winners);
+				TogetherJS.send({type: "win", winner : winners});
+
 			} else {
 				var numero = bolillas.splice(r(bl)-1,1)[0]
 				TogetherJS.send({type: "numero", numero : numero})
@@ -41,7 +61,7 @@ $(document).ready(function(){
 		var rmin = function(min, max){
 			return r(max) + min;
 		};
-		
+
 
 		this.init = function(is_client){
 			$("#play").hide();
@@ -56,13 +76,36 @@ $(document).ready(function(){
 					console.info("EMPEZANDO JUEGO");
 					self.generateCard();
 				});
-				TogetherJS.hub.on("win", function(data){
-					console.info("ALGUIEN GANÓ EL JUEGO");
-					self.win(data.winner);
+				TogetherJS.hub.on("togetherjs.hello", function(){
+					console.warn("HELLO")
 				});
+
+				/*TogetherJS.hub.on("", function(data){
+					peers = TogetherJS.require("peers");
+
+					console.log(peers.Self);
+					var creator = {
+						name: peers.Self.name,
+						avatar: peers.Self.avatar
+					}
+					var html = '<div class="col-sm-3 col-md-3"><div class="thumbnail"><img src="'+creator.avatar+'"><div class="caption"><h3>'+creator.name+'</h3></div></div></div>';
+					console.log(html);
+					// $("#peers row").html(html)
+				})*/
 			} else {
 				$("#init").show();
+
+				TogetherJS.hub.on("stats", function(msg){
+					$STATS[msg.client] = msg.qty;
+					console.warn("STATS:", $STATS);
+				});
+
 			}
+			TogetherJS.hub.on("win", function(data){
+				console.info("ALGUIEN GANÓ EL JUEGO");
+				self.win(data.winner);
+			});
+
 			initialized = true;
 		}
 
@@ -74,7 +117,7 @@ $(document).ready(function(){
 				console.log("INICIANDO JUEGO")
 				setTimeout(function () {
 					console.log("RANDOMS")
-					bingoInterval = window.setInterval(bingofn, 2000)
+					bingoInterval = window.setInterval(bingofn, 50)
 				}, 1000);
 			} else {}
 			self.generateCard();
@@ -115,9 +158,10 @@ $(document).ready(function(){
 				html += tr(_row);
 			};
 			$("#numeros").html(html);
+			$("#peers").hide();
 			$("#tarjeta_container").show();
 		};
-		
+
 		this.marcarNumero = function(num){
 			$("#bolillas").prepend("<li>"+num+"</li>");
 			var celdas = $("#numeros td");
@@ -134,15 +178,28 @@ $(document).ready(function(){
 					var row = $(celda).closest('tr').index();
 					console.warn("Columna:", column, "Fila:",row);
 				})();
-				
+				if ($('#numeros td.warning').length > 24){
+					var winner = {
+						name : peers.Self.name || peers.Self.defaultName
+					};
+					TogetherJS.send({type: "win", winner : winner})
+					self.self_win();
+				} else {
+					var me = peers.Self.name || peers.Self.defaultName;
+					var qty = $("#numeros td.warning").length;
+					TogetherJS.send({type: "stats", client: me, qty : qty})
+				}
 			}
+		};
+		this.self_win = function(){
+			alert("Felicidades! eres el ganador :3");
 		};
 		this.win = function(winner){
 			clearInterval(bingoInterval);
-			alert("El gannador es "+ winner)
-		}
+			alert("El ganador es "+ winner)
+		};
 	};
-	var session;
+
 	var game = new Game();
 
 	$("#init").click(function(){
@@ -155,9 +212,21 @@ $(document).ready(function(){
 
 	});
 
+	// var template = '<div class="col-sm-3 col-md-3">
+	// 					<div class="thumbnail">
+	// 						<img src="__img__">
+	// 						<div class="caption">
+	// 							<h3>__name__</h3>
+	// 						</div>
+	// 					</div>
+	// 				</div>'
+
 	TogetherJS.on("ready", function () {
 		$('html').css({'cursor' : 'default'});
 		session = TogetherJS.require("session");
+		peers = TogetherJS.require("peers");
+
+
 		console.log(session.isClient?"CLIENTE":"SERVIDOR")
 		game.init(session.isClient);
 	});
