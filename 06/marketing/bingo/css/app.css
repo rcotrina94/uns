@@ -5,3 +5,15 @@
 #tarjeta td{
 	width: 20% !important;
 }
+#bolillas > li:nth-child(1){
+	font-size: 48px;
+}
+#bolillas > li:nth-child(2){
+	font-size: 32px;
+}
+#bolillas > li:nth-child(3){
+	font-size: 24px;
+}
+#bolillas > li:nth-child(4){
+	font-size: 16px;
+}

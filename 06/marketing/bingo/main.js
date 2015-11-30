@@ -117,7 +117,7 @@ $(document).ready(function(){
 				console.log("INICIANDO JUEGO")
 				setTimeout(function () {
 					console.log("RANDOMS")
-					bingoInterval = window.setInterval(bingofn, 50)
+					bingoInterval = window.setInterval(bingofn, 1500)
 				}, 1000);
 			} else {}
 			self.generateCard();
