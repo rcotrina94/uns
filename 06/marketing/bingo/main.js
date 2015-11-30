@@ -47,6 +47,7 @@ $(document).ready(function(){
 				}
 				console.warn(winners);
 				TogetherJS.send({type: "win", winner : winners});
+				self.win(winners);
 
 			} else {
 				var numero = bolillas.splice(r(bl)-1,1)[0]
