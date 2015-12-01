@@ -186,7 +186,7 @@ var bolillas = (function(){
 					var winner = {
 						name : peers.Self.name || peers.Self.defaultName
 					};
-					TogetherJS.send({type: "win", winner : winner})
+					TogetherJS.send({type: "win", winner : winner.name})
 					self.self_win();
 				} else {
 					var me = peers.Self.name || peers.Self.defaultName;
