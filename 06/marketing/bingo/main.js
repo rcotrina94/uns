@@ -182,7 +182,7 @@ var bolillas = (function(){
 					var row = $(celda).closest('tr').index();
 					console.warn("Columna:", column, "Fila:",row);
 				})();
-				if ($('#numeros td.warning').length > 24){
+				if ($('#numeros td.warning').length >= 24){
 					var winner = {
 						name : peers.Self.name || peers.Self.defaultName
 					};
