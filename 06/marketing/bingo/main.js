@@ -82,18 +82,6 @@ var bolillas = (function(){
 					console.warn("HELLO")
 				});
 
-				/*TogetherJS.hub.on("", function(data){
-					peers = TogetherJS.require("peers");
-
-					console.log(peers.Self);
-					var creator = {
-						name: peers.Self.name,
-						avatar: peers.Self.avatar
-					}
-					var html = '<div class="col-sm-3 col-md-3"><div class="thumbnail"><img src="'+creator.avatar+'"><div class="caption"><h3>'+creator.name+'</h3></div></div></div>';
-					console.log(html);
-					// $("#peers row").html(html)
-				})*/
 			} else {
 				$("#init").show();
 
@@ -196,6 +184,7 @@ var bolillas = (function(){
 			}
 		};
 		this.self_win = function(){
+			clearInterval(bingoInterval);
 			alert("Felicidades! eres el ganador :3");
 		};
 		this.win = function(winner){
