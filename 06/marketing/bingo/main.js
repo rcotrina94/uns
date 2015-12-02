@@ -200,7 +200,7 @@ var bolillas = (function(){
 	});
 
 	$("#play").click(function(){
-		$('html').css({'cursor' : 'wait !important'});
+		$('body').css({'cursor' : 'wait'});
 		TogetherJS(this)
 
 	});
