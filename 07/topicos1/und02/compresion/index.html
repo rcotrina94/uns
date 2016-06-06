@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="App">
+<head>
+	<meta charset="utf-8">
+	<title>Compresión y Descompresión</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/paper/bootstrap.min.css" rel="stylesheet" integrity="sha384-2mX2PSpkRSXLQzmNzH3gwK6srb06+OfbDlYjbog8LQuALYJjuQ3+Yzy2JIWNV9rW" crossorigin="anonymous">
+</head>
+<body>
+<div class="container" ng-controller="mainCtrl">
+	<h1>Compresión y Descompresión</h1>
+	<div class="well form form-horizontal">
+		<fieldset>
+			<div class="form-group">
+				<label for="input" class="col-md-1 control-label"><strong>Escape</strong></label>
+				<div class="col-md-11">
+					<select ng-model="escape_string" ng-change="updateOutput()" ng-options="char | uppercase for char in alphabet" class="form-control"></select>
+					<div class="help-block">
+						<span>Caracter de escape {{escape_string || uppercase }} .</span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="input" class="col-md-1 control-label"><strong>Entrada</strong></label>
+				<div class="col-md-11">
+					<textarea name="input" id="input" ng-model="input" ng-change="updateOutput()" autofocus rows="2" class="text-uppercase form-control input-lg"></textarea>
+					<div class="help-block">
+						<h6 class="pull-right">{{ input.length }}</h6>
+						<span>La cadena descomprimida.</span>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+		<fieldset>
+			<div class="form-group">
+				<label for="input" class="col-md-1 control-label"><strong>Salida</strong></label>
+				<div class="col-md-11">
+					<textarea rows="2" class="text-uppercase form-control input-lg" ng-model="output"></textarea>
+					<div class="help-block">
+						<h6 class="pull-right">{{ output.length }}</h6>
+						<span>La cadena comprimida. Optimización del {{ 100-(output.length*100/input.length) | number:2 }}%.</span>
+					</div>
+				</div>
+			</div>
+			<div class="row clearfix text-uppercase">
+				<div class="col-xs-12 col-md-offset-1">
+					<h4 ng-bind-html="colored_output"></h4>
+				</div>
+			</div>
+		</fieldset>
+
+	</div>
+	<div class="well well-sm">
+		<div class="clearfix">
+			<div class="col-sm-6">
+				<h6>Curso</h6>
+				<ul class="list">
+					<li class="list-item">Tópicos I</li>
+				</ul>
+				<h6>Profesor</h6>
+				<ul class="list">
+					<li class="list-item">Luis Ramirez Milla</li>
+				</ul>
+			</div>
+			<div class="col-sm-6">
+				<h6>Integrantes</h6>
+				<ul class="list">
+					<li class="list-item">Corales Rivera, Diego</li>
+					<li class="list-item">Cotrina Alvitres, Richard</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.5.6/angular-sanitize.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	var ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+
+	angular
+		.module('App', ['ngSanitize'])
+		.controller('mainCtrl', [
+			'$scope', '$sce',
+			function(self, sanitize){
+				var trust = function(html){
+					return sanitize.trustAsHtml(html);
+				}
+				var color = function(char, style){
+					return '<span class="text-' + style + '"><u>' + char + '</u></span>';
+				};
+				var compress = function(input, escape_string){
+					if (!input) return "";
+					var escape = escape_string.toLowerCase();
+					var colored_escape = color(escape, 'danger');
+					var output = ""
+					var colored_output = "";
+					var chars = input.toLowerCase().split("");
+					var counter = 1;
+					var current = chars.shift();
+					for (var i = chars.length; i >= 0; i--) {
+						var char = chars.shift();
+						if (char == current){
+							counter++;
+						} else {
+							abcdlen = ALPHABET.length;
+							if (counter > abcdlen){
+								var ncounter = parseInt(counter/abcdlen);
+								counter = counter % abcdlen;
+								var last_abcd = ALPHABET.slice(-1);
+								output += (escape+last_abcd+current).repeat(ncounter);
+								colored_output += (colored_escape+color(last_abcd, 'primary')+color(current,'default')).repeat(ncounter);
+							}
+							if (counter > 3){
+								var abcd_pos = ALPHABET[counter-1];
+								output += escape + abcd_pos + current;
+								colored_output +=  colored_escape+color(abcd_pos, 'primary')+ color(current,'default')
+
+							} else {
+								var current_tmp = current+(current==escape?" ":"");
+								output += current_tmp.repeat(counter);
+								colored_output += current_tmp.repeat(counter);
+							}
+							current = char;
+							counter = 1;
+						}
+					}
+					return {
+						output: output,
+						colored_output: colored_output
+					}
+					// return (input.toLowerCase().split("").reduce(function(last, value, index, list){
+					// 	console.log(last);
+					// 	return last + value;
+					// }));
+				};
+				self.alphabet = ALPHABET;
+				self.input = "AAAAQBBBAABBBBBQQQQQCCCCCCCCDABCBAAABBBBCCCD";
+				self.escape_string = "q";
+				self.output = "";
+				self.colored_output = trust("<h1>xD</h1>");
+				self.updateOutput = function(){
+					var compression = compress(self.input, self.escape_string);
+					self.output = compression.output;
+					self.colored_output = trust(compression.colored_output);
+				}
+				self.updateOutput();
+			}]);
+</script>
+</body>
+</html>
