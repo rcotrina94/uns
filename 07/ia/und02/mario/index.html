@@ -1,0 +1,65 @@
+﻿<!doctype html>
+<html>
+<head>
+	<meta charset=utf-8 />
+	<title>Super Mario HTML5 Test</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link href="Content/style.css" rel="stylesheet" />
+</head>
+<body>
+	<div id="game">
+		<div id="world">
+		</div>
+		<div id="coinNumber" class="gauge">0</div>
+		<div id="coin" class="gaugeSprite"></div>
+		<div id="liveNumber" class="gauge">0</div>
+		<div id="live" class="gaugeSprite"></div>
+	</div>
+	<div id="instructions">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Acción</th>
+					<th>Jugador 1 (Mario)</th>
+					<th>Jugador 2 (Luigi)</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Mover Izquierda</td>
+					<td><kbd>←</kbd></td>
+					<td><kbd>J</kbd></td>
+				</tr>
+				<tr>
+					<td>Mover Derecha</td>
+					<td><kbd>→</kbd></td>
+					<td><kbd>L</kbd></td>
+				</tr>
+				<tr>
+					<td>Agacharse</td>
+					<td><kbd>↓</kbd></td>
+					<td><kbd>K</kbd></td>
+				</tr>
+				<tr>
+					<td>Saltar</td>
+					<td><kbd>↑</kbd></td>
+					<td><kbd>I</kbd></td>
+				</tr>
+				<tr>
+					<td>Correr/Disparar</td>
+					<td><kbd>A</kbd></td>
+					<td><kbd>espacio</kbd></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="Scripts/jQuery.js"><\/script>')</script>
+	<script src="Scripts/testlevels.js"></script>
+	<script src="Scripts/oop.js"></script>
+	<script src="Scripts/keys.js"></script>
+	<script src="Scripts/constants.js"></script>
+	<script src="Scripts/main.js"></script>
+</body>
+</html>
