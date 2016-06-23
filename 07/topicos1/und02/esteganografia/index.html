@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<title>Esteganografía</title>
+	<!-- <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/paper/bootstrap.min.css" rel="stylesheet" integrity="sha384-2mX2PSpkRSXLQzmNzH3gwK6srb06+OfbDlYjbog8LQuALYJjuQ3+Yzy2JIWNV9rW" crossorigin="anonymous"> -->
+	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+	<style type="text/css">
+		canvas#contenedor {
+			max-width: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Esteganografía</h1>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="well">
+					<h4>Imagen</h4>
+					<canvas id="contenedor"></canvas>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="well form">
+					<div class="form-group">
+						<label class="control-label" for="imageLoader">Cargar imagen</label>
+						<input type="file" class="form-control" id="imageLoader" name="imageLoader"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- jQuery -->
+	<!-- <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script> -->
+	<script type="text/javascript" src="assets/js/jquery-1.12.4.min.js"></script>
+
+	<!-- Bootstrap -->
+	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> -->
+	<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript">
+		var imageLoader = document.getElementById('imageLoader');
+		imageLoader.addEventListener('change', handleImage, false);
+		var canvas = document.getElementById('contenedor');
+		var ctx = canvas.getContext('2d');
+
+		function handleImage(e){
+			var reader = new FileReader();
+			reader.onload = function(event){
+				var img = new Image();
+				img.onload = function(){
+					canvas.width = img.width;
+					canvas.height = img.height;
+					ctx.drawImage(img,0,0);
+					var qty = -1;
+					var bits = [];
+					while (qty++ < 93){
+						console.log("pixel",qty)
+						var image_data = ctx.getImageData(qty, 0, 1, 1).data;
+						console.log(image_data)
+						var r = parseInt(image_data[0].toString(2)) & 1;
+						var g = parseInt(image_data[1].toString(2)) & 1;
+						var b = parseInt(image_data[2].toString(2)) & 1;
+						bits.push(r);
+						bits.push(g);
+						bits.push(b);
+						console.log(r,g,b)
+					}
+					console.log("xD")
+					var bytes = [];
+					while (bits.length >=8){
+						var bin_str = bits.splice(0,8).join("");
+						var int_val = parseInt(bin_str,2);
+						bytes.push(int_val);
+					}
+					bytes.splice(0, 6)
+					console.log(bytes.map(function(byte){ return String.fromCharCode(byte);}).join(""));
+
+
+					// var image_data = ctx.getImageData(0, 0, img.width, 1).data;
+					// var decrypt_bits = Array.from(image_data.map(function(byte, index){
+					// 	if (((index+1)%4)!=0){
+					// 		return parseInt(byte.toString(2), 2) & 1;
+					// 	} else {
+					// 		return null;
+					// 	}
+					// }).filter(function(bit){ return bit!= null}));
+					// // console.log(decrypt_bits.slice(0,16));
+					// var decrypt_bytes = [];
+					// while(decrypt_bits.length >= 8){
+					// 	var bin_str = decrypt_bits.splice(0,8).join("");
+					// 	var int_val = parseInt(bin_str,2);
+					// 	// console.log(bin_str, int_val)
+					// 	// console.log(decrypt_bits.splice(0,8).join(""));
+					// 	decrypt_bytes.push(int_val);
+					// 	// console.log(decrypt_bits.splice(0,8).join(""));
+					// }
+
+					// var decrypt_string = "";
+					// var SECRET_KEY = "ISEI".split("").map(function(char){ return char.charCodeAt(0);});
+					// console.log("Secret", SECRET_KEY);
+					// console.log("CADENA", decrypt_bytes.slice(0,8))
+
+				}
+				img.src = event.target.result;
+			}
+			if (e.target.files.length){
+				reader.readAsDataURL(e.target.files[0]);
+			}
+		}
+	</script>
+</body>
+</html>
