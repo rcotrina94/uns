@@ -145,6 +145,7 @@
 						var hiddenstring = decodeString(extractBits(string_length).slice((self.keyString.length + self.lengthCharQty)*8, string_length*8), hiddenstring_length);
 						console.info("La cadena encriptada fue:", hiddenstring);
 						self.HIDDEN_STRING = hiddenstring;
+						self.$apply();
 					} else {
 						alert("Al parecer la cadena clave no es la indicada. :(")
 					}
