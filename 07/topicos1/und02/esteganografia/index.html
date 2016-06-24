@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" ng-app="App">
 <head>
 	<meta charset="utf-8">
 	<title>Esteganografía</title>
-	<!-- <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/paper/bootstrap.min.css" rel="stylesheet" integrity="sha384-2mX2PSpkRSXLQzmNzH3gwK6srb06+OfbDlYjbog8LQuALYJjuQ3+Yzy2JIWNV9rW" crossorigin="anonymous"> -->
-	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+	<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/paper/bootstrap.min.css" rel="stylesheet" integrity="sha384-2mX2PSpkRSXLQzmNzH3gwK6srb06+OfbDlYjbog8LQuALYJjuQ3+Yzy2JIWNV9rW" crossorigin="anonymous">
+	<!-- <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css"> -->
 	<style type="text/css">
 		canvas#contenedor {
 			max-width: 100%;
 		}
 	</style>
 </head>
-<body>
+<body ng-controller="mainController">
 	<div class="container">
 		<h1>Esteganografía</h1>
 		<div class="row">
@@ -27,89 +27,201 @@
 						<label class="control-label" for="imageLoader">Cargar imagen</label>
 						<input type="file" class="form-control" id="imageLoader" name="imageLoader"/>
 					</div>
+					<div class="form-group">
+						<label class="control-label" for="keyString">Cadena Clave</label>
+						<input type="text" class="form-control" id="keyString" ng-model="keyString" name="keyString"/>
+					</div>
 				</div>
+			</div>
+			<div class="col-md-6">
+				<h2>{{}}</h2>
 			</div>
 		</div>
 	</div>
 
 	<!-- jQuery -->
-	<!-- <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script> -->
-	<script type="text/javascript" src="assets/js/jquery-1.12.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+	<!-- <script type="text/javascript" src="assets/js/jquery-1.12.4.min.js"></script> -->
 
 	<!-- Bootstrap -->
-	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> -->
-	<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<!-- <script type="text/javascript" src="assets/js/bootstrap.min.js"></script> -->
+
+	<!-- AngularJS -->
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
 
 	<script type="text/javascript">
 		var imageLoader = document.getElementById('imageLoader');
-		imageLoader.addEventListener('change', handleImage, false);
 		var canvas = document.getElementById('contenedor');
 		var ctx = canvas.getContext('2d');
 
-		function handleImage(e){
-			var reader = new FileReader();
-			reader.onload = function(event){
-				var img = new Image();
-				img.onload = function(){
-					canvas.width = img.width;
-					canvas.height = img.height;
-					ctx.drawImage(img,0,0);
-					var qty = -1;
-					var bits = [];
-					while (qty++ < 93){
-						console.log("pixel",qty)
-						var image_data = ctx.getImageData(qty, 0, 1, 1).data;
-						console.log(image_data)
-						var r = parseInt(image_data[0].toString(2)) & 1;
-						var g = parseInt(image_data[1].toString(2)) & 1;
-						var b = parseInt(image_data[2].toString(2)) & 1;
-						bits.push(r);
-						bits.push(g);
-						bits.push(b);
-						console.log(r,g,b)
+		app = angular.module('App', []);
+		app.controller('mainController', [
+			'$scope',
+			function(self){
+				imageLoader.addEventListener('change', handleImage, false);
+
+				var calcTop = function(index){
+					return (index < canvas.width)?0:Math.floor(index+1/canvas.width);
+				};
+				var calcLeft = function(index){
+					return index % canvas.width;
+				};
+				var getPixelSample = function(qty){
+					var pixels = [];
+					while (pixels.length < qty){
+						// getImageData(LEFT, TOP, WIDTH, HEIGHT)
+						pixels.push(ctx.getImageData(calcLeft(pixels.length), calcTop(pixels.length), 1, 1).data);
 					}
-					console.log("xD")
+					return pixels;
+				};
+
+				var flattenBytes = function(pixel_list){
 					var bytes = [];
-					while (bits.length >=8){
-						var bin_str = bits.splice(0,8).join("");
-						var int_val = parseInt(bin_str,2);
-						bytes.push(int_val);
+					pixel_list.forEach(function(pixel){
+						bytes.push(pixel[0]);
+						bytes.push(pixel[1]);
+						bytes.push(pixel[2]);
+					});
+					return bytes;
+				};
+
+				var extractLSBfn = function(byte){
+					return byte & 1;
+				};
+
+				var getChar = function(number){
+					return String.fromCharCode(number);
+				}
+
+				var getIntegerFromByte = function(byte){
+					return parseInt(byte, 2);
+				}
+				var extractBits = function(char_qty){
+					// Cada pixel = 3 bytes (0-255)
+					// Cada caracter desencriptado ocupa 8 bytes;
+					// Cada caracter desencriptado ocupan 8/3 pixeles
+					// entonces 'n' caracteres ocupan 8*n/3 pixeles
+					var pixel_qty = Math.ceil(8*(char_qty)/3);
+
+					var extracted_pixels = getPixelSample(pixel_qty);
+					var extracted_bytes = flattenBytes(extracted_pixels);
+					return extracted_bytes.map(extractLSBfn);
+				}
+
+				var decodeValues = function(bit_list, char_qty){
+					var bytes = [];
+					while (bytes.length < char_qty){
+						bytes.push(parseInt(bit_list.splice(0, 8).join(""),2));
 					}
-					bytes.splice(0, 6)
-					console.log(bytes.map(function(byte){ return String.fromCharCode(byte);}).join(""));
+					return bytes;
+				};
 
+				var decodeString = function(bit_list, char_qty){
+					return decodeValues(bit_list, char_qty).map(getChar).join("");
+				};
 
-					// var image_data = ctx.getImageData(0, 0, img.width, 1).data;
-					// var decrypt_bits = Array.from(image_data.map(function(byte, index){
-					// 	if (((index+1)%4)!=0){
-					// 		return parseInt(byte.toString(2), 2) & 1;
-					// 	} else {
-					// 		return null;
-					// 	}
-					// }).filter(function(bit){ return bit!= null}));
-					// // console.log(decrypt_bits.slice(0,16));
-					// var decrypt_bytes = [];
-					// while(decrypt_bits.length >= 8){
-					// 	var bin_str = decrypt_bits.splice(0,8).join("");
-					// 	var int_val = parseInt(bin_str,2);
-					// 	// console.log(bin_str, int_val)
-					// 	// console.log(decrypt_bits.splice(0,8).join(""));
-					// 	decrypt_bytes.push(int_val);
-					// 	// console.log(decrypt_bits.splice(0,8).join(""));
-					// }
+				var decodeInteger = function(bit_list, char_qty){
+					return parseInt(bit_list.slice(0, char_qty * 8).join(""),2);
+				};
 
-					// var decrypt_string = "";
-					// var SECRET_KEY = "ISEI".split("").map(function(char){ return char.charCodeAt(0);});
-					// console.log("Secret", SECRET_KEY);
-					// console.log("CADENA", decrypt_bytes.slice(0,8))
+				var keyExists = function(key){
+					var extracted_bits = extractBits(key.length);
+					var decoded_key = decodeString(extracted_bits, key.length);
+					return decoded_key == key;
+				}
+
+				self.DECRYPT_INITIATED = false;
+				self.KEY_CORRECT = false;
+				self.HIDDEN_STRING = "";
+				self.lengthCharQty = 2
+				self.keyString = "ISEI";
+				self.extractString = function(){
+					self.DECRYPT_INITIATED = true;
+					self.KEY_CORRECT = keyExists(self.keyString);
+					if (self.KEY_CORRECT){
+						console.info("Clave correcta");
+						var string_length = decodeInteger(extractBits(self.keyString.length + self.lengthCharQty).slice(-1*self.lengthCharQty*8), self.lengthCharQty);
+						var hiddenstring_length = string_length - (self.keyString.length + self.lengthCharQty);
+						console.info("La longitud de la cadena a desencriptar es:", hiddenstring_length);
+						var hiddenstring = decodeString(extractBits(string_length).slice((self.keyString.length + self.lengthCharQty)*8, string_length*8), hiddenstring_length);
+						console.info("La cadena encriptada fue:", hiddenstring);
+						self.HIDDEN_STRING = hiddenstring;
+
+					} else {
+						alert("Al parecer la cadena clave no es la indicada. :(")
+					}
 
 				}
-				img.src = event.target.result;
+
+				function handleImage(e){
+					var reader = new FileReader();
+					reader.onload = function(event){
+						var img = new Image();
+						img.onload = function(){
+							canvas.width = img.width;
+							canvas.height = img.height;
+							ctx.drawImage(img, 0, 0);
+							self.extractString();
+
+							// var qty = 0;
+							// var bits = [];
+							// while (qty++ < 93){
+							// 	// console.log("pixel",qty)
+							// 	var image_data = ctx.getImageData(qty, 0, 1, 1).data;
+							// 	// console.log(image_data)
+							// 	var r = parseInt(image_data[0].toString(2)) & 1;
+							// 	var g = parseInt(image_data[1].toString(2)) & 1;
+							// 	var b = parseInt(image_data[2].toString(2)) & 1;
+							// 	bits.push(r);
+							// 	bits.push(g);
+							// 	bits.push(b);
+							// 	// console.log(r,g,b)
+							// }
+
+							// var bytes = [];
+							// while (bits.length >=8){
+							// 	var bin_str = bits.splice(0,8).join("");
+							// 	var int_val = parseInt(bin_str,2);
+							// 	bytes.push(int_val);
+							// }
+							// bytes.splice(0, 6)
+							// console.log(bytes.map(function(byte){ return String.fromCharCode(byte);}).join(""));
+						}
+						img.src = event.target.result;
+					}
+					if (e.target.files.length){
+						reader.readAsDataURL(e.target.files[0]);
+					}
+				}
 			}
-			if (e.target.files.length){
-				reader.readAsDataURL(e.target.files[0]);
-			}
-		}
+		])
+	</script>
+	<script type="text/javascript">
+		// CÓDIGO ANTERIOR
+		// var image_data = ctx.getImageData(0, 0, img.width, 1).data;
+		// var decrypt_bits = Array.from(image_data.map(function(byte, index){
+		// 	if (((index+1)%4)!=0){
+		// 		return parseInt(byte.toString(2), 2) & 1;
+		// 	} else {
+		// 		return null;
+		// 	}
+		// }).filter(function(bit){ return bit!= null}));
+		// // console.log(decrypt_bits.slice(0,16));
+		// var decrypt_bytes = [];
+		// while(decrypt_bits.length >= 8){
+		// 	var bin_str = decrypt_bits.splice(0,8).join("");
+		// 	var int_val = parseInt(bin_str,2);
+		// 	// console.log(bin_str, int_val)
+		// 	// console.log(decrypt_bits.splice(0,8).join(""));
+		// 	decrypt_bytes.push(int_val);
+		// 	// console.log(decrypt_bits.splice(0,8).join(""));
+		// }
+
+		// var decrypt_string = "";
+		// var SECRET_KEY = "ISEI".split("").map(function(char){ return char.charCodeAt(0);});
+		// console.log("Secret", SECRET_KEY);
+		// console.log("CADENA", decrypt_bytes.slice(0,8))
 	</script>
 </body>
 </html>
