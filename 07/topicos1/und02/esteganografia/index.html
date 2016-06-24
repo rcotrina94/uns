@@ -28,8 +28,12 @@
 						<input type="file" class="form-control" id="imageLoader" name="imageLoader"/>
 					</div>
 					<div class="form-group">
-						<label class="control-label" for="keyString">Cadena Clave</label>
+						<label class="control-label" for="keyString">Cadena Bandera</label>
 						<input type="text" class="form-control" id="keyString" ng-model="keyString" name="keyString"/>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="keyString">Cadena Oculta</label>
+						<input type="text" class="form-control" id="hidden_string" ng-model="HIDDEN_STRING" name="hidden_string"/>
 					</div>
 				</div>
 			</div>
@@ -61,16 +65,12 @@
 			function(self){
 				imageLoader.addEventListener('change', handleImage, false);
 
-				var calcTop = function(index){
-					return (index < canvas.width)?0:Math.floor(index+1/canvas.width);
-				};
-				var calcLeft = function(index){
-					return index % canvas.width;
-				};
+				var calcTop = function(index){return (index < canvas.width)?0:Math.floor(index+1/canvas.width)};
+				var calcLeft = function(index){return index % canvas.width;};
 				var getPixelSample = function(qty){
 					var pixels = [];
 					while (pixels.length < qty){
-						// getImageData(LEFT, TOP, WIDTH, HEIGHT)
+						// ctx.getImageData(LEFT, TOP, WIDTH, HEIGHT)
 						pixels.push(ctx.getImageData(calcLeft(pixels.length), calcTop(pixels.length), 1, 1).data);
 					}
 					return pixels;
@@ -79,9 +79,7 @@
 				var flattenBytes = function(pixel_list){
 					var bytes = [];
 					pixel_list.forEach(function(pixel){
-						bytes.push(pixel[0]);
-						bytes.push(pixel[1]);
-						bytes.push(pixel[2]);
+						bytes.push(pixel[0]); bytes.push(pixel[1]); bytes.push(pixel[2]);
 					});
 					return bytes;
 				};
@@ -147,11 +145,9 @@
 						var hiddenstring = decodeString(extractBits(string_length).slice((self.keyString.length + self.lengthCharQty)*8, string_length*8), hiddenstring_length);
 						console.info("La cadena encriptada fue:", hiddenstring);
 						self.HIDDEN_STRING = hiddenstring;
-
 					} else {
 						alert("Al parecer la cadena clave no es la indicada. :(")
 					}
-
 				}
 
 				function handleImage(e){
@@ -163,30 +159,6 @@
 							canvas.height = img.height;
 							ctx.drawImage(img, 0, 0);
 							self.extractString();
-
-							// var qty = 0;
-							// var bits = [];
-							// while (qty++ < 93){
-							// 	// console.log("pixel",qty)
-							// 	var image_data = ctx.getImageData(qty, 0, 1, 1).data;
-							// 	// console.log(image_data)
-							// 	var r = parseInt(image_data[0].toString(2)) & 1;
-							// 	var g = parseInt(image_data[1].toString(2)) & 1;
-							// 	var b = parseInt(image_data[2].toString(2)) & 1;
-							// 	bits.push(r);
-							// 	bits.push(g);
-							// 	bits.push(b);
-							// 	// console.log(r,g,b)
-							// }
-
-							// var bytes = [];
-							// while (bits.length >=8){
-							// 	var bin_str = bits.splice(0,8).join("");
-							// 	var int_val = parseInt(bin_str,2);
-							// 	bytes.push(int_val);
-							// }
-							// bytes.splice(0, 6)
-							// console.log(bytes.map(function(byte){ return String.fromCharCode(byte);}).join(""));
 						}
 						img.src = event.target.result;
 					}
@@ -196,32 +168,6 @@
 				}
 			}
 		])
-	</script>
-	<script type="text/javascript">
-		// CÓDIGO ANTERIOR
-		// var image_data = ctx.getImageData(0, 0, img.width, 1).data;
-		// var decrypt_bits = Array.from(image_data.map(function(byte, index){
-		// 	if (((index+1)%4)!=0){
-		// 		return parseInt(byte.toString(2), 2) & 1;
-		// 	} else {
-		// 		return null;
-		// 	}
-		// }).filter(function(bit){ return bit!= null}));
-		// // console.log(decrypt_bits.slice(0,16));
-		// var decrypt_bytes = [];
-		// while(decrypt_bits.length >= 8){
-		// 	var bin_str = decrypt_bits.splice(0,8).join("");
-		// 	var int_val = parseInt(bin_str,2);
-		// 	// console.log(bin_str, int_val)
-		// 	// console.log(decrypt_bits.splice(0,8).join(""));
-		// 	decrypt_bytes.push(int_val);
-		// 	// console.log(decrypt_bits.splice(0,8).join(""));
-		// }
-
-		// var decrypt_string = "";
-		// var SECRET_KEY = "ISEI".split("").map(function(char){ return char.charCodeAt(0);});
-		// console.log("Secret", SECRET_KEY);
-		// console.log("CADENA", decrypt_bytes.slice(0,8))
 	</script>
 </body>
 </html>
