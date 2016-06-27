@@ -1183,34 +1183,6 @@ var Hero = Figure.extend({
 		this.width = 80;
 		this._super(x, y, level);
 	},
-});
-
-/*
- * -------------------------------------------
- * MARIO CLASS
- * -------------------------------------------
- */
-var Mario = Hero.extend({
-	init: function(x, y, level) {
-		this._super(x, y, level);
-		this.blinking = 0;
-		this.setOffset(-24, 0);
-		this.setSize(80, 80);
-		this.cooldown = 0;
-		this.setMarioState(mario_states.normal);
-		this.setLifes(constants.start_lives);
-		this.setCoins(0);
-		this.deathBeginWait = Math.floor(700 / constants.interval);
-		this.deathEndWait = 0;
-		this.deathFrames = Math.floor(600 / constants.interval);
-		this.deathStepUp = Math.ceil(200 / this.deathFrames);
-		this.deathDir = 1;
-		this.deathCount = 0;
-		this.direction = directions.right;
-		this.setImage(images.mario_sprites, 81, 0);
-		this.crouching = false;
-		this.fast = false;
-	},
 	setMarioState: function(state) {
 		this.marioState = state;
 	},
@@ -1219,6 +1191,10 @@ var Mario = Hero.extend({
 			this.setMarioState(mario_states.normal);
 			this._super(state);
 		}
+	},
+	jump: function() {
+		this.level.playSound('jump');
+		this.vy = constants.jumping_v;
 	},
 	setPosition: function(x, y) {
 		this._super(x, y);
@@ -1246,100 +1222,27 @@ var Mario = Hero.extend({
 				this.vx = 0;
 		}
 	},
-	victory: function() {
-		this.level.playMusic('success');
-		this.clearFrames();
-		this.view.show();
-		this.setImage(images.mario_sprites, this.state === size_states.small ? 241 : 161, 81);
-		this.level.next();
-	},
-	shoot: function() {
-		if(!this.cooldown) {
-			this.cooldown = constants.cooldown;
-			this.level.playSound('shoot');
-			new Bullet(this);
-		}
-	},
-	setVelocity: function(vx, vy) {
-		if(this.crouching) {
-			vx = 0;
-			this.crouch();
-		} else {
-			if(this.onground && vx > 0)
-				this.walkRight();
-			else if(this.onground && vx < 0)
-				this.walkLeft();
-			else
-				this.stand();
-		}
-
-		this._super(vx, vy);
-	},
-	blink: function(times) {
-		this.blinking = Math.max(2 * times * constants.blinkfactor, this.blinking || 0);
-	},
-	invincible: function() {
-		this.level.playMusic('invincibility');
-		this.deadly = Math.floor(constants.invincible / constants.interval);
-		this.invulnerable = this.deadly;
-		this.blink(Math.ceil(this.deadly / (2 * constants.blinkfactor)));
-	},
-	grow: function() {
-		if(this.state === size_states.small) {
-			this.level.playSound('grow');
-			this.setState(size_states.big);
-			this.blink(3);
-		}
-	},
-	shooter: function() {
-		if(this.state === size_states.small)
-			this.grow();
-		else
-			this.level.playSound('grow');
-
-		this.setMarioState(mario_states.fire);
-	},
-	walk: function(reverse, fast) {
-		this.vx = constants.walking_v * (fast ? 2 : 1) * (reverse ? - 1 : 1);
-	},
-	walkRight: function() {
-		if(this.state === size_states.small) {
-			if(!this.setupFrames(8, 2, true, 'WalkRightSmall'))
-				this.setImage(images.mario_sprites, 0, 0);
-		} else {
-			if(!this.setupFrames(9, 2, true, 'WalkRightBig'))
-				this.setImage(images.mario_sprites, 0, 243);
-		}
-	},
-	walkLeft: function() {
-		if(this.state === size_states.small) {
-			if(!this.setupFrames(8, 2, false, 'WalkLeftSmall'))
-				this.setImage(images.mario_sprites, 80, 81);
-		} else {
-			if(!this.setupFrames(9, 2, false, 'WalkLeftBig'))
-				this.setImage(images.mario_sprites, 81, 162);
-		}
-	},
-	stand: function() {
-		var coords = this.standSprites[this.state - 1][this.direction === directions.left ? 0 : 1][this.onground ? 0 : 1];
-		this.setImage(images.mario_sprites, coords.x, coords.y);
-		this.clearFrames();
-	},
-	crouch: function() {
-		var coords = this.crouchSprites[this.state - 1][this.direction === directions.left ? 0 : 1];
-		this.setImage(images.mario_sprites, coords.x, coords.y);
-		this.clearFrames();
-	},
-	jump: function() {
-		this.level.playSound('jump');
-		this.vy = constants.jumping_v;
-	},
-	move: function() {
-		this.input(keys);
+	die: function() {
+		this.setMarioState(mario_states.normal);
+		this.deathStepDown = Math.ceil(240 / this.deathFrames);
+		this.setupFrames(9, 2, false);
+		this.setImage(images.mario_sprites, 81, 324);
+		this.level.playMusic('die');
 		this._super();
 	},
-	addCoin: function() {
-		this.setCoins(this.coins + 1);
+	hurt: function(from) {
+		if(this.deadly)
+			from.die();
+		else if(this.invulnerable)
+			return;
+		else if(this.state === size_states.small) {
+			this.die();
+		} else {
+			this.invulnerable = Math.floor(constants.invulnerable / constants.interval);
+			this.blink(Math.ceil(this.invulnerable / (2 * constants.blinkfactor)));
+			this.setState(size_states.small);
+			this.level.playSound('hurt');
+		}
 	},
 	playFrame: function() {
 		if(this.blinking) {
@@ -1359,6 +1262,9 @@ var Mario = Hero.extend({
 			this.invulnerable--;
 
 		this._super();
+	},
+	addCoin: function() {
+		this.setCoins(this.coins + 1);
 	},
 	setCoins: function(coins) {
 		this.coins = coins;
@@ -1397,89 +1303,208 @@ var Mario = Hero.extend({
 
 		return true;
 	},
-	die: function() {
-		this.setMarioState(mario_states.normal);
-		this.deathStepDown = Math.ceil(240 / this.deathFrames);
-		this.setupFrames(9, 2, false);
-		this.setImage(images.mario_sprites, 81, 324);
-		this.level.playMusic('die');
-		this._super();
+	blink: function(times) {
+		this.blinking = Math.max(2 * times * constants.blinkfactor, this.blinking || 0);
 	},
-	hurt: function(from) {
-		if(this.deadly)
-			from.die();
-		else if(this.invulnerable)
-			return;
-		else if(this.state === size_states.small) {
-			this.die();
-		} else {
-			this.invulnerable = Math.floor(constants.invulnerable / constants.interval);
-			this.blink(Math.ceil(this.invulnerable / (2 * constants.blinkfactor)));
-			this.setState(size_states.small);
-			this.level.playSound('hurt');
-		}
+	invincible: function() {
+		this.level.playMusic('invincibility');
+		this.deadly = Math.floor(constants.invincible / constants.interval);
+		this.invulnerable = this.deadly;
+		this.blink(Math.ceil(this.deadly / (2 * constants.blinkfactor)));
 	},
-}, 'mario');
-
-var Luigi = Mario.extend({
-	init: function(x, y, level){
-		this._super(x, y, level);
-		this.setImage(images.luigi_sprites, 81, 0);
-	},
-	walkRight: function() {
+	grow: function() {
 		if(this.state === size_states.small) {
-			if(!this.setupFrames(8, 2, true, 'WalkRightSmall'))
-				this.setImage(images.luigi_sprites, 0, 0);
-		} else {
-			if(!this.setupFrames(9, 2, true, 'WalkRightBig'))
-				this.setImage(images.luigi_sprites, 0, 243);
+			this.level.playSound('grow');
+			this.setState(size_states.big);
+			this.blink(3);
 		}
 	},
-	walkLeft: function() {
-		if(this.state === size_states.small) {
-			if(!this.setupFrames(8, 2, false, 'WalkLeftSmall'))
-				this.setImage(images.luigi_sprites, 80, 81);
+	shooter: function() {
+		if(this.state === size_states.small)
+			this.grow();
+		else
+			this.level.playSound('grow');
+
+		this.setMarioState(mario_states.fire);
+	},
+	walk: function(reverse, fast) {
+		this.vx = constants.walking_v * (fast ? 2 : 1) * (reverse ? - 1 : 1);
+	},
+	setVelocity: function(vx, vy) {
+		if(this.crouching) {
+			vx = 0;
+			this.crouch();
 		} else {
-			if(!this.setupFrames(9, 2, false, 'WalkLeftBig'))
-				this.setImage(images.luigi_sprites, 81, 162);
-		}
-	},
-	stand: function() {
-		var coords = this.standSprites[this.state - 1][this.direction === directions.left ? 0 : 1][this.onground ? 0 : 1];
-		this.setImage(images.luigi_sprites, coords.x, coords.y);
-		this.clearFrames();
-	},
-	crouch: function() {
-		var coords = this.crouchSprites[this.state - 1][this.direction === directions.left ? 0 : 1];
-		this.setImage(images.luigi_sprites, coords.x, coords.y);
-		this.clearFrames();
-	},
-	die: function() {
-		this.setMarioState(mario_states.normal);
-		this.deathStepDown = Math.ceil(240 / this.deathFrames);
-		this.setupFrames(9, 2, false);
-		this.level.playMusic('die');
-		this._super();
-		this.setImage(images.luigi_sprites, 81, 324);
-	},
-	input: function(keys) {
-		this.fast = keys.accelerate2;
-		this.crouching = keys.down2;
-
-		if(!this.crouching) {
-			if(this.onground && keys.up2)
-				this.jump();
-
-			if(keys.accelerate2 && this.marioState === mario_states.fire)
-				this.shoot();
-
-			if(keys.right2 || keys.left2)
-				this.walk(keys.left2, keys.accelerate2);
+			if(this.onground && vx > 0)
+				this.walkRight();
+			else if(this.onground && vx < 0)
+				this.walkLeft();
 			else
-				this.vx = 0;
+				this.stand();
 		}
-	}
-}, 'luigi')
+
+		this._super(vx, vy);
+	},
+	shoot: function() {
+		if(!this.cooldown) {
+			this.cooldown = constants.cooldown;
+			this.level.playSound('shoot');
+			new Bullet(this);
+		}
+	},
+});
+
+/*
+ * -------------------------------------------
+ * MARIO CLASS
+ * -------------------------------------------
+ */
+var Mario;
+var Luigi;
+
+var genMario = function(local){
+	Mario = Hero.extend({
+		init: function(x, y, level) {
+			this._super(x, y, level);
+			this.blinking = 0;
+			this.setOffset(-24, 0);
+			this.setSize(80, 80);
+			this.cooldown = 0;
+			this.setMarioState(mario_states.normal);
+			this.setLifes(constants.start_lives);
+			this.setCoins(0);
+			this.deathBeginWait = Math.floor(700 / constants.interval);
+			this.deathEndWait = 0;
+			this.deathFrames = Math.floor(600 / constants.interval);
+			this.deathStepUp = Math.ceil(200 / this.deathFrames);
+			this.deathDir = 1;
+			this.deathCount = 0;
+			this.direction = directions.right;
+			this.setImage(images.mario_sprites, 81, 0);
+			this.crouching = false;
+			this.fast = false;
+		},
+		stand: function() {
+			var coords = this.standSprites[this.state - 1][this.direction === directions.left ? 0 : 1][this.onground ? 0 : 1];
+			this.setImage(images.mario_sprites, coords.x, coords.y);
+			this.clearFrames();
+		},
+		crouch: function() {
+			var coords = this.crouchSprites[this.state - 1][this.direction === directions.left ? 0 : 1];
+			this.setImage(images.mario_sprites, coords.x, coords.y);
+			this.clearFrames();
+		},
+		victory: function() {
+			this.level.playMusic('success');
+			this.clearFrames();
+			this.view.show();
+			this.setImage(images.mario_sprites, this.state === size_states.small ? 241 : 161, 81);
+			this.level.next();
+		},
+		walkRight: function() {
+			if(this.state === size_states.small) {
+				if(!this.setupFrames(8, 2, true, 'WalkRightSmall'))
+					this.setImage(images.mario_sprites, 0, 0);
+			} else {
+				if(!this.setupFrames(9, 2, true, 'WalkRightBig'))
+					this.setImage(images.mario_sprites, 0, 243);
+			}
+		},
+		walkLeft: function() {
+			if(this.state === size_states.small) {
+				if(!this.setupFrames(8, 2, false, 'WalkLeftSmall'))
+					this.setImage(images.mario_sprites, 80, 81);
+			} else {
+				if(!this.setupFrames(9, 2, false, 'WalkLeftBig'))
+					this.setImage(images.mario_sprites, 81, 162);
+			}
+		},
+		move: function() {
+			if (local){
+				this.input(keys);
+			} else {
+				this.input(EXTERNAL_KEYS);
+			}
+			this._super();
+		}
+	}, 'mario');
+};
+
+var genLuigi = function(local){
+	Luigi = Hero.extend({
+		init: function(x, y, level){
+			this._super(x, y, level);
+			this.blinking = 0;
+			this.setOffset(-24, 0);
+			this.setSize(80, 80);
+			this.cooldown = 0;
+			this.setMarioState(mario_states.normal);
+			this.setLifes(constants.start_lives);
+			this.setCoins(0);
+			this.deathBeginWait = Math.floor(700 / constants.interval);
+			this.deathEndWait = 0;
+			this.deathFrames = Math.floor(600 / constants.interval);
+			this.deathStepUp = Math.ceil(200 / this.deathFrames);
+			this.deathDir = 1;
+			this.deathCount = 0;
+			this.direction = directions.right;
+			this.setImage(images.luigi_sprites, 81, 0);
+			this.crouching = false;
+			this.fast = false;
+		},
+		walkRight: function() {
+			if(this.state === size_states.small) {
+				if(!this.setupFrames(8, 2, true, 'WalkRightSmall'))
+					this.setImage(images.luigi_sprites, 0, 0);
+			} else {
+				if(!this.setupFrames(9, 2, true, 'WalkRightBig'))
+					this.setImage(images.luigi_sprites, 0, 243);
+			}
+		},
+		walkLeft: function() {
+			if(this.state === size_states.small) {
+				if(!this.setupFrames(8, 2, false, 'WalkLeftSmall'))
+					this.setImage(images.luigi_sprites, 80, 81);
+			} else {
+				if(!this.seStupFrames(9, 2, false, 'WalkLeftBig'))
+					this.setImage(images.luigi_sprites, 81, 162);
+			}
+		},
+		stand: function() {
+			var coords = this.standSprites[this.state - 1][this.direction === directions.left ? 0 : 1][this.onground ? 0 : 1];
+			this.setImage(images.luigi_sprites, coords.x, coords.y);
+			this.clearFrames();
+		},
+		crouch: function() {
+			var coords = this.crouchSprites[this.state - 1][this.direction === directions.left ? 0 : 1];
+			this.setImage(images.luigi_sprites, coords.x, coords.y);
+			this.clearFrames();
+		},
+		die: function() {
+			this.setMarioState(mario_states.normal);
+			this.deathStepDown = Math.ceil(240 / this.deathFrames);
+			this.setupFrames(9, 2, false);
+			this.level.playMusic('die');
+			this._super();
+			this.setImage(images.luigi_sprites, 81, 324);
+		},
+		victory: function() {
+			this.level.playMusic('success');
+			this.clearFrames();
+			this.view.show();
+			this.setImage(images.luigi_sprites, this.state === size_states.small ? 241 : 161, 81);
+			this.level.next();
+		},
+		move: function() {
+			if (local){
+				this.input(keys);
+			} else {
+				this.input(EXTERNAL_KEYS);
+			}
+			this._super();
+		}
+	}, 'luigi')
+}
 
 /*
  * -------------------------------------------
@@ -1946,20 +1971,8 @@ var PipePlant = Plant.extend({
 		if(this.deathCount === this.deathFrames)
 			this.deathDir = -1;
 		else if(this.deathCount === 0)
-			this.deathFramesExtendedActive = true;
+			this.deathFSramesExtendedActive = true;
 
 		return true;
 	},
 }, 'pipeplant');
-
-/*
- * -------------------------------------------
- * DOCUMENT READY STARTUP METHOD
- * -------------------------------------------
- */
-$(document).ready(function() {
-	var level = new Level('world');
-	level.load(definedLevels[0]);
-	level.start();
-	keys.bind();
-});
