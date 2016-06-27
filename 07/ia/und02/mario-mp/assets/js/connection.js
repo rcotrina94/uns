@@ -103,9 +103,9 @@ window.Connection = function(scope, id){
 		self.CREATOR = true;
 		// console.info("PEER", conn.peer, "HAS CONNECTED ON CHANNEL", conn.id);
 		conn.on('data', handleIncomingData(self.CREATOR));
+		if (!self.connection) self.connection = conn;
 		scope.atConnection();
 		scope.update();
-		if (!self.connection) self.connection = conn;
 	};
 
 
