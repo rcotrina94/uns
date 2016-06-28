@@ -20,7 +20,7 @@ pc.script.create('global', function (app) {
         // Called every frame, dt is time in seconds since last update
         update: function (dt) {
             if (app.keyboard.wasPressed(pc.KEY_R)) {
-                this.loadLevel(this.currentLevel);
+                this.resetGame();
             }
         },
 
@@ -40,6 +40,13 @@ pc.script.create('global', function (app) {
         },
         
         resetGame: function(){
+            var uiEntity = app.root.findByName('UI');
+            if (uiEntity){
+                uiEntity.script.ui.resetGems();
+            } else {
+                console.log(uiEntity);
+                console.log("No hubo UI");
+            }
             this.currentLevel = 0;
             this.loadLevel(0);
         }

@@ -18,8 +18,7 @@ pc.script.create('teleportable', function (app) {
             // teleport to the last location
             var pos = this.entity.getPosition();
             if (pos.y < 0) {
-                app.root.findByName('scene').script.global.resetGame();
-                app.root.findByName('UI').script.ui.resetGems();
+                app.root.findByName('scene').script.global.resetGame();               
                 // this.teleport(this.lastTeleportFrom, this.lastTeleportTo);
             }
         },
